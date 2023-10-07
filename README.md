@@ -1,4 +1,5 @@
 A Beautiful Radio script for communication! It has many features packed in one script which every RP server wants and it provides a whole new UI look, enriching user experience.
+ESX support soon!!!!!
 
 
 ## PREVIEW:
