@@ -6,7 +6,8 @@ end
 
 Radio = {
 	playerServerID = GetPlayerServerId(PlayerId()),
-	PlayerData = {},
+	PlayerJob = 'civilian',
+	PlayerGang = 'none',
 	hasRadio = false,
 	onRadio = false,
 	usingRadio = false,

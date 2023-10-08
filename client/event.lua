@@ -12,8 +12,10 @@ AddEventHandler('onResourceStart', function(resource)
     if GetCurrentResourceName() == resource and LocalPlayer.state.isLoggedIn then
         if Shared.Core == 'qb' then
             Radio:QBInit()
-            Radio:setSubmixEffect()
+        elseif Shared.Core == 'esx' then
+            Radio:ESXInit()
         end
+        Radio:setSubmixEffect()
     end
 end)
 

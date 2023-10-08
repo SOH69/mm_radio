@@ -11,8 +11,8 @@ end
 
 if GetResourceState('ox_inventory') == 'started' then
     Shared.Inventory = 'ox_inventory'
-elseif GetResourceState('mm_inventory') == 'started' then
-    Shared.Inventory = 'mm_inventory'
+elseif GetResourceState('qb-inventory') == 'started' then
+    Shared.Inventory = 'qb'
 else
     Shared.Inventory = false
     warn('No Inventory found')
@@ -81,6 +81,6 @@ Shared.RestrictedChannels = {
     },
     [422] = {
         type = 'gang', -- job/gang
-        name = {"families"}
+        name = {"vagos"}
     },
 }
