@@ -1,6 +1,6 @@
 <script lang="ts">
     import { SendNUI } from '../utils/SendNUI'
-    import { SHOWPLAYERLIST, RADIODATA } from '@store/stores';
+    import { RADIODATA } from '@store/stores';
     import '@fortawesome/fontawesome-free/css/all.min.css'
 
     export let changeTab

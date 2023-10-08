@@ -1,6 +1,6 @@
 <script lang="ts">
     import { ReceiveNUI } from '../utils/ReceiveNUI'
-    import { RADIODATA, SHOW, SHOWPLAYERLIST, PLAYERLIST } from "@store/stores";
+    import { RADIODATA, SHOW, SHOWPLAYERLIST, PLAYERLIST, SHOWFORCEPLAYERLIST } from "@store/stores";
 
     let isPlayerListVisible: boolean
 
@@ -55,7 +55,7 @@
     {#if $RADIODATA.onRadio}
         <div class="w-[15vw] absolute z-[1000] text-right select-none" style="top: 40px; right: 15px;cursor:{$SHOW? 'move':'no-drop'}" use:dragMe>
             {#each Object.entries($PLAYERLIST) as [id, player], index (id)}
-                {#if player.isTalking}
+                {#if player.isTalking || $SHOWFORCEPLAYERLIST}
                     <div class="text-[1.7vh] font-bold px-2 text-white">{player.name}</div>
                 {/if}
             {/each}

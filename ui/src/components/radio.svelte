@@ -4,16 +4,22 @@
 	import Connect from "./connect.svelte"
     import Header from "./header.svelte"
 	import Playerlist from "./playerlist.svelte"
-    import { SHOW } from "@store/stores"
+    import { SHOW, SHOWFORCEPLAYERLIST } from "@store/stores"
 
     let tab = 'home'
 
     function changeTab(tabName: string) {
         tab = tabName
+        if (tabName == 'members') 
+            SHOWFORCEPLAYERLIST.set(true)
+        else
+            SHOWFORCEPLAYERLIST.set(false)
+        
     }
 
     function returnTab() {
         tab = 'home'
+        SHOWFORCEPLAYERLIST.set(false)
     }
 
     SHOW.subscribe((visible: boolean) => {

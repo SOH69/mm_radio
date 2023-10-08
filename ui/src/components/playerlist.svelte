@@ -1,6 +1,6 @@
 <script lang="ts">
     import { ReceiveNUI } from '../utils/ReceiveNUI'
-    import { RADIODATA, SHOWPLAYERLIST, PLAYERLIST } from "@store/stores";
+    import { SHOWPLAYERLIST, PLAYERLIST } from "@store/stores";
 
 
 

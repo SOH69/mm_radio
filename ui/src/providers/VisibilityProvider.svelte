@@ -2,7 +2,7 @@
 	import { ReceiveNUI } from '../utils/ReceiveNUI'
 	import { SendNUI } from '../utils/SendNUI'
 	import { onMount } from 'svelte'
-	import { BROWSER_MODE, VISIBILITY, SHOW, RADIODATA } from '../store/stores'
+	import { BROWSER_MODE, VISIBILITY, SHOW, RADIODATA,SHOWFORCEPLAYERLIST } from '../store/stores'
 	import Background from '@components/background.svelte'
 	import Overlay from '@components/overlay.svelte'
 
@@ -41,6 +41,7 @@
 			if (isVisible && ['Escape'].includes(e.code)) {
 				SendNUI('hideUI')
 				SHOW.set(false)
+				SHOWFORCEPLAYERLIST.set(false)
 			}
 			if (
 				!isVisible &&
