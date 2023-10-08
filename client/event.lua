@@ -30,7 +30,7 @@ AddEventHandler('gameEventTriggered', function(event, data)
         if not IsEntityAPed(data[1]) then return end
         if data[4] and NetworkGetPlayerIndexFromPed(data[1]) == cache.playerId and IsEntityDead(cache.ped) then
             if LocalPlayer.state.isLoggedIn and Radio.onRadio then
-                if not Radio.hasRadio then
+                if Radio.hasRadio then
                     if RadioChannel ~= 0 then
                         Radio:leaveradio()
                     end
