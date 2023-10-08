@@ -58,12 +58,17 @@ function Radio:doRadioCheck()
     if Shared.Inventory == 'ox' then
         self.hasRadio = exports.ox_inventory:Search('count', 'radio') > 0
     elseif Shared.Inventory == 'qb' then
-        for _, item in pairs(PlayerItems) do
+        local _hasRadio = false
+        for _, item in pairs(Radio.PlayerItems) do
             if item.name == "radio" then
-                self.hasRadio = true
+                _hasRadio = true
                 break
             end
         end
+        self.hasRadio = _hasRadio
+    end
+    if self.onRadio then
+        self:leaveradio()
     end
 end
 
