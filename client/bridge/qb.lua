@@ -9,7 +9,6 @@ if Shared.Core == "qb" then
         Radio:doRadioCheck()
         local rec = {}
         for k, v in pairs(Shared.RestrictedChannels) do
-            print(k)
             if v.type == 'job' and lib.table.contains(v.name, Radio.PlayerJob) then
                 rec[#rec+1] = k
             elseif v.type == 'gang' and lib.table.contains(v.name, Radio.PlayerGang) then

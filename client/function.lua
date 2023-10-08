@@ -67,7 +67,7 @@ function Radio:doRadioCheck()
         end
         self.hasRadio = _hasRadio
     end
-    if self.onRadio then
+    if not self.hasRadio and self.onRadio then
         self:leaveradio()
     end
 end
