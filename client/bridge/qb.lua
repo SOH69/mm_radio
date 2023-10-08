@@ -1,10 +1,10 @@
 if Shared.Core == "qb" then
-    function Radio:QBInit(items)
+    function Radio:QBInit()
         local PlayerData = QBCore.Functions.GetPlayerData()
         if PlayerData then
             Radio.PlayerJob = PlayerData.job.name
             Radio.PlayerGang = PlayerData.gang.name
-            Radio.PlayerItems = items or PlayerData.items
+            Radio.PlayerItems = PlayerData.items
         end
 
         Radio:doRadioCheck()
@@ -37,8 +37,10 @@ if Shared.Core == "qb" then
         Radio:leaveradio()
     end)
 
-    RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
-        Radio:QBInit(val.items)
+    RegisterNetEvent('QBCore:Player:SetPlayerData', function()
+        if LocalPlayer.state.isLoggedIn then
+            Radio:QBInit()
+        end
     end)
 
     RegisterNetEvent('QBCore:Client:OnJobUpdate', function(job)
