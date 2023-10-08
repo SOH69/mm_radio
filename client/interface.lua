@@ -17,5 +17,6 @@ Radio = {
 	favourite = {},
 	recomended = {},
 	street = "Unknown",
-	talkingList = {}
+	talkingList = {},
+	userfav = json.decode(GetResourceKvpString('radioSettings')) or {}
 }

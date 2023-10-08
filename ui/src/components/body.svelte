@@ -7,12 +7,22 @@
 
     let volume = 30;
 
-    function changeVolume(event) {
+    function changeVolume(event: any) {
         volume = event.target.value;
     }
 
-    function toggleMember() {
-        SHOWPLAYERLIST.set(!$SHOWPLAYERLIST);
+    function togglefav(status: boolean) {
+        if (status){
+            let temp = $RADIODATA
+            temp.favourite.push($RADIODATA.channel)
+            RADIODATA.set(temp)
+            SendNUI('addFav', temp.channel)
+        } else {
+            let temp = $RADIODATA
+            temp.favourite.pop($RADIODATA.channel)
+            RADIODATA.set(temp)
+            SendNUI('removeFav', temp.channel)
+        }
     }
 
     function handleSliderRelease(event) {
@@ -28,6 +38,11 @@
             {#if $RADIODATA.onRadio}
                 <i class="fa-solid fa-tower-cell" style="animation: pulse 0.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;"></i>
                 <i class="fa-solid fa-server"></i>
+                {#if ($RADIODATA.favourite).indexOf($RADIODATA.channel) === -1}
+                    <i class="fa-regular fa-star ml-auto cursor-pointer text-yellow-400" on:click={() => togglefav(true)}></i>
+                {:else}
+                    <i class="fa-solid fa-star ml-auto cursor-pointer text-yellow-400" on:click={() => togglefav(false)}></i>
+                {/if}
             {/if}
             
         </div>

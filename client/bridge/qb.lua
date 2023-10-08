@@ -11,6 +11,11 @@ function Radio:QBInit(items)
         end
     end
     Radio.favourite = rec
+    for _, val in ipairs(Radio.userfav) do
+        if not lib.table.contains(Radio.favourite, val) then
+            Radio.favourite[#Radio.favourite+1] = val
+        end
+    end
 end
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
@@ -27,4 +32,8 @@ end)
 
 RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
     Radio:QBInit(val.items)
+end)
+
+RegisterNetEvent('QBCore:Client:OnJobUpdate', function()
+    Radio:QBInit()
 end)
