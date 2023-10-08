@@ -13,26 +13,14 @@ RegisterNUICallback('join', function(data, cb)
     if Shared.RestrictedChannels[connectChannel] then
         local type = Shared.RestrictedChannels[connectChannel].type
         local name = Shared.RestrictedChannels[connectChannel].name
-        if Shared.Core == 'qb' then
-            if type == 'job' and lib.table.contains(name, Radio.PlayerData.job.name) then
-                Radio:connecttoradio(rchannel)
-                Radio:update()
-            elseif type == 'gang' and lib.table.contains(name, Radio.PlayerData.gang.name) then
-                Radio:connecttoradio(rchannel)
-                Radio:update()
-            else
-                Radio:Notify('Failed', 'Restricted Channel', 'error')
-            end
-        elseif Shared.Core == 'esx' then
-            if type == 'job' and lib.table.contains(name, ESX.PlayerData.job.name) then
-                Radio:connecttoradio(rchannel)
-                Radio:update()
-            elseif type == 'gang' and lib.table.contains(name, ESX.PlayerData.gang.name) then
-                Radio:connecttoradio(rchannel)
-                Radio:update()
-            else
-                Radio:Notify('Failed', 'Restricted Channel', 'error')
-            end
+        if type == 'job' and lib.table.contains(name, Radio.PlayerJob) then
+            Radio:connecttoradio(rchannel)
+            Radio:update()
+        elseif type == 'gang' and lib.table.contains(name, Radio.PlayerGang) then
+            Radio:connecttoradio(rchannel)
+            Radio:update()
+        else
+            Radio:Notify('Failed', 'Restricted Channel', 'error')
         end
     else
         Radio:connecttoradio(rchannel)
