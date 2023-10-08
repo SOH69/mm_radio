@@ -1,12 +1,14 @@
 if Shared.Core == "qb" then
     function Radio:QBInit(items)
         local PlayerData = QBCore.Functions.GetPlayerData()
-        if not PlayerData then return end
-        Radio.PlayerJob = PlayerData.job.name
-        Radio.PlayerGang = PlayerData.gang.name
-        Radio.PlayerItems = items or PlayerData.items
+        if PlayerData then
+            Radio.PlayerJob = PlayerData.job.name
+            Radio.PlayerGang = PlayerData.gang.name
+            Radio.PlayerItems = items or PlayerData.items
+        end
 
         Radio:doRadioCheck()
+
         local rec = {}
         for k, v in pairs(Shared.RestrictedChannels) do
             if v.type == 'job' and lib.table.contains(v.name, Radio.PlayerJob) then
