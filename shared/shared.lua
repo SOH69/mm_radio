@@ -1,18 +1,18 @@
 Shared = {}
 
-if GetResourceState('qb-core') == 'started' then
-    Shared.Core = 'qb'
-elseif GetResourceState('es_extended') == 'started' then
-    Shared.Target = 'esx'
+if GetResourceState('qb-core') == 'started' then -- change your core script
+    Shared.Core = 'qb' -- dont touch this
+elseif GetResourceState('es_extended') == 'started' then -- change your core script
+    Shared.Target = 'esx' -- dont touch this
 else
     Shared.Core = false
     warn('No Core Script found')
 end
 
-if GetResourceState('ox_inventory') == 'started' then
-    Shared.Inventory = 'ox_inventory'
-elseif GetResourceState('qb-inventory') == 'started' then
-    Shared.Inventory = 'qb'
+if GetResourceState('ox_inventory') == 'started' then -- change your inventory script
+    Shared.Inventory = 'ox_inventory' -- dont touch this
+elseif GetResourceState('qb-inventory') == 'started' then -- change your inventory script
+    Shared.Inventory = 'qb' -- dont touch this
 else
     Shared.Inventory = false
     warn('No Inventory found')
