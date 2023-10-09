@@ -10,7 +10,7 @@ else
 end
 
 if GetResourceState('ox_inventory') == 'started' then -- change your inventory script
-    Shared.Inventory = 'ox_inventory' -- dont touch this
+    Shared.Inventory = 'ox' -- dont touch this
 elseif GetResourceState('qb-inventory') == 'started' then -- change your inventory script
     Shared.Inventory = 'qb' -- dont touch this
 else

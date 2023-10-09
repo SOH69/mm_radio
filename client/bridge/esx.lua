@@ -43,10 +43,6 @@ if Shared.Core == "esx" then
         Radio:leaveradio()
     end)
 
-    AddEventHandler('ox_inventory:updateInventory', function(changes)
-        Radio:QBInit()
-    end)
-
     RegisterNetEvent('esx:setJob', function(job)
         Radio.PlayerJob = job.name
         Radio:ESXInit()
