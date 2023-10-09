@@ -3,7 +3,7 @@ ESX support soon!!!!!
 
 
 ## PREVIEW:
-![image](https://imgur.com/5DMMaTX.png)
+![image](https://cdn.discordapp.com/attachments/1157002364599943219/1161040806212276224/20231010023913_1.jpg?ex=6536da83&is=65246583&hm=079270e252cfd45227ac532b39c5105b2e33f1e133e47c15ed1a8446b4a66c42&)
 ![image](https://imgur.com/D4G1Mgf.png)
 ![image](https://imgur.com/CBvLgY4.png)
 ![image](https://imgur.com/VyqOJd0.png)
