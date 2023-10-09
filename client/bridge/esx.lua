@@ -34,7 +34,6 @@ if Shared.Core == "esx" then
 
     RegisterNetEvent('esx:playerLoaded', function()
         Radio:ESXInit()
-        Radio:setSubmixEffect()
     end)
 
     RegisterNetEvent('esx:onPlayerLogout', function()
@@ -44,7 +43,7 @@ if Shared.Core == "esx" then
     end)
 
     RegisterNetEvent('esx:setJob', function(job)
-        Radio.PlayerJob = job.name
+        ESX.PlayerData.job = job
         Radio:ESXInit()
     end)
 end

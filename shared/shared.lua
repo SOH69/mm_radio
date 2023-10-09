@@ -3,7 +3,7 @@ Shared = {}
 if GetResourceState('qb-core') == 'started' then -- change your core script
     Shared.Core = 'qb' -- dont touch this
 elseif GetResourceState('es_extended') == 'started' then -- change your core script
-    Shared.Target = 'esx' -- dont touch this
+    Shared.Core = 'esx' -- dont touch this
 else
     Shared.Core = false
     warn('No Core Script found')
@@ -11,7 +11,7 @@ end
 
 if GetResourceState('ox_inventory') == 'started' then -- change your inventory script
     Shared.Inventory = 'ox' -- dont touch this
-elseif GetResourceState('qb-inventory') == 'started' then -- change your inventory script
+elseif GetResourceState('mm_inventory') == 'started' then -- change your inventory script
     Shared.Inventory = 'qb' -- dont touch this
 else
     Shared.Inventory = false
@@ -19,16 +19,6 @@ else
 end
 
 Shared.MaxFrequency = 500.00 -- Max Limit of Radio Channel
-
-Shared.DefaultRadioFilter = { -- SUbmix Effect for channel
-    ["freq_low"] = 100.0,
-    ["freq_hi"] = 5000.0,
-    ["rm_mod_freq"] = 300.0,
-    ["rm_mix"] = 0.1,
-    ["fudge"] = 4.0,
-    ["o_freq_lo"] = 300.0,
-    ["o_freq_hi"] = 5000.0,
-}
 
 Shared.RestrictedChannels = {
     [1] = { -- channel id

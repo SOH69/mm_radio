@@ -1,13 +1,11 @@
 if Shared.Core == "qb" then
-    function Radio:QBInit()
-        local PlayerData = QBCore.Functions.GetPlayerData()
+    function Radio:QBInit(data)
+        local PlayerData = data or QBCore.Functions.GetPlayerData()
         if PlayerData then
             Radio.PlayerJob = PlayerData.job.name
             Radio.PlayerGang = PlayerData.gang.name
             Radio.PlayerItems = PlayerData.items
         end
-
-        Radio:doRadioCheck()
 
         local rec = {}
         for k, v in pairs(Shared.RestrictedChannels) do
@@ -23,11 +21,12 @@ if Shared.Core == "qb" then
                 Radio.favourite[#Radio.favourite+1] = val
             end
         end
+
+        Radio:doRadioCheck()
     end
 
     RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
         Radio:QBInit()
-        Radio:setSubmixEffect()
     end)
 
     -- Resets state on logout, in case of character change.
@@ -37,9 +36,9 @@ if Shared.Core == "qb" then
         Radio:leaveradio()
     end)
 
-    RegisterNetEvent('QBCore:Player:SetPlayerData', function()
+    RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
         if LocalPlayer.state.isLoggedIn then
-            Radio:QBInit()
+            Radio:QBInit(val)
         end
     end)
 

@@ -67,7 +67,7 @@ function Radio:doRadioCheck()
         end
         self.hasRadio = _hasRadio
     end
-    if not self.hasRadio and self.onRadio then
+    if not self.hasRadio and self.onRadio and Shared.Inventory then
         self:leaveradio()
     end
 end

@@ -15,7 +15,6 @@ AddEventHandler('onResourceStart', function(resource)
         elseif Shared.Core == 'esx' then
             Radio:ESXInit()
         end
-        Radio:setSubmixEffect()
     end
 end)
 
@@ -97,26 +96,3 @@ RegisterNetEvent("pma-voice:setTalkingOnRadio", function(source, talkingState)
         }
     })
 end)
-
-function Radio:setSubmixEffect()
-	local radioEffectId = CreateAudioSubmix('Radio_Default')
-    SetAudioSubmixEffectRadioFx(radioEffectId, 0)
-    SetAudioSubmixEffectParamInt(radioEffectId, 0, `default`, 1)
-    for filter, value in pairs(Shared.DefaultRadioFilter) do
-        SetAudioSubmixEffectParamFloat(radioEffectId, 0, filter, value)
-    end
-    SetAudioSubmixOutputVolumes(
-        radioEffectId,
-        0,
-        0.5 ,
-        0.5,
-        0.0,
-        0.0,
-        1.0,
-        1.0
-    )
-    AddAudioSubmixOutput(radioEffectId, 0)
-    if GetResourceState('pma-voice') == 'started' then
-        exports['pma-voice']:setEffectSubmix('radio', radioEffectId)
-    end
-end

@@ -1,17 +1,11 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local channels = {}
-
-QBCore.Functions.CreateUseableItem("radio", function(source)
-    TriggerClientEvent('mm_radio:client:use', source)
-end)
 
 RegisterNetEvent('mm_radio:server:addToRadioChannel', function(channel)
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
     if not channels[channel] then
         channels[channel] = {}
     end
-    channels[channel][tostring(src)] = {name = Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname, isTalking = false}
+    channels[channel][tostring(src)] = {name = GetUserName(src), isTalking = false}
     TriggerClientEvent('mm_radio:client:radioListUpdate', -1, channels[channel], channel)
 end)
 
