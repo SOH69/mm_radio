@@ -29,7 +29,7 @@
 
 </script>
 
-<div class='w-[9vw] h-[27.3vh] bg-[#212146] relative left-[2.7vw] bottom-[35.5vh] z-[11] flex flex-col'>
+<div class='w-[9vw] h-[27.3vh] bg-[#212146] relative left-[2.7vw] bottom-[35.5vh] z-[11] flex flex-col md:w-[9.5vw]'>
     <Header />
     {#if tab=='home'}
         <Body changeTab={changeTab}/>
