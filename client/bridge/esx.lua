@@ -32,7 +32,9 @@ if Shared.Core == "esx" then
         end
     end
 
-    RegisterNetEvent('esx:playerLoaded', function()
+    RegisterNetEvent('esx:playerLoaded', function(xPlayer)
+        ESX.PlayerData = xPlayer
+	    ESX.PlayerLoaded = true
         Radio:ESXInit()
     end)
 
