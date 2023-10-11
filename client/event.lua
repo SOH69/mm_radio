@@ -9,10 +9,10 @@ local function updateTime()
 end
 
 AddEventHandler('onResourceStart', function(resource)
-    if GetCurrentResourceName() == resource and LocalPlayer.state.isLoggedIn then
-        if Shared.Core == 'qb' then
+    if GetCurrentResourceName() == resource then
+        if Shared.Core == 'qb' and LocalPlayer.state.isLoggedIn  then
             Radio:QBInit()
-        elseif Shared.Core == 'esx' then
+        elseif Shared.Core == 'esx' and ESX.IsPlayerLoaded() then
             Radio:ESXInit()
         end
     end
@@ -21,20 +21,8 @@ end)
 AddEventHandler('onResourceStop', function(resource)
     if GetCurrentResourceName() == resource then
         Radio:toggleRadioAnimation(false)
-    end
-end)
-
-AddEventHandler('gameEventTriggered', function(event, data)
-    if event == "CEventNetworkEntityDamage" then
-        if not IsEntityAPed(data[1]) then return end
-        if data[4] and NetworkGetPlayerIndexFromPed(data[1]) == cache.playerId and IsEntityDead(cache.ped) then
-            if LocalPlayer.state.isLoggedIn and Radio.onRadio then
-                if Radio.hasRadio then
-                    if RadioChannel ~= 0 then
-                        Radio:leaveradio()
-                    end
-                end
-            end
+        if Radio.onRadio then
+            Radio:leaveradio()
         end
     end
 end)
@@ -51,6 +39,7 @@ RegisterNetEvent('mm_radio:client:use', function()
             volume = Radio.Volume,
             favourite = Radio.favourite,
             recomended = Radio.recomended,
+            userData = Radio.userData,
             time = Radio:CalculateTimeToDisplay(),
             street = Radio:getCrossroads()
         }
