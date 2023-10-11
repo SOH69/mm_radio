@@ -12,6 +12,7 @@ end)
 RegisterNetEvent('mm_radio:server:removeFromRadioChannel', function(channel)
     local src = source
 
+    if not channels[channel] then return end
     channels[channel][tostring(src)] = nil
     TriggerClientEvent('mm_radio:client:radioListUpdate', -1, channels[channel], channel)
 end)

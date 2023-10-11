@@ -13,22 +13,26 @@
 
     function togglefav(status: boolean) {
         if (status){
-            let temp = $RADIODATA
-            temp.favourite.push($RADIODATA.channel)
-            RADIODATA.set(temp)
-            SendNUI('addFav', temp.channel)
+            RADIODATA.update((data: any) => {
+                data.favourite.push(data.channel)
+                data.userData.favourite.push(data.channel)
+                return data
+            })
+            SendNUI('addFav', $RADIODATA.channel)
         } else {
-            let temp = $RADIODATA
-            temp.favourite.pop($RADIODATA.channel)
-            RADIODATA.set(temp)
-            SendNUI('removeFav', temp.channel)
+            RADIODATA.update((data: any) => {
+                data.favourite.pop(data.channel)
+                data.userData.favourite.pop(data.channel)
+                return data
+            })
+            SendNUI('removeFav', $RADIODATA.channel)
         }
     }
 
-    function handleSliderRelease(event) {
+    function handleSliderRelease(event: any) {
+        if (!$RADIODATA.onRadio) return;
         SendNUI('volumeChange', event.target.value);
     }
-
 </script>
 
 <div class="w-full h-[24.8vh] flex flex-col p-4 gap-[0.5vh]">
@@ -41,7 +45,11 @@
                 {#if ($RADIODATA.favourite).indexOf($RADIODATA.channel) === -1}
                     <i class="fa-regular fa-star ml-auto cursor-pointer text-yellow-400" on:click={() => togglefav(true)}></i>
                 {:else}
-                    <i class="fa-solid fa-star ml-auto cursor-pointer text-yellow-400" on:click={() => togglefav(false)}></i>
+                    {#if ($RADIODATA.userData.favourite).indexOf($RADIODATA.channel) === -1}
+                        <i class="fa-solid fa-star ml-auto cursor-not-allowed text-yellow-600"></i>
+                    {:else}
+                        <i class="fa-solid fa-star ml-auto cursor-pointer text-yellow-400" on:click={() => togglefav(false)}></i>
+                    {/if}
                 {/if}
             {/if}
             
@@ -67,10 +75,10 @@
         {:else}
             <i class="fa-solid fa-volume-mute"></i>
         {/if}
-        <input id="vol-range" type="range" value={$RADIODATA.volume} class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" on:change={changeVolume} on:mouseup={handleSliderRelease}>
+        <input id="vol-range" type="range" value={$RADIODATA.volume} class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" disabled="{!$RADIODATA.onRadio}" on:change={changeVolume} on:mouseup={handleSliderRelease}>
     </div>
 
-    <div class="w-full rounded-[0.3vw] bg-[#18162F] flex py-4 text-white drop-shadow-md">
+    <div class="w-full rounded-[0.3vw] bg-[#18162F] flex py-4 text-white drop-shadow-md justify-between">
         <button class="grow flex flex-col justify-center items-center gap-[0.5vh]" on:click={changeTab('channel')}>
             <i class="fa-solid fa-list-ul"></i>
             <span class="text-[0.8vh]">Channels</span>

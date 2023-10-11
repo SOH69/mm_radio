@@ -20,7 +20,7 @@
     <div class="w-full rounded-[0.3vw] h-[3.5vh] bg-[#18162F] drop-shadow-md flex items-center justify-between text-white px-4">
         <div class="font-bold text-[2vh] min-w-[1vw]">{channelnumber}</div>
         {#if channelnumber.length >= 1}
-            <i class="fa-solid fa-circle-arrow-right text-[1.5vh] cursor-pointer" on:click={(e) => SendNUI('join', channelnumber)}></i>
+            <i class="fa-solid fa-circle-arrow-right text-[1.5vh] cursor-pointer" on:click={() => SendNUI('join', channelnumber)}></i>
         {/if}
     </div>
 

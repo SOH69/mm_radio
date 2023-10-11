@@ -8,6 +8,7 @@ Radio = {
 	playerServerID = GetPlayerServerId(PlayerId()),
 	PlayerJob = 'civilian',
 	PlayerGang = 'none',
+	PlayerDuty = false,
 	hasRadio = false,
 	onRadio = false,
 	usingRadio = false,
@@ -19,5 +20,28 @@ Radio = {
 	recomended = {},
 	street = "Unknown",
 	talkingList = {},
-	userfav = json.decode(GetResourceKvpString('radioSettings')) or {}
+	userData = json.decode(GetResourceKvpString('radioSettings')) or {
+		favourite = {},
+		playerlist = {
+			show = false,
+			coords = {
+				x = 15.0,
+				y = 40.0
+			}
+		}
+	}
 }
+
+if not Radio.userData.favourite then
+	DeleteResourceKvp('radioSettings')
+	Radio.userData = {
+		favourite = {},
+		playerlist = {
+			show = false,
+			coords = {
+				x = 15.0,
+				y = 40.0
+			}
+		}
+	}
+end

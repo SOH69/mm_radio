@@ -1,7 +1,7 @@
 <script lang="ts">
     import { ReceiveNUI } from '../utils/ReceiveNUI'
     import { SHOWPLAYERLIST, PLAYERLIST } from "@store/stores";
-
+    import { SendNUI } from '../utils/SendNUI'
 
 
     ReceiveNUI<any>('updateRadioTalking', (data: any) => {
@@ -10,6 +10,7 @@
 
     function showPlayerList() {
         SHOWPLAYERLIST.set(!$SHOWPLAYERLIST)
+        SendNUI('showPlayerList', $SHOWPLAYERLIST)
     }
 
 </script>

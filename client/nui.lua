@@ -1,31 +1,6 @@
 RegisterNUICallback('join', function(data, cb)
     local rchannel = tonumber(data)
-    if not rchannel then
-        return Radio:Notify('Failed','Invalid Radio Station' , 'error')
-    end
-    if rchannel > Shared.MaxFrequency or rchannel == 0 then
-        return Radio:Notify('Failed', 'Invalid Radio Station' , 'error')
-    end
-    if rchannel == Radio.RadioChannel then
-        return Radio:Notify('Failed', 'You are on the station', 'error')
-    end
-    local connectChannel = math.floor(rchannel + 0.5)
-    if Shared.RestrictedChannels[connectChannel] then
-        local type = Shared.RestrictedChannels[connectChannel].type
-        local name = Shared.RestrictedChannels[connectChannel].name
-        if type == 'job' and lib.table.contains(name, Radio.PlayerJob) then
-            Radio:connecttoradio(rchannel)
-            Radio:update()
-        elseif type == 'gang' and lib.table.contains(name, Radio.PlayerGang) then
-            Radio:connecttoradio(rchannel)
-            Radio:update()
-        else
-            Radio:Notify('Failed', 'Restricted Channel', 'error')
-        end
-    else
-        Radio:connecttoradio(rchannel)
-        Radio:update()
-    end
+    JoinRadio(rchannel)
     cb("ok")
 end)
 
@@ -53,8 +28,8 @@ RegisterNUICallback('addFav', function(data, cb)
     data = tonumber(data)
     if Radio.RadioChannel == data then
         Radio.favourite[#Radio.favourite+1] = data
-        Radio.userfav[#Radio.userfav+1] = data
-        SetResourceKvp('radioSettings', json.encode(Radio.userfav))
+        Radio.userData.favourite[#Radio.userData.favourite+1] = data
+        SetResourceKvp('radioSettings', json.encode(Radio.userData))
     end
     cb("ok")
 end)
@@ -67,12 +42,25 @@ RegisterNUICallback('removeFav', function(data, cb)
                 table.remove(Radio.favourite, index)
             end
         end
-        for index, val in ipairs(Radio.userfav) do
+        for index, val in ipairs(Radio.userData.favourite) do
             if val == data then
-                table.remove(Radio.userfav, index)
+                table.remove(Radio.userData.favourite, index)
             end
         end
-        SetResourceKvp('radioSettings', json.encode(Radio.userfav))
+        SetResourceKvp('radioSettings', json.encode(Radio.userData))
     end
     cb("ok")
+end)
+
+RegisterNUICallback('showPlayerList', function(data, cb)
+    Radio.userData.playerlist.show = data
+    SetResourceKvp('radioSettings', json.encode(Radio.userData))
+end)
+
+RegisterNUICallback('updatePlayerListPosition', function(data, cb)
+    Radio.userData.playerlist.coords = {
+        x = data.x,
+        y = data.y
+    }
+    SetResourceKvp('radioSettings', json.encode(Radio.userData))
 end)
