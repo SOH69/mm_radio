@@ -14,8 +14,6 @@ if Shared.Core == "esx" then
         Radio.PlayerJob = ESX.PlayerData.job.name
         Radio.PlayerGang = ESX.PlayerData.job.name
 
-        Radio:doRadioCheck()
-
         local rec = {}
         for k, v in ipairs(Shared.RestrictedChannels) do
             if v.type == 'job' and lib.table.contains(v.name, Radio.PlayerJob) then
@@ -25,11 +23,12 @@ if Shared.Core == "esx" then
             end
         end
         Radio.favourite = rec
-        for _, val in ipairs(Radio.userfav) do
+        for _, val in ipairs(Radio.userData.favourite) do
             if not lib.table.contains(Radio.favourite, val) then
                 Radio.favourite[#Radio.favourite+1] = val
             end
         end
+        Radio:doRadioCheck()
     end
 
     RegisterNetEvent('esx:playerLoaded', function(xPlayer)
@@ -46,6 +45,13 @@ if Shared.Core == "esx" then
 
     RegisterNetEvent('esx:setJob', function(job)
         ESX.PlayerData.job = job
+        Radio.PlayerDuty = true
         Radio:ESXInit()
+    end)
+
+    AddEventHandler('esx:onPlayerDeath', function()
+        if ESX.IsPlayerLoaded() and Radio.onRadio and Radio.hasRadio and Radio.RadioChannel ~= 0 then
+            Radio:leaveradio()
+        end
     end)
 end

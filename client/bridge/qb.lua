@@ -16,12 +16,11 @@ if Shared.Core == "qb" then
             end
         end
         Radio.favourite = rec
-        for _, val in ipairs(Radio.userfav) do
+        for _, val in ipairs(Radio.userData.favourite) do
             if not lib.table.contains(Radio.favourite, val) then
                 Radio.favourite[#Radio.favourite+1] = val
             end
         end
-
         Radio:doRadioCheck()
     end
 
@@ -50,5 +49,20 @@ if Shared.Core == "qb" then
     RegisterNetEvent('QBCore:Client:OnGangUpdate', function(gang)
         Radio.PlayerGang = gang.name
         Radio:QBInit()
+    end)
+
+    RegisterNetEvent("QBCore:Client:SetDuty", function(newDuty)
+        Radio.PlayerDuty = newDuty
+    end)
+
+    AddEventHandler('gameEventTriggered', function(event, data)
+        if event == "CEventNetworkEntityDamage" then
+            if not IsEntityAPed(data[1]) then return end
+            if data[4] and NetworkGetPlayerIndexFromPed(data[1]) == cache.playerId and IsEntityDead(cache.ped) then
+                if LocalPlayer.state.isLoggedIn and Radio.onRadio and Radio.hasRadio and Radio.RadioChannel ~= 0 then
+                    Radio:leaveradio()
+                end
+            end
+        end
     end)
 end
