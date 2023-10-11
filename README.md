@@ -21,6 +21,10 @@ ESX support soon!!!!!
 4. Customizable Restrict Channel with job/gang
 5. 0 resmon highly optimized
 
+# EXPORTS:
+1. `exports["mm_radio"]:JoinRadio(channel: number)`
+2. `exports["mm_radio"]:LeaveRadio()`
+
 # GUIDE:
 Follow the Shared Lua and change the requireds
 
