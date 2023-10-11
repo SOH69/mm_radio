@@ -91,6 +91,7 @@ function Radio:update()
             volume = Radio.Volume,
             favourite = Radio.favourite,
             recomended = Radio.recomended,
+            userData = Radio.userData,
             time = self:CalculateTimeToDisplay(),
             street = self:getCrossroads()
         }
@@ -128,3 +129,40 @@ function Radio:CalculateTimeToDisplay()
 
     return obj
 end
+
+function JoinRadio(channel)
+    if not channel then
+        return Radio:Notify('Failed','Invalid Radio Station' , 'error')
+    end
+    if channel > Shared.MaxFrequency or channel == 0 then
+        return Radio:Notify('Failed', 'Invalid Radio Station' , 'error')
+    end
+    if channel == Radio.RadioChannel then
+        return Radio:Notify('Failed', 'You are on the station', 'error')
+    end
+    local connectChannel = math.floor(channel + 0.5)
+    if Shared.RestrictedChannels[connectChannel] then
+        local type = Shared.RestrictedChannels[connectChannel].type
+        local name = Shared.RestrictedChannels[connectChannel].name
+        if type == 'job' and lib.table.contains(name, Radio.PlayerJob) and Radio.PlayerDuty then
+            Radio:connecttoradio(channel)
+            Radio:update()
+        elseif type == 'gang' and lib.table.contains(name, Radio.PlayerGang) then
+            Radio:connecttoradio(channel)
+            Radio:update()
+        else
+            Radio:Notify('Failed', 'Restricted Channel', 'error')
+        end
+    else
+        Radio:connecttoradio(channel)
+        Radio:update()
+    end
+end
+
+exports('JoinRadio', JoinRadio)
+
+local function LeaveRadio()
+    Radio:leaveradio()
+end
+
+exports('LeaveRadio', LeaveRadio)
