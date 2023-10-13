@@ -13,6 +13,7 @@ if Shared.Core == "esx" then
     function Radio:ESXInit()
         Radio.PlayerJob = ESX.PlayerData.job.name
         Radio.PlayerGang = ESX.PlayerData.job.name
+        Radio.PlayerDuty = true
 
         local rec = {}
         for k, v in ipairs(Shared.RestrictedChannels) do

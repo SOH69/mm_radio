@@ -5,6 +5,7 @@ if Shared.Core == "qb" then
             Radio.PlayerJob = PlayerData.job.name
             Radio.PlayerGang = PlayerData.gang.name
             Radio.PlayerItems = PlayerData.items
+            Radio.PlayerDuty = PlayerData.job.onduty
         end
 
         local rec = {}
