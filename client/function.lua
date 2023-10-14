@@ -166,3 +166,14 @@ local function LeaveRadio()
 end
 
 exports('LeaveRadio', LeaveRadio)
+
+lib.addKeybind({
+    name = 'radio',
+    description = 'Press = to open Radio',
+    defaultKey = 'EQUALS',
+    onPressed = function()
+        if not Radio.usingRadio then
+            TriggerEvent('mm_radio:client:use')
+        end
+    end
+})
