@@ -28,3 +28,5 @@ AddEventHandler("playerDropped", function(reason)
         end
     end
 end)
+
+lib.versionCheck('SOH69/mm_radio')
