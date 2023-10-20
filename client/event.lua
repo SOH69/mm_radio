@@ -41,7 +41,8 @@ RegisterNetEvent('mm_radio:client:use', function()
             recomended = Radio.recomended,
             userData = Radio.userData,
             time = Radio:CalculateTimeToDisplay(),
-            street = Radio:getCrossroads()
+            street = Radio:getCrossroads(),
+            maxChannel = Shared.MaxFrequency,
         }
     })
 

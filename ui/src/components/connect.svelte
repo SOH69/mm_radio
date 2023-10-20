@@ -1,13 +1,17 @@
 <script lang="ts">
     import '@fortawesome/fontawesome-free/css/all.min.css'
     import { SendNUI } from '../utils/SendNUI'
+    import { RADIODATA } from "@store/stores";
 
     let channelnumber = "";
 
     function appendNumber(val: string) {
-        let newnumber = channelnumber.replace('.', "")
-        if (newnumber.length < 3)
-            channelnumber += val;
+        let lastval = channelnumber
+        channelnumber += val;
+        let curChannel = parseFloat(channelnumber);
+        if (curChannel > $RADIODATA.maxChannel) {
+            channelnumber = lastval
+        }
     }
 
     function removeNumber() {
