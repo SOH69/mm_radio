@@ -134,13 +134,13 @@ function JoinRadio(channel)
     if not channel then
         return Radio:Notify('Failed','Invalid Radio Station' , 'error')
     end
-    if channel > Shared.MaxFrequency or channel == 0 then
+    if channel > Shared.MaxFrequency or channel < 1 then
         return Radio:Notify('Failed', 'Invalid Radio Station' , 'error')
     end
     if channel == Radio.RadioChannel then
         return Radio:Notify('Failed', 'You are on the station', 'error')
     end
-    local connectChannel = math.floor(channel + 0.5)
+    local connectChannel = math.floor(channel)
     if Shared.RestrictedChannels[connectChannel] then
         local type = Shared.RestrictedChannels[connectChannel].type
         local name = Shared.RestrictedChannels[connectChannel].name
