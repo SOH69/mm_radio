@@ -60,7 +60,9 @@
     {#if $RADIODATA.onRadio}
         <div class="w-[15vw] absolute z-[1000] text-right select-none" style="top: {$RADIODATA.userData.playerlist.coords.y}px; right: {$RADIODATA.userData.playerlist.coords.x}px;cursor:{$SHOW? 'move':'no-drop'}" use:dragMe>
             {#each Object.entries($PLAYERLIST) as [id, player], index (id)}
-                <div class="text-[1.7vh] font-bold px-2 text-white" style="color: {player.isTalking? "white":"rgb(1, 176, 240)"}">{player.name}</div>
+                {#if player.isTalking || $SHOWFORCEPLAYERLIST}
+                    <div class="text-[1.7vh] font-bold px-2 text-white">{player.name}</div>
+                {/if}
             {/each}
         </div>
     {/if}
