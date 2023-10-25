@@ -2,7 +2,8 @@ fx_version 'cerulean'
 game "gta5"
 
 author "Master Mind"
-version '1.5.0'
+version '1.6.0'
+
 lua54 'yes'
 
 ui_page 'html/index.html'
