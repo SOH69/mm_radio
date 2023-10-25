@@ -87,10 +87,10 @@
             <i class="fa-solid fa-walkie-talkie"></i>
             <span class="text-[0.8vh]">{$RADIODATA.locale.radio}</span>
         </button>
-        <button class="grow flex flex-col justify-center items-center gap-[0.5vh]" style="color:{$RADIODATA.onRadio? 'white':'#AAAFB4'}" disabled="{!$RADIODATA.onRadio}" on:click={changeTab('members')}>
+        <!-- <button class="grow flex flex-col justify-center items-center gap-[0.5vh]" style="color:{$RADIODATA.onRadio? 'white':'#AAAFB4'}" disabled="{!$RADIODATA.onRadio}" on:click={changeTab('members')}>
             <i class="fa-solid fa-user-tag"></i>
             <span class="text-[0.8vh]">{$RADIODATA.locale.members}</span>
-        </button>
+        </button> -->
     </div>
 
     <div class="w-full rounded-[0.3vw] bg-[#18162F] flex justify-center items-center py-4 text-white text-[1vh] drop-shadow-md gap-[0.3vw]">
