@@ -29,6 +29,12 @@
 		SHOWPLAYERLIST.set(data.userData.playerlist.show)
 	})
 
+	ReceiveNUI<string>('UpdateTime', (data: string) => {
+		RADIODATA.update((old: any) => {
+			return { ...old, time: data }
+		})
+	})
+
 	ReceiveNUI<boolean>('setRadioHide', () => {
 		SHOW.set(false)
 	})

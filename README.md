@@ -1,5 +1,13 @@
 A Beautiful Radio script for communication! It has many features packed in one script which every RP server wants and it provides a whole new UI look, enriching user experience.
 
+## ⚠️ Attention
+Download a [release](https://github.com/SOH69/mm_radio/releases/) or build the source code
+```
+git clone https://github.com/SOH69/mm_radio.git
+cd mm_radio/ui
+pnpm i
+pnpm run build
+```
 
 ## PREVIEW:
 ![image](https://cdn.discordapp.com/attachments/1157002364599943219/1161040806212276224/20231010023913_1.jpg?ex=6536da83&is=65246583&hm=079270e252cfd45227ac532b39c5105b2e33f1e133e47c15ed1a8446b4a66c42&)

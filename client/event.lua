@@ -1,9 +1,6 @@
 local function updateTime()
     while Radio.usingRadio do
-        SendNUIMessage({
-            action = "UpdateTime",
-            InGameTime = Radio:CalculateTimeToDisplay(),
-        })
+        Radio:SendSvelteMessage("UpdateTime", Radio:CalculateTimeToDisplay())
         Wait(1500)
     end
 end
@@ -31,19 +28,17 @@ RegisterNetEvent('mm_radio:client:use', function()
     Radio.usingRadio = true
     SetNuiFocus(true, true)
     Radio:toggleRadioAnimation(true)
-    SendNUIMessage({
-        action = "setRadioVisible",
-        data = {
-            onRadio = Radio.onRadio,
-            channel = Radio.RadioChannel,
-            volume = Radio.Volume,
-            favourite = Radio.favourite,
-            recomended = Radio.recomended,
-            userData = Radio.userData,
-            time = Radio:CalculateTimeToDisplay(),
-            street = Radio:getCrossroads(),
-            maxChannel = Shared.MaxFrequency,
-        }
+    Radio:SendSvelteMessage("setRadioVisible", {
+        onRadio = Radio.onRadio,
+        channel = Radio.RadioChannel,
+        volume = Radio.Volume,
+        favourite = Radio.favourite,
+        recomended = Radio.recomended,
+        userData = Radio.userData,
+        time = Radio:CalculateTimeToDisplay(),
+        street = Radio:getCrossroads(),
+        maxChannel = Shared.MaxFrequency,
+        locale = Radio.locale.ui
     })
 
     updateTime()
@@ -53,36 +48,25 @@ RegisterNetEvent('mm_radio:client:remove', function()
     Radio.usingRadio = false
     SetNuiFocus(false, false)
     Radio:toggleRadioAnimation(false)
-    SendNUIMessage({
-        action = "setRadioHide"
-    })
+    Radio:SendSvelteMessage("setRadioHide", nil)
 end)
 
 RegisterNetEvent('mm_radio:client:radioListUpdate', function(players, channel)
     if Radio.RadioChannel == channel then
-        SendNUIMessage({
-            action = "updateRadioList",
-            data = players
-        })
+        Radio:SendSvelteMessage("updateRadioList", players)
     end
 end)
 
 RegisterNetEvent("pma-voice:radioActive", function(talkingState)
-    SendNUIMessage({
-        action = "updateRadioTalking",
-        data = {
-            radioId = tostring(Radio.playerServerID),
-            radioTalking = talkingState
-        }
+    Radio:SendSvelteMessage("updateRadioTalking", {
+        radioId = tostring(Radio.playerServerID),
+        radioTalking = talkingState
     })
 end)
 
 RegisterNetEvent("pma-voice:setTalkingOnRadio", function(source, talkingState)
-    SendNUIMessage({
-        action = "updateRadioTalking",
-        data = {
-            radioId = tostring(source),
-            radioTalking = talkingState
-        }
+    Radio:SendSvelteMessage("updateRadioTalking", {
+        radioId = tostring(source),
+        radioTalking = talkingState
     })
 end)

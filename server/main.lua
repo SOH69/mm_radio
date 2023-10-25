@@ -29,4 +29,18 @@ AddEventHandler("playerDropped", function(reason)
     end
 end)
 
+if Shared.UseCommand or not Shared.Inventory then
+    if not Shared.Ready then return end
+    lib.addCommand('radio', {
+        help = 'Open Radio Menu',
+        params = {},
+    }, function(source, args, raw)
+        TriggerClientEvent('mm_radio:client:use', source)
+    end)
+end
+
 lib.versionCheck('SOH69/mm_radio')
+
+if not Shared.Ready then
+	return error('^1UI has not been built, refer to the readme or download a release build.\n	^3https://github.com/SOH69/mm_radio/releases/', 0)
+end

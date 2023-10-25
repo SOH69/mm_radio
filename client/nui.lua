@@ -1,3 +1,11 @@
+function Radio:SendSvelteMessage(name, data)
+    if not Shared.Ready then return end
+    SendNUIMessage({
+        action = name,
+        data = data
+    })
+end
+
 RegisterNUICallback('join', function(data, cb)
     local rchannel = tonumber(data)
     JoinRadio(rchannel)
@@ -13,7 +21,7 @@ end)
 
 RegisterNUICallback("volumeChange", function(data, cb)
     data = tonumber(data)
-    Radio:Notify('Set Volume', 'Volume Changed to '..data, 'success')
+    Radio:Notify(locale('volume_notify_title'), locale('volume_notify_description', data), 'success')
 	exports["pma-voice"]:setRadioVolume(data)
     Radio.Volume = data
     cb('ok')

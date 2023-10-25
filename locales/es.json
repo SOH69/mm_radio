@@ -1,0 +1,27 @@
+{
+    "join_notify_title": "Unido",
+    "join_notify_description": "Estación unida %.2f MHz",
+    "invalid_notify_title": "Estación inválida",
+    "invalid_notify_description": "La estación %.2f MHz no está disponible",
+    "already_notify_title": "Ya unido",
+    "already_notify_description": "Ya estás unido a la estación %.2f MHz",
+    "restricted_notify_title": "Restringido",
+    "restricted_notify_description": "No se te permite unirte a la estación %.2f MHz",
+    "volume_notify_title": "Volumen",
+    "volume_notify_description": "Volumen establecido en %d%%",
+    
+    "ui": {
+        "header": "EN RADIO",
+        "frequency": "Frecuencia",
+        "disconnect": "DESCONECTAR",
+        "notconnected": "NO CONECTADA",
+        "channels": "Canales",
+        "radio": "Radio",
+        "members": "Miembros",
+        "favorites": "Favoritos",
+        "recommended": "Recomendados",
+        "clear": "LIMPIAR",
+        "hide_overlay": "OCULTAR SUPERPOSICIÓN",
+        "show_overlay": "MOSTRAR SUPERPOSICIÓN"
+    }
+}

@@ -3,16 +3,14 @@ game "gta5"
 
 author "Master Mind"
 version '1.5.0'
-
 lua54 'yes'
-
 
 ui_page 'html/index.html'
 -- ui_page 'http://localhost:3000/' --for dev
 
 shared_script {
-  '@ox_lib/init.lua',
-  "shared/**",
+  "@ox_lib/init.lua",
+  "shared/**"
 }
 
 client_script {
@@ -27,9 +25,9 @@ server_script {
   "server/**",
 }
 
-
 files {
   'html/**',
+  'locales/*.json'
 }
 
 dependencies {

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { ReceiveNUI } from '../utils/ReceiveNUI'
-    import { SHOWPLAYERLIST, PLAYERLIST } from "@store/stores";
+    import { RADIODATA, SHOWPLAYERLIST, PLAYERLIST } from "@store/stores";
     import { SendNUI } from '../utils/SendNUI'
 
 
@@ -28,6 +28,6 @@
     </div>
 
     <div class="w-full h-[4] px-4">
-        <button class="w-full py-3 bg-[#18162F] flex justify-center items-center gap-[1vh] text-white text-[1vh] rounded-[0.3vw] font-bold drop-shadow-md" on:click={()=> showPlayerList()}>{$SHOWPLAYERLIST? 'HIDE OVERLAY':'SHOW OVERLAY'}</button>
+        <button class="w-full py-3 bg-[#18162F] flex justify-center items-center gap-[1vh] text-white text-[1vh] rounded-[0.3vw] font-bold drop-shadow-md" on:click={()=> showPlayerList()}>{$SHOWPLAYERLIST? $RADIODATA.locale.hide_overlay:$RADIODATA.locale.show_overlay}</button>
     </div>
 {/if}
