@@ -44,11 +44,7 @@ function Radio:connecttoradio(channel)
     exports["pma-voice"]:setRadioChannel(channel)
     TriggerServerEvent('mm_radio:server:addToRadioChannel', self.RadioChannel)
 
-    if self:SplitStr(tostring(channel), ".")[2] ~= nil and self:SplitStr(tostring(channel), ".")[2] ~= "" then
-        self:Notify('Joined', 'Joined Station ' ..channel.. ' MHz', 'success')
-    else
-        self:Notify('Joined', 'Joined Station ' ..channel.. '.00 MHz', 'success')
-    end
+    self:Notify(locale('join_notify_title'), locale('join_notify_description', channel), 'success')
     if not lib.table.contains(Radio.recomended, channel) then
         Radio.recomended[#Radio.recomended+1] = channel
     end
@@ -93,7 +89,8 @@ function Radio:update()
             recomended = Radio.recomended,
             userData = Radio.userData,
             time = self:CalculateTimeToDisplay(),
-            street = self:getCrossroads()
+            street = self:getCrossroads(),
+            locale = self.locale.ui
         }
     })
 end
@@ -131,14 +128,11 @@ function Radio:CalculateTimeToDisplay()
 end
 
 function JoinRadio(channel)
-    if not channel then
-        return Radio:Notify('Failed','Invalid Radio Station' , 'error')
-    end
-    if channel > Shared.MaxFrequency or channel < 1 then
-        return Radio:Notify('Failed', 'Invalid Radio Station' , 'error')
+    if not channel or channel > Shared.MaxFrequency or channel < 1 then
+        return Radio:Notify(locale('invalid_notify_title'), locale('invalid_notify_description', channel), 'error')
     end
     if channel == Radio.RadioChannel then
-        return Radio:Notify('Failed', 'You are on the station', 'error')
+        return Radio:Notify(locale('already_notify_title'), locale('already_notify_description', channel), 'error')
     end
     local connectChannel = math.floor(channel)
     if Shared.RestrictedChannels[connectChannel] then
@@ -151,7 +145,7 @@ function JoinRadio(channel)
             Radio:connecttoradio(channel)
             Radio:update()
         else
-            Radio:Notify('Failed', 'Restricted Channel', 'error')
+            Radio:Notify(locale('restricted_notify_title'), locale('restricted_notify_description', channel), 'error')
         end
     else
         Radio:connecttoradio(channel)

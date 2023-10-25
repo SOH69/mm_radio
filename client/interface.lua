@@ -20,6 +20,7 @@ Radio = {
 	recomended = {},
 	street = "Unknown",
 	talkingList = {},
+	locale = lib.getLocales(),
 	userData = json.decode(GetResourceKvpString('radioSettings')) or {
 		favourite = {},
 		playerlist = {

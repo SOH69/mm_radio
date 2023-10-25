@@ -80,3 +80,5 @@ Shared.RestrictedChannels = {
         name = {"vagos"}
     },
 }
+
+lib.locale()

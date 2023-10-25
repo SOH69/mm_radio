@@ -43,6 +43,7 @@ RegisterNetEvent('mm_radio:client:use', function()
             time = Radio:CalculateTimeToDisplay(),
             street = Radio:getCrossroads(),
             maxChannel = Shared.MaxFrequency,
+            locale = Radio.locale.ui
         }
     })
 

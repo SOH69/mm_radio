@@ -16,6 +16,4 @@
 			data: true
 		},
 	])
-	
-
 </script>

@@ -30,6 +30,7 @@ server_script {
 
 files {
   'html/**',
+  'locales/*.json'
 }
 
 dependencies {

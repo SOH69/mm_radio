@@ -1,0 +1,27 @@
+{
+    "join_notify_title": "Joined",
+    "join_notify_description": "Joined Station %.2f MHz",
+    "invalid_notify_title": "Invalid Station",
+    "invalid_notify_description": "Station %.2f MHz is not available",
+    "already_notify_title": "Already Joined",
+    "already_notify_description": "You are already joined to Station %.2f MHz",
+    "restricted_notify_title": "Restricted",
+    "restricted_notify_description": "You are not allowed to join Station %.2f MHz",
+    "volume_notify_title": "Volume",
+    "volume_notify_description": "Volume set to %d%%",
+    
+    "ui": {
+        "header": "IN RADIO",
+        "frequency": "Frequency",
+        "disconnect": "DISCONNECT",
+        "notconnected": "NOT CONNECTED",
+        "channels": "Channels",
+        "radio": "Radio",
+        "members": "Members",
+        "favorites": "Favorites",
+        "recommended": "Recommended",
+        "clear": "CLEAR",
+        "hide_overlay": "HIDE OVERLAY",
+        "show_overlay": "SHOW OVERLAY"
+    }
+}
