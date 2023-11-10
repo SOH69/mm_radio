@@ -63,9 +63,6 @@ function Radio:doRadioCheck()
         end
         self.hasRadio = _hasRadio
     end
-    if not self.hasRadio and self.onRadio and Shared.Inventory then
-        self:leaveradio()
-    end
 end
 
 function Radio:leaveradio()
@@ -168,3 +165,14 @@ lib.addKeybind({
         end
     end
 })
+
+CreateThread(function()
+    while true do
+        Wait(1000)
+        if LocalPlayer.state.isLoggedIn then
+            if not Radio.hasRadio and Radio.onRadio and Shared.Inventory then
+                Radio:leaveradio()
+            end
+        end
+    end
+end)
