@@ -161,7 +161,11 @@ lib.addKeybind({
     defaultKey = 'EQUALS',
     onPressed = function()
         if not Radio.usingRadio then
-            TriggerEvent('mm_radio:client:use')
+            if Shared.Inventory and Radio.hasRadio then
+                TriggerEvent('mm_radio:client:use')
+            elseif not Shared.Inventory then
+                TriggerEvent('mm_radio:client:use')
+            end
         end
     end
 })
