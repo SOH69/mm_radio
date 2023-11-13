@@ -31,5 +31,7 @@ function GetUserName(source)
         if xPlayer then
             return xPlayer.getName()
         end
+    else
+        return GetPlayerName(source)
     end
 end
