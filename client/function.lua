@@ -85,7 +85,7 @@ function Radio:update()
         userData = Radio.userData,
         time = self:CalculateTimeToDisplay(),
         street = self:getCrossroads(),
-        locale = self.locale.ui
+        locale = self.locale
     })
 end
 
