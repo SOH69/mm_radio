@@ -17,7 +17,7 @@ RegisterNetEvent('mm_radio:server:removeFromRadioChannel', function(channel)
     TriggerClientEvent('mm_radio:client:radioListUpdate', -1, channels[channel], channel)
 end)
 
-AddEventHandler("playerDropped", function(reason)
+AddEventHandler("playerDropped", function()
     local plyid = source
 
     for id, channel in pairs (channels) do
@@ -34,10 +34,17 @@ if Shared.UseCommand or not Shared.Inventory then
     lib.addCommand('radio', {
         help = 'Open Radio Menu',
         params = {},
-    }, function(source, args, raw)
+    }, function(source)
         TriggerClientEvent('mm_radio:client:use', source)
     end)
 end
+
+lib.addCommand('remradiodata', {
+    help = 'Remove Radio Data',
+    params = {},
+}, function(source)
+    TriggerClientEvent('mm_radio:client:removedata', source)
+end)
 
 lib.versionCheck('SOH69/mm_radio')
 

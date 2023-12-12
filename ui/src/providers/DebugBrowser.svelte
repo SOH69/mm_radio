@@ -24,9 +24,32 @@
 							volume: 80,
 							favourite: [56.2, 54.1, 57.3, 58.6, 59.8, 56.2, 54.1, 57.3, 58.6, 59.8],
 							recomended: [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0],
+							userData: {
+								playerlist: {
+									show: true,
+									coords: {
+										x: 15,
+										y: 40,
+									},
+								},
+							},
 							time: "18:46",
 							street: "Mirror Park Boulevard",
-							players: {}
+							maxChannel: 500,
+							locale: {
+								"header": "IN RADIO",
+								"frequency": "Frequency",
+								"disconnect": "DISCONNECT",
+								"notconnected": "NOT CONNECTED",
+								"channels": "Channels",
+								"radio": "Radio",
+								"members": "Members",
+								"favorites": "Favorites",
+								"recommended": "Recommended",
+								"clear": "CLEAR",
+								"hide_overlay": "HIDE OVERLAY",
+								"show_overlay": "SHOW OVERLAY"
+							}
 						},
 					},
 					{
@@ -41,8 +64,17 @@
 				actions : [
 					{
 						name: "toggle",
-						action: "notify",
-						data: true,
+						action: "updateRadioList",
+						data: {
+							"1": {
+								name: "Uday Shetty", 
+								isTalking: true
+							},
+							"2": {
+								name: "Uday Shetty", 
+								isTalking: true
+							}
+						},
 					}
 				]
 		},

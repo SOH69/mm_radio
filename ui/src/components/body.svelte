@@ -56,11 +56,11 @@
         </div>
         <div class="flex flex-col">
             {#if $RADIODATA.onRadio}
-                <div class="text-white text-[1.5vh] font-bold">{$RADIODATA.locale.header}</div>
-                <div class="text-white text-[1vh] font-medium">{$RADIODATA.locale.frequency}: {$RADIODATA.channel} MHz</div>
-                <button class="bg-[#FF453AFF] w-full h-[2vh] text-white rounded-[0.3vw] font-bold flex justify-center items-center text-[1vh] mt-1" on:click={() => SendNUI('leave')}>{$RADIODATA.locale.disconnect}</button>
+                <div class="text-white text-[1.5vh] font-bold">{$RADIODATA.locale['ui.header']}</div>
+                <div class="text-white text-[1vh] font-medium">{$RADIODATA.locale['ui.frequency']}: {$RADIODATA.channel} MHz</div>
+                <button class="bg-[#FF453AFF] w-full h-[2vh] text-white rounded-[0.3vw] font-bold flex justify-center items-center text-[1vh] mt-1" on:click={() => SendNUI('leave')}>{$RADIODATA.locale['ui.disconnect']}</button>
             {:else}
-                <div class="text-white text-[1.5vh] font-bold">{$RADIODATA.locale.notconnected}</div>
+                <div class="text-white text-[1.5vh] font-bold">{$RADIODATA.locale['ui.notconnected']}</div>
             {/if}
         </div>
     </div>
@@ -81,15 +81,15 @@
     <div class="w-full rounded-[0.3vw] bg-[#18162F] flex py-4 text-white drop-shadow-md justify-between">
         <button class="grow flex flex-col justify-center items-center gap-[0.5vh]" on:click={changeTab('channel')}>
             <i class="fa-solid fa-list-ul"></i>
-            <span class="text-[0.8vh]">{$RADIODATA.locale.channels}</span>
+            <span class="text-[0.8vh]">{$RADIODATA.locale['ui.channels']}</span>
         </button>
         <button class="grow flex flex-col justify-center items-center gap-[0.5vh]" on:click={changeTab('connect')}>
             <i class="fa-solid fa-walkie-talkie"></i>
-            <span class="text-[0.8vh]">{$RADIODATA.locale.radio}</span>
+            <span class="text-[0.8vh]">{$RADIODATA.locale['ui.radio']}</span>
         </button>
         <button class="grow flex flex-col justify-center items-center gap-[0.5vh]" style="color:{$RADIODATA.onRadio? 'white':'#AAAFB4'}" disabled="{!$RADIODATA.onRadio}" on:click={changeTab('members')}>
             <i class="fa-solid fa-user-tag"></i>
-            <span class="text-[0.8vh]">{$RADIODATA.locale.members}</span>
+            <span class="text-[0.8vh]">{$RADIODATA.locale['ui.members']}</span>
         </button>
     </div>
 

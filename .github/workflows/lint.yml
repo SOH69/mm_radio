@@ -1,0 +1,10 @@
+name: Lint
+on: [push, pull_request]
+jobs:
+  lint:
+    name: Lint Resource
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Lint
+        uses: iLLeniumStudios/fivem-lua-lint-action@v2
