@@ -63,6 +63,9 @@ function Radio:doRadioCheck()
         end
         self.hasRadio = _hasRadio
     end
+    if not self.hasRadio and self.onRadio and Shared.Inventory then
+        self:leaveradio()
+    end
 end
 
 function Radio:leaveradio()
@@ -85,7 +88,7 @@ function Radio:update()
         userData = Radio.userData,
         time = self:CalculateTimeToDisplay(),
         street = self:getCrossroads(),
-        locale = self.locale
+        locale = self.locale.ui
     })
 end
 
@@ -161,22 +164,7 @@ lib.addKeybind({
     defaultKey = 'EQUALS',
     onPressed = function()
         if not Radio.usingRadio then
-            if Shared.Inventory and Radio.hasRadio then
-                TriggerEvent('mm_radio:client:use')
-            elseif not Shared.Inventory then
-                TriggerEvent('mm_radio:client:use')
-            end
+            TriggerEvent('mm_radio:client:use')
         end
     end
 })
-
-CreateThread(function()
-    while true do
-        Wait(1000)
-        if LocalPlayer.state.isLoggedIn then
-            if not Radio.hasRadio and Radio.onRadio and Shared.Inventory then
-                Radio:leaveradio()
-            end
-        end
-    end
-end)
