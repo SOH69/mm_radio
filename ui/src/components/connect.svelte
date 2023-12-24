@@ -63,7 +63,7 @@
             <span>0</span>
         </button>
         <button class="w-[4.5vh] h-[4.5vh] rounded-full bg-[#18162F] flex justify-center items-center" on:click={() => removeNumber()}>
-            <span class="text-[1vh]">{$RADIODATA.locale.clear}</span>
+            <span class="text-[1vh]">{$RADIODATA.locale['ui.clear']}</span>
         </button>
     </div>
 </div>
