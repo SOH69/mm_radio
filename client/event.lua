@@ -9,10 +9,13 @@ AddEventHandler('onResourceStart', function(resource)
     if GetCurrentResourceName() == resource then
         if Shared.Core == 'qb' and LocalPlayer.state.isLoggedIn  then
             Radio:QBInit()
-        elseif Shared.Core == 'qbx' and LocalPlayer.state.isLoggedIn  then
+            Radio.playerLoaded = true
+        elseif Shared.Core == 'qbx' and LocalPlayer.state.isLoggedIn then
             Radio:QboxInit()
+            Radio.playerLoaded = true
         elseif Shared.Core == 'esx' and ESX.IsPlayerLoaded() then
             Radio:ESXInit()
+            Radio.playerLoaded = true
         end
     end
 end)
