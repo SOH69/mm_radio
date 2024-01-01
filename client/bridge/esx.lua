@@ -35,12 +35,14 @@ if Shared.Core == "esx" then
     RegisterNetEvent('esx:playerLoaded', function(xPlayer)
         ESX.PlayerData = xPlayer
 	    ESX.PlayerLoaded = true
+        Radio.playerLoaded = true
         Radio:ESXInit()
     end)
 
     RegisterNetEvent('esx:onPlayerLogout', function()
         Radio.PlayerItems = {}
         Radio.hasRadio = false
+        Radio.playerLoaded = false
         Radio:leaveradio()
     end)
 
