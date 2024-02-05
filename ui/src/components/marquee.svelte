@@ -28,8 +28,12 @@
     }
 </script>
 
-<MarqueeTextWidget repeat={enabled? 2:1} paused={!enabled}>
-    <div class="mr-4">
-        {channelName}
-    </div>
-</MarqueeTextWidget>
+{#if enabled}
+    <MarqueeTextWidget>
+        <div class="mr-4">
+            {channelName}
+        </div>
+    </MarqueeTextWidget>
+{:else}
+    {channelName}
+{/if}

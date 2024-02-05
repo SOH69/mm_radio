@@ -3,13 +3,17 @@
     import '@fortawesome/fontawesome-free/css/all.min.css'
 	import { ReceiveNUI } from '@utils/ReceiveNUI'
     import { slide } from 'svelte/transition';
-    let showmsg: string = null
+    import MarqueeTextWidget from "svelte-marquee-text-widget";
+    let showmsg: string = null;
+    let timeoutTick = null
 
-    ReceiveNUI('notify', (msg: string) => {
-        showmsg = msg
-        setTimeout(() => {
+    ReceiveNUI('notify', (data: any) => {
+        showmsg = data.msg
+        clearTimeout(timeoutTick)
+        timeoutTick = setTimeout(() => {
             showmsg = null
-        }, 5000)
+            timeoutTick = null
+        }, data.duration || 5000)
     })
 
     function fadeSlide(node, options) {
@@ -22,8 +26,16 @@
 </script>
 
 {#if showmsg}
-    <div class="w-full h-[3vh] bg-[#18162F] flex items-center justify-between px-4 text-white text-[1.5vh] rounded-t-md">
-        <span transition:fadeSlide="{{duration: 300}}" class="font-bold overflow-hidden w-full text-center">{showmsg}</span>
+    <div class="w-full h-[3vh] bg-[#18162F] flex items-center justify-between px-4 text-white text-[1.5vh] rounded-t-md overflow-hidden whitespace-nowrap">
+        {#if showmsg.length >= 39}
+            <MarqueeTextWidget>
+                <div class="mr-4 font-bold w-full text-center text-[0.6vw]">
+                    {showmsg}
+                </div>
+            </MarqueeTextWidget>
+        {:else}
+            <span transition:fadeSlide="{{duration: 300}}" class="font-bold w-full text-center text-[0.6vw] overflow-hidden">{showmsg}</span>
+        {/if}
     </div>
 {:else}
     <div transition:fadeSlide="{{duration: 300}}" class="w-full h-[3vh] bg-[#18162F] flex items-center justify-between px-4 text-white text-[1.5vh] rounded-t-lg">
