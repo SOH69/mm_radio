@@ -15,7 +15,7 @@
     </div>
 </div>
 
-<div class="w-full h-[4vh] bg-[#18162F] flex px-4 pt-2 gap-[1vh]">
+<div class="w-full h-[4.2vh] bg-[#18162F] flex px-4 pt-2 gap-[1vh]">
     <button class="flex flex-col items-center justify-center grow gap-[0.2vh]" style="color: {currenttab=='favourite'? "white":"#212146"};" on:click={() => changeTab('favourite')}>
         <i class="fa-solid fa-star text-[1.8vh]"></i>
         <span class="text-[0.8vh]">{$RADIODATA.locale['ui.favorites']}</span>
