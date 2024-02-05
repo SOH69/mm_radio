@@ -72,3 +72,10 @@ RegisterNUICallback('updatePlayerListPosition', function(data, cb)
     }
     SetResourceKvp('radioSettings', json.encode(Radio.userData))
 end)
+
+RegisterNUICallback('saveData', function(data, cb)
+    Radio.userData.name = data
+    Radio:update()
+    TriggerServerEvent('mm_radio:server:addToRadioChannel', Radio.RadioChannel, data)
+    SetResourceKvp('radioSettings', json.encode(Radio.userData))
+end)

@@ -24,6 +24,7 @@ Radio = {
 	locale = lib.getLocales(),
 	userData = json.decode(GetResourceKvpString('radioSettings')) or {
 		favourite = {},
+		name = nil,
 		playerlist = {
 			show = false,
 			coords = {
@@ -34,10 +35,11 @@ Radio = {
 	}
 }
 
-if not Radio.userData.favourite then
+if not Radio.userData.name then
 	DeleteResourceKvp('radioSettings')
 	Radio.userData = {
 		favourite = {},
+		name = nil,
 		playerlist = {
 			show = false,
 			coords = {
@@ -52,6 +54,7 @@ RegisterNetEvent('mm_radio:client:removedata', function()
 	DeleteResourceKvp('radioSettings')
 	Radio.userData = {
 		favourite = {},
+		name = nil,
 		playerlist = {
 			show = false,
 			coords = {
@@ -60,9 +63,9 @@ RegisterNetEvent('mm_radio:client:removedata', function()
 			}
 		}
 	}
-	if Shared.Core == 'qb' and LocalPlayer.state.isLoggedIn  then
+	if Shared.Core == 'qb' and LocalPlayer.state.isLoggedIn then
 		Radio:QBInit()
-	elseif Shared.Core == 'qbx' and LocalPlayer.state.isLoggedIn  then
+	elseif Shared.Core == 'qbx' and LocalPlayer.state.isLoggedIn then
 		Radio:QboxInit()
 	elseif Shared.Core == 'esx' and ESX.IsPlayerLoaded() then
 		Radio:ESXInit()
