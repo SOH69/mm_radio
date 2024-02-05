@@ -22,6 +22,7 @@
         "recommended": "Empfohlen",
         "clear": "KLAR",
         "hide_overlay": "OVERLAY VERSTECKEN",
-        "show_overlay": "OVERLAY ANZEIGEN"
+        "show_overlay": "OVERLAY ANZEIGEN",
+        "save": "SPEICHERN",
     }
 }

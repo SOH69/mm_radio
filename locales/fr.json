@@ -22,6 +22,7 @@
         "recommended": "Recommandé",
         "clear": "EFFACER",
         "hide_overlay": "MASQUER LA SUPERPOSITION",
-        "show_overlay": "AFFICHER LA SUPERPOSITION"
+        "show_overlay": "AFFICHER LA SUPERPOSITION",
+        "save": "ENREGISTRER"
     }
 }
