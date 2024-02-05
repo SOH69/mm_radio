@@ -1,8 +1,8 @@
 Shared.MaxFrequency = 500.00 -- Max Limit of Radio Channel
 
 Shared.RadioNames = {
-    ["1"] = "MRPD CH#1",
-    ["1.%"] = "MRPD CH#1"
+    ["1"] = "MRPD CH#1", -- channel value 1
+    ["1.%"] = "MRPD CH#1" -- channel value 1.%%%% string formatter
 }
 
 Shared.RestrictedChannels = {
