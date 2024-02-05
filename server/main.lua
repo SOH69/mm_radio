@@ -1,11 +1,11 @@
 local channels = {}
 
-RegisterNetEvent('mm_radio:server:addToRadioChannel', function(channel)
+RegisterNetEvent('mm_radio:server:addToRadioChannel', function(channel, username)
     local src = source
     if not channels[channel] then
         channels[channel] = {}
     end
-    channels[channel][tostring(src)] = {name = GetUserName(src), isTalking = false}
+    channels[channel][tostring(src)] = {name = username, isTalking = false}
     TriggerClientEvent('mm_radio:client:radioListUpdate', -1, channels[channel], channel)
 end)
 

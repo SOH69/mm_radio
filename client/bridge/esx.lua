@@ -14,6 +14,7 @@ if Shared.Core == "esx" then
         Radio.PlayerJob = ESX.PlayerData.job.name
         Radio.PlayerGang = ESX.PlayerData.job.name
         Radio.PlayerDuty = true
+        Radio.userData.name = Radio.userData.name or ESX.PlayerData.charinfo.firstname .. " " .. ESX.PlayerData.charinfo.lastname
 
         local rec = {}
         for k, v in ipairs(Shared.RestrictedChannels) do
