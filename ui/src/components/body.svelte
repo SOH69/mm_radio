@@ -2,6 +2,7 @@
     import { SendNUI } from '../utils/SendNUI'
     import { RADIODATA } from '@store/stores';
     import '@fortawesome/fontawesome-free/css/all.min.css'
+	import Marquee from './marquee.svelte'
 
     export let changeTab;
 
@@ -57,7 +58,12 @@
         <div class="flex flex-col">
             {#if $RADIODATA.onRadio}
                 <div class="text-white text-[1.5vh] font-bold">{$RADIODATA.locale['ui.header']}</div>
-                <div class="text-white text-[1vh] font-medium">{$RADIODATA.locale['ui.frequency']}: {$RADIODATA.channel} MHz</div>
+                <div class="text-white text-[1vh] font-medium flex justify-between w-full overflow-hidden">
+                    <div class="w-[40%]">{$RADIODATA.locale['ui.frequency']}:</div>
+                    <div class="whitespace-nowrap w-[56%] overflow-hidden">
+                        <Marquee channel={$RADIODATA.channel}/> 
+                    </div>
+                </div>
                 <button class="bg-[#FF453AFF] w-full h-[2vh] text-white rounded-[0.3vw] font-bold flex justify-center items-center text-[1vh] mt-1" on:click={() => SendNUI('leave')}>{$RADIODATA.locale['ui.disconnect']}</button>
             {:else}
                 <div class="text-white text-[1.5vh] font-bold">{$RADIODATA.locale['ui.notconnected']}</div>
