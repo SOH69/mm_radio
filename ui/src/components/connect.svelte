@@ -20,7 +20,7 @@
     
 </script>
 
-<div class="w-full h-[24.8vh] flex flex-col p-4 gap-[0.8vh]">
+<div class="w-full h-[24.6vh] flex flex-col p-4 gap-[0.8vh]">
     <div class="w-full rounded-[0.3vw] h-[3.5vh] bg-[#18162F] drop-shadow-md flex items-center justify-between text-white px-4">
         <div class="font-bold text-[2vh] min-w-[1vw]">{channelnumber}</div>
         {#if channelnumber.length >= 1}

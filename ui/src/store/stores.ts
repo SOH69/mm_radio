@@ -14,7 +14,11 @@ interface IRADIODATA {
     favourite: Number[],
     recomended: Number[],
     maxChannel: number,
+    channelName: {
+        [key: string]: string
+    },
     userData: {
+        name: string,
         favourite: Number[],
         playerlist: {
 			show: boolean,

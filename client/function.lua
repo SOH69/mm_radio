@@ -1,9 +1,5 @@
-function Radio:Notify(title, description, type)
-    lib.notify({
-        title = title,
-        description = description,
-        type = type
-    })
+function Radio:Notify(msg, duration)
+    self:SendSvelteMessage("notify", {msg = msg, duration = duration or 5000})
 end
 
 function Radio:closeEvent()
@@ -42,9 +38,9 @@ function Radio:connecttoradio(channel)
         exports["pma-voice"]:setVoiceProperty("radioEnabled", true)
     end
     exports["pma-voice"]:setRadioChannel(channel)
-    TriggerServerEvent('mm_radio:server:addToRadioChannel', self.RadioChannel)
-
-    self:Notify(locale('join_notify_title'), locale('join_notify_description', channel), 'success')
+    TriggerServerEvent('mm_radio:server:addToRadioChannel', self.RadioChannel, self.userData.name)
+    
+    self:Notify(locale('join_notify_description', channel))
     if not lib.table.contains(Radio.recomended, channel) then
         Radio.recomended[#Radio.recomended+1] = channel
     end
@@ -85,7 +81,8 @@ function Radio:update()
         userData = Radio.userData,
         time = self:CalculateTimeToDisplay(),
         street = self:getCrossroads(),
-        locale = self.locale
+        locale = self.locale,
+        channelName = Shared.RadioNames
     })
 end
 
@@ -123,10 +120,10 @@ end
 
 function JoinRadio(channel)
     if not channel or channel > Shared.MaxFrequency or channel < 1 then
-        return Radio:Notify(locale('invalid_notify_title'), locale('invalid_notify_description', channel), 'error')
+        return Radio:Notify(locale('invalid_notify_description', channel))
     end
     if channel == Radio.RadioChannel then
-        return Radio:Notify(locale('already_notify_title'), locale('already_notify_description', channel), 'error')
+        return Radio:Notify(locale('already_notify_description', channel), 10000)
     end
     local connectChannel = math.floor(channel)
     if Shared.RestrictedChannels[connectChannel] then
@@ -139,7 +136,7 @@ function JoinRadio(channel)
             Radio:connecttoradio(channel)
             Radio:update()
         else
-            Radio:Notify(locale('restricted_notify_title'), locale('restricted_notify_description', channel), 'error')
+            Radio:Notify(locale('restricted_notify_description', channel), 10000)
         end
     else
         Radio:connecttoradio(channel)

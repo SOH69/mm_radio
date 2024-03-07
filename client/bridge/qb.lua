@@ -7,6 +7,7 @@ if Shared.Core == "qb" then
             Radio.PlayerItems = PlayerData.items
             Radio.PlayerDuty = PlayerData.job.onduty
         end
+        Radio.userData.name = Radio.userData.name or PlayerData.charinfo.firstname .. " " .. PlayerData.charinfo.lastname
 
         local rec = {}
         for k, v in pairs(Shared.RestrictedChannels) do
@@ -28,6 +29,7 @@ if Shared.Core == "qb" then
     RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
         Radio:QBInit()
         Radio.playerLoaded = true
+        
     end)
 
     -- Resets state on logout, in case of character change.

@@ -6,6 +6,7 @@ if Shared.Core == "qbx" then
             Radio.PlayerGang = PlayerData.gang.name
             Radio.PlayerDuty = PlayerData.job.onduty
         end
+        Radio.userData.name = Radio.userData.name or PlayerData.charinfo.firstname .. " " .. PlayerData.charinfo.lastname
 
         local rec = {}
         for k, v in pairs(Shared.RestrictedChannels) do

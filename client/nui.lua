@@ -21,7 +21,7 @@ end)
 
 RegisterNUICallback("volumeChange", function(data, cb)
     data = tonumber(data)
-    Radio:Notify(locale('volume_notify_title'), locale('volume_notify_description', data), 'success')
+    Radio:Notify(locale('volume_notify_description', data))
 	exports["pma-voice"]:setRadioVolume(data)
     Radio.Volume = data
     cb('ok')
@@ -70,5 +70,12 @@ RegisterNUICallback('updatePlayerListPosition', function(data, cb)
         x = data.x,
         y = data.y
     }
+    SetResourceKvp('radioSettings', json.encode(Radio.userData))
+end)
+
+RegisterNUICallback('saveData', function(data, cb)
+    Radio.userData.name = data
+    Radio:update()
+    TriggerServerEvent('mm_radio:server:addToRadioChannel', Radio.RadioChannel, data)
     SetResourceKvp('radioSettings', json.encode(Radio.userData))
 end)

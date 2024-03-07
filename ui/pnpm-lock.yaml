@@ -8,6 +8,9 @@ dependencies:
   '@fortawesome/fontawesome-free':
     specifier: ^6.4.2
     version: 6.4.2
+  svelte-marquee-text-widget:
+    specifier: ^1.1.0
+    version: 1.1.0
 
 devDependencies:
   '@sveltejs/vite-plugin-svelte':
@@ -1008,6 +1011,10 @@ packages:
     dependencies:
       svelte: 3.48.0
     dev: true
+
+  /svelte-marquee-text-widget@1.1.0:
+    resolution: {integrity: sha512-mBO3fBA++Xwn7P1VdgeH4OI+MrulxxNrGwdX7NVA1GU1ZCyrQUcb7AD8V3s6s2ZWW3cRXVhbBmgXW+aABYV9kA==}
+    dev: false
 
   /svelte-preprocess@4.10.7(postcss@8.4.14)(svelte@3.48.0)(typescript@4.7.3):
     resolution: {integrity: sha512-sNPBnqYD6FnmdBrUmBCaqS00RyCsCpj2BG58A1JBswNF7b0OKviwxqVrOL/CKyJrLSClrSeqQv5BXNg2RUbPOw==}

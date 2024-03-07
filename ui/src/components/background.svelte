@@ -21,7 +21,7 @@
     });
 </script>
 
-<div class="w-[17vw] h-[61vh] absolute right-0 px-10 z-[10]" style="bottom: {$bottom}vh;">
-    <img alt='bg' src={radio} class="z-[10] relative w-full h-full">
+<div class="w-[17vw] h-[61vh] absolute right-0 px-10" style="bottom: {$bottom}vh;">
+    <img alt='bg' src={radio} class="z-[8] relative w-full h-full">
     <Radio  />
 </div>

@@ -5,6 +5,7 @@
     import Header from "./header.svelte"
 	import Playerlist from "./playerlist.svelte"
     import { SHOW, SHOWFORCEPLAYERLIST } from "@store/stores"
+	import Setting from "./setting.svelte"
 
     let tab = 'home'
 
@@ -29,7 +30,7 @@
 
 </script>
 
-<div class='w-[9vw] h-[27.3vh] bg-[#212146] relative left-[2.7vw] bottom-[35.5vh] z-[11] flex flex-col md:w-[9.5vw]'>
+<div class='w-[9vw] h-[27.3vh] bg-[#212146] relative left-[2.7vw] bottom-[35.5vh] z-[9] flex flex-col rounded-b-lg'>
     <Header />
     {#if tab=='home'}
         <Body changeTab={changeTab}/>
@@ -38,7 +39,9 @@
     {:else if tab=='connect'}
         <Connect />
     {:else if tab=='members'}
-        <Playerlist />
+        <Playerlist changeTab={changeTab}/>
+    {:else if tab=='setting'}
+        <Setting changeTab={changeTab}/>
     {/if}
 </div>
 
