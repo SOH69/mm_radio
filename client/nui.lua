@@ -37,7 +37,7 @@ RegisterNUICallback('addFav', function(data, cb)
     if Radio.RadioChannel == data then
         Radio.favourite[#Radio.favourite+1] = data
         Radio.userData.favourite[#Radio.userData.favourite+1] = data
-        SetResourceKvp('radioSettings', json.encode(Radio.userData))
+        SetResourceKvp('radioSettings182', json.encode(Radio.userData))
     end
     cb("ok")
 end)
@@ -55,14 +55,15 @@ RegisterNUICallback('removeFav', function(data, cb)
                 table.remove(Radio.userData.favourite, index)
             end
         end
-        SetResourceKvp('radioSettings', json.encode(Radio.userData))
+        SetResourceKvp('radioSettings182', json.encode(Radio.userData))
     end
     cb("ok")
 end)
 
 RegisterNUICallback('showPlayerList', function(data, cb)
     Radio.userData.playerlist.show = data
-    SetResourceKvp('radioSettings', json.encode(Radio.userData))
+    SetResourceKvp('radioSettings182', json.encode(Radio.userData))
+    cb("ok")
 end)
 
 RegisterNUICallback('updatePlayerListPosition', function(data, cb)
@@ -70,12 +71,16 @@ RegisterNUICallback('updatePlayerListPosition', function(data, cb)
         x = data.x,
         y = data.y
     }
-    SetResourceKvp('radioSettings', json.encode(Radio.userData))
+    SetResourceKvp('radioSettings182', json.encode(Radio.userData))
+    cb("ok")
 end)
 
 RegisterNUICallback('saveData', function(data, cb)
-    Radio.userData.name = data
+    local identifier = GetIdentifier()
+    if not identifier then return Radio:Notify(locale('unsuccess_name', channel)) end
+    Radio.userData.name[identifier] = data
     Radio:update()
     TriggerServerEvent('mm_radio:server:addToRadioChannel', Radio.RadioChannel, data)
-    SetResourceKvp('radioSettings', json.encode(Radio.userData))
+    SetResourceKvp('radioSettings182', json.encode(Radio.userData))
+    cb("ok")
 end)
