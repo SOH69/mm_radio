@@ -30,8 +30,12 @@ function Radio:getCrossroads()
 end
 
 function Radio:connecttoradio(channel)
+    if self.RadioChannel ~= 0 then
+        TriggerServerEvent('mm_radio:server:removeFromRadioChannel', self.RadioChannel)
+    end
     self.RadioChannel = channel
     if Radio.onRadio then
+        self.RadioChannel = 0
         exports["pma-voice"]:setRadioChannel(0)
     else
         Radio.onRadio = true
