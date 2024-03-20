@@ -4,6 +4,7 @@
     "already_notify_description": "Du bist bereits der Station %.2f MHz beigetreten",
     "restricted_notify_description": "Du darfst nicht der Station %.2f MHz beitreten",
     "volume_notify_description": "Lautstärke auf %d%% gesetzt",
+    "unsuccess_name": "Fehler beim Ändern des Namens",
     
     "ui": {
         "header": "IM RADIO",

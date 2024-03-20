@@ -4,6 +4,7 @@
     "already_notify_description": "Vous avez déjà rejoint la station %.2f MHz",
     "restricted_notify_description": "Vous n'êtes pas autorisé à rejoindre la station %.2f MHz",
     "volume_notify_description": "Volume réglé sur %d%%",
+    "unsuccess_name": "Impossible de changer le nom",
     
     "ui": {
         "header": "À LA RADIO",

@@ -4,6 +4,7 @@
     "already_notify_description": "Ya estás unido a la estación %.2f MHz",
     "restricted_notify_description": "No se te permite unirte a la estación %.2f MHz",
     "volume_notify_description": "Volumen establecido en %d%%",
+    "unsuccess_name": "No se pudo cambiar el nombre",
     
     "ui": {
         "header": "EN RADIO",
