@@ -14,7 +14,7 @@ if Shared.Core == "esx" then
         Radio.PlayerJob = ESX.PlayerData.job.name
         Radio.PlayerGang = ESX.PlayerData.job.name
         Radio.PlayerDuty = true
-        Radio.userData.name = Radio.userData.name or ESX.PlayerData.firstName .. " " .. ESX.PlayerData.lastName
+        Radio.radioName = Radio.userData.name[ESX.PlayerData.identifier] or ESX.PlayerData.firstName .. " " .. ESX.PlayerData.lastName
 
         local rec = {}
         for k, v in ipairs(Shared.RestrictedChannels) do
@@ -58,4 +58,8 @@ if Shared.Core == "esx" then
             Radio:leaveradio()
         end
     end)
+
+    function GetIdentifier()
+        return ESX.PlayerData.identifier
+    end
 end

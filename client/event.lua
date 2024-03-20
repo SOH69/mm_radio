@@ -40,6 +40,7 @@ RegisterNetEvent('mm_radio:client:use', function()
         favourite = Radio.favourite,
         recomended = Radio.recomended,
         userData = Radio.userData,
+        radioName = Radio.radioName,
         time = Radio:CalculateTimeToDisplay(),
         street = Radio:getCrossroads(),
         maxChannel = Shared.MaxFrequency,

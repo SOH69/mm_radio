@@ -38,7 +38,7 @@ function Radio:connecttoradio(channel)
         exports["pma-voice"]:setVoiceProperty("radioEnabled", true)
     end
     exports["pma-voice"]:setRadioChannel(channel)
-    TriggerServerEvent('mm_radio:server:addToRadioChannel', self.RadioChannel, self.userData.name)
+    TriggerServerEvent('mm_radio:server:addToRadioChannel', self.RadioChannel, self.radioName)
     
     self:Notify(locale('join_notify_description', channel))
     if not lib.table.contains(Radio.recomended, channel) then
@@ -79,6 +79,7 @@ function Radio:update()
         favourite = Radio.favourite,
         recomended = Radio.recomended,
         userData = Radio.userData,
+        radioName = Radio.radioName,
         time = self:CalculateTimeToDisplay(),
         street = self:getCrossroads(),
         locale = self.locale,

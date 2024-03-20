@@ -22,9 +22,10 @@ Radio = {
 	street = "Unknown",
 	talkingList = {},
 	locale = lib.getLocales(),
-	userData = json.decode(GetResourceKvpString('radioSettings')) or {
+	radioName = "Master Mind",
+	userData = json.decode(GetResourceKvpString('radioSettings182')) or {
 		favourite = {},
-		name = nil,
+		name = {},
 		playerlist = {
 			show = false,
 			coords = {
@@ -35,26 +36,11 @@ Radio = {
 	}
 }
 
-if not Radio.userData.name then
-	DeleteResourceKvp('radioSettings')
-	Radio.userData = {
-		favourite = {},
-		name = nil,
-		playerlist = {
-			show = false,
-			coords = {
-				x = 15.0,
-				y = 40.0
-			}
-		}
-	}
-end
-
 RegisterNetEvent('mm_radio:client:removedata', function()
-	DeleteResourceKvp('radioSettings')
+	DeleteResourceKvp('radioSettings182')
 	Radio.userData = {
 		favourite = {},
-		name = nil,
+		name = {},
 		playerlist = {
 			show = false,
 			coords = {
@@ -63,6 +49,7 @@ RegisterNetEvent('mm_radio:client:removedata', function()
 			}
 		}
 	}
+	SetResourceKvp('radioSettings182', json.encode(Radio.userData))
 	if Shared.Core == 'qb' and LocalPlayer.state.isLoggedIn then
 		Radio:QBInit()
 	elseif Shared.Core == 'qbx' and LocalPlayer.state.isLoggedIn then
