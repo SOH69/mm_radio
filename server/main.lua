@@ -23,7 +23,7 @@ AddEventHandler("playerDropped", function()
     for id, channel in pairs (channels) do
         if channel[tostring(plyid)] then
             channels[id][tostring(plyid)] = nil
-            TriggerClientEvent('mm_radio:client:radioListUpdate', -1, channels[id], channel)
+            TriggerClientEvent('mm_radio:client:radioListUpdate', -1, channels[id], id)
             break
         end
     end
