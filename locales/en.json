@@ -5,6 +5,7 @@
     "restricted_notify_description": "You are not allowed to join Station %.2f MHz",
     "volume_notify_description": "Volume set to %d%%",
     "unsuccess_name": "Failed To Change Name",
+    "jammer_notify_description": "Failed to Connect to Station %.2f MHz",
     
     "ui": {
         "header": "IN RADIO",

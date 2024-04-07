@@ -36,8 +36,8 @@ RegisterNUICallback('addFav', function(data, cb)
     data = tonumber(data)
     if Radio.RadioChannel == data then
         Radio.favourite[#Radio.favourite+1] = data
-        Radio.userData.favourite[#Radio.userData.favourite+1] = data
-        SetResourceKvp('radioSettings182', json.encode(Radio.userData))
+        Radio.userData[Radio.identifier].favourite[#Radio.userData[Radio.identifier].favourite+1] = data
+        SetResourceKvp('radioSettings2', json.encode(Radio.userData))
     end
     cb("ok")
 end)
@@ -50,37 +50,51 @@ RegisterNUICallback('removeFav', function(data, cb)
                 table.remove(Radio.favourite, index)
             end
         end
-        for index, val in ipairs(Radio.userData.favourite) do
+        for index, val in ipairs(Radio.userData[Radio.identifier].favourite) do
             if val == data then
-                table.remove(Radio.userData.favourite, index)
+                table.remove(Radio.userData[Radio.identifier].favourite, index)
             end
         end
-        SetResourceKvp('radioSettings182', json.encode(Radio.userData))
+        SetResourceKvp('radioSettings2', json.encode(Radio.userData))
     end
     cb("ok")
 end)
 
 RegisterNUICallback('showPlayerList', function(data, cb)
-    Radio.userData.playerlist.show = data
-    SetResourceKvp('radioSettings182', json.encode(Radio.userData))
+    Radio.userData[Radio.identifier].playerlist.show = data
+    SetResourceKvp('radioSettings2', json.encode(Radio.userData))
     cb("ok")
 end)
 
 RegisterNUICallback('updatePlayerListPosition', function(data, cb)
-    Radio.userData.playerlist.coords = {
+    Radio.userData[Radio.identifier].playerlist.coords = {
         x = data.x,
         y = data.y
     }
-    SetResourceKvp('radioSettings182', json.encode(Radio.userData))
+    SetResourceKvp('radioSettings2', json.encode(Radio.userData))
+    cb("ok")
+end)
+
+RegisterNUICallback('updateRadioPosition', function(data, cb)
+    Radio.userData[Radio.identifier].radio.coords = data
+    SetResourceKvp('radioSettings2', json.encode(Radio.userData))
+    cb("ok")
+end)
+
+RegisterNUICallback('updateRadioSize', function(data, cb)
+    Radio.userData[Radio.identifier].radioSizeMultiplier = data.radio
+    Radio.userData[Radio.identifier].overlaySizeMultiplier = data.overlay
+    SetResourceKvp('radioSettings2', json.encode(Radio.userData))
     cb("ok")
 end)
 
 RegisterNUICallback('saveData', function(data, cb)
-    local identifier = GetIdentifier()
+    local player = Framework.core.getPlayerData()
+    local identifier = player.cid
     if not identifier then return Radio:Notify(locale('unsuccess_name', channel)) end
-    Radio.userData.name[identifier] = data
+    Radio.userData[Radio.identifier].name = data
     Radio:update()
     TriggerServerEvent('mm_radio:server:addToRadioChannel', Radio.RadioChannel, data)
-    SetResourceKvp('radioSettings182', json.encode(Radio.userData))
+    SetResourceKvp('radioSettings2', json.encode(Radio.userData))
     cb("ok")
 end)

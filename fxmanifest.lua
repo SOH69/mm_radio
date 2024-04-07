@@ -2,7 +2,7 @@ fx_version 'cerulean'
 game "gta5"
 
 author "Master Mind"
-version '1.8.2'
+version '2.0'
 
 lua54 'yes'
 
@@ -15,15 +15,16 @@ shared_script {
 }
 
 client_script {
+  '@bl_bridge/imports/client.lua',
   'client/interface.lua',
   'client/function.lua',
-  'client/bridge/*.lua',
   'client/event.lua',
   'client/nui.lua'
 }
 
 server_script {
-  "server/**",
+  '@bl_bridge/imports/server.lua',
+  "server/main.lua",
 }
 
 files {
@@ -33,5 +34,7 @@ files {
 
 dependencies {
   'pma-voice',
-  'ox_lib'
+  'ox_lib',
+  '/onesync',
+  'bl_bridge'
 }

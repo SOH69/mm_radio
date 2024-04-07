@@ -5,6 +5,7 @@
     "restricted_notify_description": "Vous n'êtes pas autorisé à rejoindre la station %.2f MHz",
     "volume_notify_description": "Volume réglé sur %d%%",
     "unsuccess_name": "Impossible de changer le nom",
+    "jammer_notify_description": "Vous avez été brouillé par la station %.2f MHz",
     
     "ui": {
         "header": "À LA RADIO",

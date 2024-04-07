@@ -39,6 +39,12 @@
 		SHOW.set(false)
 	})
 
+	ReceiveNUI<boolean>('insideJammer', (state: boolean) => {
+		RADIODATA.update((old: any) => {
+			return { ...old, insideJammerZone: state }
+		})
+	})
+
 	ReceiveNUI('setBrowserMode', (data: boolean) => {
 		BROWSER_MODE.set(data)
 		console.log('browser mode enabled')

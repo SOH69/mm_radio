@@ -26,3 +26,9 @@ html, body {
 .no-scrollbar::-webkit-scrollbar {
     display: none;
 }
+
+.focus-fix {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden; /* for Safari */
+    -webkit-font-smoothing: subpixel-antialiased;
+}

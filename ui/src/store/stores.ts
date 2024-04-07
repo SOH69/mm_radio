@@ -19,6 +19,8 @@ interface IRADIODATA {
     },
     userData: {
         name: string,
+        overlaySizeMultiplier: number,
+        radioSizeMultiplier: number,
         favourite: Number[],
         playerlist: {
 			show: boolean,
@@ -26,10 +28,18 @@ interface IRADIODATA {
 				x: number,
 				y: number
 			}
-		}
+		},
+        radio: {
+            coords: {
+                x: number,
+                y: number
+            }
+        }
     },
     time: string,
     street: string,
+    insideJammerZone: boolean,
+    battery: number,
     locale: {
         [key: string]: string
     }
@@ -43,3 +53,4 @@ export const SHOWFORCEPLAYERLIST = writable<boolean>(false);
 export const RADIODATA = writable<IRADIODATA>(null);
 export const BROWSER_MODE = writable<boolean>(false);
 export const RESOURCE_NAME = writable<string>("");
+export const MOVERADIO = writable<boolean>(false);

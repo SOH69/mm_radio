@@ -10,30 +10,48 @@ pnpm run build
 ```
 
 ## PREVIEW:
-![image](https://cdn.discordapp.com/attachments/1157002364599943219/1161040806212276224/20231010023913_1.jpg?ex=6536da83&is=65246583&hm=079270e252cfd45227ac532b39c5105b2e33f1e133e47c15ed1a8446b4a66c42&)
-![image](https://imgur.com/D4G1Mgf.png)
-![image](https://imgur.com/CBvLgY4.png)
-![image](https://imgur.com/VyqOJd0.png)
+![image](https://imgur.com/yCTqYt5.png)
+![image](https://imgur.com/bCqA0PD.png)
+![image](https://imgur.com/1AfG7YP.png)
+![image](https://imgur.com/6pJxXz5.png)
+![image](https://imgur.com/xlg8Lrh.png)
 
 # DEPENDENCIES :  
-1. [ox_libs](https://github.com/overextended/ox_lib)
-2. Onesync
-3. QBCore(for job list)
-4. [PMA_VOICE](https://github.com/AvarianKnight/pma-voice)
+1. [ox_lib](https://github.com/overextended/ox_lib)
+2. [pma-voice](https://github.com/AvarianKnight/pma-voice)
+3. [bl_bridge](https://github.com/Byte-Labs-Studio/bl_bridge)
+4. QBCore/ESX/QBox/ND/Standalone(for job list)
+5. Onesync
 
 # FEATURES:
-1. New Radio UI
-2. Player Configarble Overlay for Player list on Radio Channel
-3. Submix Effect in radio channel
-4. Customizable Restrict Channel with job/gang
-5. 0 resmon highly optimized
+### Radio Features
+- New Radio UI
+- Submix Effect in radio channel
+- Customizable Restrict Channel with job/gang
+- 0 resmon highly optimized
+- You can now Move, Resize Radio UI
+- You can now change the Radio Channel Display Name
+- New Configurable Radio Battery System
+- Inbuilt Notify System
+
+### Overlay Features
+- Players Can Configurable Position of Overlay
+- Players Can Configurable Size of Overlay Names
+- Players Can Configurable their Display Name in Overlay(server synced)
+
+### Jammer Features
+- Player can place the jammer and remove anywhere
+- Server can set default jammer locations
+- Player can Configurable Every Jammer Range
+- Jammer can be configured to allow specific frequencies to pass through
+
 
 # EXPORTS:
 1. `exports["mm_radio"]:JoinRadio(channel: number)`
 2. `exports["mm_radio"]:LeaveRadio()`
 
 # GUIDE:
-Follow the Shared Lua and change the requireds
+https://master-mind-store.gitbook.io/dashboard/free-release/radio
 
 ## Discord
 https://discord.gg/Au4uAT3frK

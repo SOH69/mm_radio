@@ -26,6 +26,8 @@
 							recomended: [420, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0],
 							userData: {
 								name: "Uday Shetty",
+								overlaySizeMultiplier: 50,
+								radioSizeMultiplier: 50,
 								playerlist: {
 									show: true,
 									coords: {
@@ -33,6 +35,12 @@
 										y: 40,
 									},
 								},
+								radio: {
+									coords: {
+										x: 10,
+										y: 15,
+									},
+								}
 							},
 							channelName: {
 								"1": "MRPD CHANNEL 1",
@@ -42,6 +50,7 @@
 							time: "18:46",
 							street: "Mirror Park Boulevard",
 							maxChannel: 500,
+							insideJammerZone: true,
 							locale: {
 								"ui.header": "IN RADIO",
 								"ui.frequency": "Frequency",
@@ -80,7 +89,35 @@
 							"2": {
 								name: "Uday Shetty", 
 								isTalking: true
-							}
+							},
+							"3": {
+								name: "Uday Shetty", 
+								isTalking: true
+							},
+							"4": {
+								name: "Uday Shetty", 
+								isTalking: true
+							},
+							"5": {
+								name: "Uday Shetty", 
+								isTalking: true
+							},
+							"6": {
+								name: "Uday Shetty", 
+								isTalking: true
+							},
+							"7": {
+								name: "Uday Shetty", 
+								isTalking: true
+							},
+							"8": {
+								name: "Uday Shetty", 
+								isTalking: true
+							},
+							"9": {
+								name: "Uday Shetty", 
+								isTalking: true
+							},
 						},
 					},
 					{
@@ -96,7 +133,10 @@
 					{
 						name: "toggle",
 						action: "notify",
-						data: 'Hello World',
+						data: {
+							msg: 'Hello World',
+							duration: 5000
+						}
 					}
 				]
 		}

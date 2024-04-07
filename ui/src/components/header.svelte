@@ -26,21 +26,31 @@
 </script>
 
 {#if showmsg}
-    <div class="w-full h-[3vh] bg-[#18162F] flex items-center justify-between px-4 text-white text-[1.5vh] rounded-t-md overflow-hidden whitespace-nowrap">
-        {#if showmsg.length >= 39}
+    <div class="w-full h-[33px] bg-[#18162F] flex items-center justify-between px-4 text-white text-[16px] rounded-t-md overflow-hidden whitespace-nowrap">
+        {#if showmsg.length >= 26}
             <MarqueeTextWidget>
-                <div class="mr-4 font-bold w-full text-center text-[0.6vw]">
+                <div class="mr-4 font-bold w-full text-center text-[12px]">
                     {showmsg}
                 </div>
             </MarqueeTextWidget>
         {:else}
-            <span transition:fadeSlide="{{duration: 300}}" class="font-bold w-full text-center text-[0.6vw] overflow-hidden">{showmsg}</span>
+            <span transition:fadeSlide="{{duration: 300}}" class="font-bold w-full text-center text-[12px] overflow-hidden">{showmsg}</span>
         {/if}
     </div>
 {:else}
-    <div transition:fadeSlide="{{duration: 300}}" class="w-full h-[3vh] bg-[#18162F] flex items-center justify-between px-4 text-white text-[1.5vh] rounded-t-lg">
-        <i class="fa-solid fa-satellite-dish animate-pulse animate-infinite animate-duration-100"></i>
+    <div transition:fadeSlide="{{duration: 300}}" class="w-full h-[32px] bg-[#18162F] flex items-center justify-between px-4 text-white text-[16px] rounded-t-lg">
+        <i class="fa-solid fa-satellite-dish animate-pulse animate-infinite animate-duration-100" style="color: {$RADIODATA.insideJammerZone? 'rgb(239 68 68)' : 'white' };"></i>
         <span class="font-bold">{$RADIODATA.time}</span>
-        <i class="fa-solid fa-battery-full"></i>
+        {#if $RADIODATA.battery >= 80}
+            <i class="fa-solid fa-battery-full"></i>
+        {:else if $RADIODATA.battery >= 60}
+            <i class="fa-solid fa-battery-three-quarters"></i>
+        {:else if $RADIODATA.battery >= 40}
+            <i class="fa-solid fa-battery-half"></i>
+        {:else if $RADIODATA.battery >= 20}
+            <i class="fa-solid fa-battery-quarter"></i>
+        {:else}
+            <i class="fa-solid fa-battery-empty"></i>
+        {/if}
     </div>
 {/if}

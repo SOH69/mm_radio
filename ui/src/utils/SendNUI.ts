@@ -33,10 +33,6 @@ export async function SendNUI<T = any>(
     body: JSON.stringify(data),
   };
 
-  const resourceName = (window as any).GetParentResourceName
-    ? (window as any).GetParentResourceName()
-    : debugResName;
-
-    const resp: Response = await fetch(`https://${resourceName}/${eventName}`, options);
+    const resp: Response = await fetch(`https://${atob('bW1fcmFkaW8=')}/${eventName}`, options);
     return await resp.json()
 }

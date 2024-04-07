@@ -4,7 +4,7 @@
 	import DebugBrowser from '@providers/DebugBrowser.svelte'
 	import AlwaysListener from '@providers/AlwaysListener.svelte'
 
-	$RESOURCE_NAME = 'radio' // Change this to your resource name (case sensitive)
+	$RESOURCE_NAME = 'mm_radio' // Change this to your resource name (case sensitive)
 </script>
 
 <VisibilityProvider>
@@ -21,7 +21,7 @@
 
 <style>
 	.dev-image {
-		background-image: url('https://cdn.discordapp.com/attachments/1068663854143389788/1074878298498281554/HUD_-_Target_Menu.png');
+		background-image: url('https://i.imgur.com/3pzRj9n.png');
 		background-size: cover;
 		background-repeat: no-repeat;
 		background-position: center;
