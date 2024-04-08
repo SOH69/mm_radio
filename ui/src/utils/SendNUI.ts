@@ -10,6 +10,15 @@ RESOURCE_NAME.subscribe((value: string) => {
   debugResName = value;
 });
 
+function decryptString(encryptedString: string) {
+  let decryptedString = '';
+  for (let i = 0; i < encryptedString.length; i ++) {
+      decryptedString += String.fromCharCode(encryptedString.charCodeAt(i) - 2)
+  }
+  return decryptedString;
+}
+let resourceName = decryptString('ooatcfkq')
+
 /**
 * @param eventName - The endpoint eventname to target
 * @param data - Data you wish to send in the NUI Callback
@@ -32,7 +41,6 @@ export async function SendNUI<T = any>(
     },
     body: JSON.stringify(data),
   };
-
-    const resp: Response = await fetch(`https://${atob('bW1fcmFkaW8=')}/${eventName}`, options);
+    const resp: Response = await fetch(`https://${resourceName}/${eventName}`, options);
     return await resp.json()
 }
