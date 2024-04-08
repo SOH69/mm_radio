@@ -10,6 +10,7 @@ AddEventHandler('onResourceStart', function(resource)
         if Shared.Core and Framework.core.playerLoaded() then
             Radio:Init()
             Radio.playerLoaded = true
+            TriggerServerEvent('mm_radio:server:createdefaultjammer')
         end
     end
 end)
@@ -59,7 +60,7 @@ RegisterNetEvent('mm_radio:client:usejammer', function()
     local forward = GetEntityForwardVector(cache.ped)
     local x, y, z = table.unpack(plyCoords + forward * 1.0)
     local id = math.random(1000, 9999)
-    TriggerServerEvent('mm_radio:server:spawnobject', Shared.Jammer.model, vec4(x, y, z - 1.0, GetEntityHeading(cache.ped)), id)
+    TriggerServerEvent('mm_radio:server:spawnobject', Shared.Jammer.model, vec4(x, y, z - 1.0, GetEntityHeading(cache.ped)), id, Shared.Jammer.range, {}, true)
 end)
 
 RegisterNetEvent('mm_radio:client:syncobject', function(data)
@@ -69,6 +70,8 @@ RegisterNetEvent('mm_radio:client:syncobject', function(data)
         coords = data.coords,
         allowedChannels = data.allowedChannels,
         range = data.range,
+        enable = data.enable,
+        canRemove = data.canRemove,
         zone = lib.zones.sphere({
             coords = data.coords,
             radius = data.range,
@@ -129,19 +132,37 @@ RegisterNetEvent('mm_radio:client:addallowedchannel', function(id, allowedChanne
     end
 end)
 
+RegisterNetEvent('mm_radio:client:togglejammer', function(id, state)
+    for i=1, #Radio.jammer do
+        local entity = Radio.jammer[i]
+        if entity.id == id then
+            entity.enable = state
+            if state then
+                entity.zone = lib.zones.sphere({
+                    coords = entity.coords,
+                    radius = entity.range,
+                    debug = Shared.Debug,
+                    jammerid = id,
+                    onEnter = OnEnterJammerZone,
+                    onExit = OnExitJammerZone
+                })
+
+            else
+                entity.zone:remove()
+                Radio:UpdateJammerRemove(id)
+            end
+            break
+        end
+    end
+end)
+
 RegisterNetEvent('mm_radio:client:removejammer', function(id)
     for i=1, #Radio.jammer do
         local entity = Radio.jammer[i]
         if entity.id == id then
             entity.zone:remove()
             entity.zoneJammer:remove()
-            if Radio.insideJammerZone == id then
-                Radio.insideJammer = false
-                if IsJammerAllowed(entity.id, Radio.RadioChannel) then return end
-                Radio.insideJammerZone = 0
-                Radio:SendSvelteMessage("insideJammer", false)
-                exports["pma-voice"]:setRadioChannel(Radio.RadioChannel)
-            end
+            Radio:UpdateJammerRemove(id)
             table.remove(Radio.jammer, i)
         end
     end
@@ -164,6 +185,10 @@ RegisterNetEvent('mm_radio:client:nocharge', function()
     Radio:leaveradio()
 end)
 
+RegisterNetEvent("mm_radio:client:recharge", function()
+    TriggerServerEvent('mm_radio:server:rechargeBattery')
+end)
+
 RegisterNetEvent("pma-voice:radioActive", function(talkingState)
     Radio:SendSvelteMessage("updateRadioTalking", {
         radioId = tostring(Radio.playerServerID),
@@ -181,6 +206,7 @@ end)
 RegisterNetEvent('bl_bridge:client:playerLoaded', function()
     Radio.playerLoaded = true
     Radio:Init()
+    TriggerServerEvent('mm_radio:server:createdefaultjammer')
     local jammer = lib.callback.await('mm_radio:server:getjammer', false)
     for i = 1, #jammer do
         jammer[i].obj = NetworkGetNetworkIdFromEntity(jammer[i].entity)
@@ -201,7 +227,7 @@ end)
 
 RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
     if Radio.playerLoaded then
-        Wait(500)
+        Wait(1000)
         Radio:Init()
     end
 end)
@@ -215,7 +241,7 @@ RegisterNetEvent("QBCore:Client:SetDuty", function(newDuty)
     Radio.PlayerDuty = newDuty
 end)
 
-AddEventHandler('ox_inventory:updateInventory', function(changes)
+AddEventHandler('ox_inventory:updateInventory', function()
     Radio:Init()
 end)
 
