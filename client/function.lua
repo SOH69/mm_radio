@@ -197,9 +197,19 @@ function Radio:OpenJammerConfig(id)
                     icon = 'fa-tower-cell'
                 },
                 {
+                    title = 'Toggle Jammer Switch',
+                    description = 'Turn On/Off this jammer, Current State: '..(Radio.jammer[i].enable and 'Enabled' or 'Disabled'),
+                    icon = 'fa-toggle-on',
+                    onSelect = function ()
+                        TriggerServerEvent('mm_radio:server:togglejammer', Radio.jammer[i].id)
+                        Framework.textui.showTextUI('[E] Configure Jammer')
+                    end
+                },
+                {
                     title = 'Remove Jammer',
                     description = 'Remove this jammer',
                     icon = 'fa-trash',
+                    disabled = not Radio.jammer[i].canRemove,
                     onSelect = function ()
                         TriggerServerEvent('mm_radio:server:removejammer', Radio.jammer[i].id)
                     end
@@ -209,8 +219,9 @@ function Radio:OpenJammerConfig(id)
                     description = 'Change the range of this jammer',
                     icon = 'fa-ruler',
                     onSelect = function ()
+                        Framework.textui.showTextUI('[E] Configure Jammer')
                         local input = lib.inputDialog('Jammer Configuration', {
-                            {type = 'slider', label = 'Change Jammer Range', description = 'Change the range of this jammer', icon = 'fa-ruler', min = 10, max = 100, step = 10, default = Radio.jammer[i].range},
+                            {type = 'slider', label = 'Change Jammer Range', description = 'Change the range of this jammer', icon = 'fa-ruler', min = 10, max = 100, step = 5, default = Radio.jammer[i].range},
                         })
                         if not input then return end
                         TriggerServerEvent('mm_radio:server:changeJammerRange', Radio.jammer[i].id, input[1])
@@ -236,6 +247,7 @@ function Radio:OpenJammerConfig(id)
                                 onSelect = function ()
                                     table.remove(Radio.jammer[i].allowedChannels, j)
                                     TriggerServerEvent('mm_radio:server:removeallowedchannel', Radio.jammer[i].id, Radio.jammer[i].allowedChannels)
+                                    Framework.textui.showTextUI('[E] Configure Jammer')
                                 end
                             }
                         end
@@ -250,6 +262,7 @@ function Radio:OpenJammerConfig(id)
                                 if not input then return end
                                 table.insert(Radio.jammer[i].allowedChannels, input[1])
                                 TriggerServerEvent('mm_radio:server:addallowedchannel', Radio.jammer[i].id, Radio.jammer[i].allowedChannels)
+                                Framework.textui.showTextUI('[E] Configure Jammer')
                             end
                         }
                         Framework.context.openContext(options)
@@ -269,6 +282,16 @@ function Radio:UpdateJammerZone(id, allowedChannels)
         self:SendSvelteMessage("insideJammer", true)
         exports["pma-voice"]:setRadioChannel(0)
     else
+        self.insideJammerZone = 0
+        self:SendSvelteMessage("insideJammer", false)
+        exports["pma-voice"]:setRadioChannel(self.RadioChannel)
+    end
+end
+
+function Radio:UpdateJammerRemove(id)
+    if self.insideJammerZone == id then
+        self.insideJammer = false
+        if IsJammerAllowed(id, self.RadioChannel) then return end
         self.insideJammerZone = 0
         self:SendSvelteMessage("insideJammer", false)
         exports["pma-voice"]:setRadioChannel(self.RadioChannel)
