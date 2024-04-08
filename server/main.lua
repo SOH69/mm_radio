@@ -1,13 +1,7 @@
 local channels = {}
 local jammer = {}
 local batteryData = {}
-
-local function CreateDefaultJammer()
-    for i=1, #Shared.Jammer.default do
-        local data = Shared.Jammer.default[i]
-        TriggerEvent('mm_radio:server:spawnobject', Shared.Jammer.model, data.coords, data.id, data.range, data.allowedChannels)
-    end
-end
+local spawnedDefaultJammer = false
 
 RegisterNetEvent('mm_radio:server:consumeBattery', function(data)
     for i=1, #data do
@@ -21,26 +15,61 @@ RegisterNetEvent('mm_radio:server:consumeBattery', function(data)
     end
 end)
 
-RegisterNetEvent('mm_radio:server:rechargeBattery', function(src)
+RegisterNetEvent('mm_radio:server:rechargeBattery', function()
+    local src = source
     local player = Framework.core.GetPlayer(src)
     local item = player.getItem('radio')
-    local id = item[Shared.Inventory == 'ox' and 'metadata' or 'info']?.radioId or false
+    local id = item.metadata?.radioId or false
     if not id then return end
     batteryData[id] = 100
+    player.removeItem('radiocell', 1)
 end)
 
-RegisterNetEvent('mm_radio:server:spawnobject', function(model, coords, id, range, allowedChannels)
+RegisterNetEvent('mm_radio:server:spawnobject', function(model, coords, id, range, allowedChannels, canRemove)
+    local src = source
 	CreateThread(function()
 		local entity = CreateObject(joaat(model), coords.x, coords.y, coords.z, true, true, false)
 		while not DoesEntityExist(entity) do Wait(50) end
 		SetEntityHeading(entity, coords.w)
         local netobj = NetworkGetNetworkIdFromEntity(entity)
-        TriggerClientEvent('mm_radio:client:syncobject', -1, {obj = netobj, coords = coords, id = id, range = range or Shared.Jammer.distance, allowedChannels = allowedChannels or {} })
-        jammer[#jammer+1] = {entity = entity, id = id, coords = coords, range = range or Shared.Jammer.distance, allowedChannels = allowedChannels or {} }
+        if canRemove then
+            local player = Framework.core.GetPlayer(src)
+            player.removeItem('jammer', 1)
+        end
+        TriggerClientEvent('mm_radio:client:syncobject', -1, {
+            enable = true,
+            obj = netobj,
+            coords = coords,
+            id = id,
+            range = range or Shared.Jammer.distance,
+            allowedChannels = allowedChannels or {},
+            canRemove = canRemove
+        })
+        jammer[#jammer+1] = {
+            enable = true,
+            entity = entity,
+            id = id,
+            coords = coords,
+            range = range or Shared.Jammer.distance,
+            allowedChannels = allowedChannels or {},
+            canRemove = canRemove
+        }
 	end)
 end)
 
+RegisterNetEvent('mm_radio:server:togglejammer', function(id)
+    for i=1, #jammer do
+        local entity = jammer[i]
+        if entity.id == id then
+            jammer[i].enable = not jammer[i].enable
+            TriggerClientEvent('mm_radio:client:togglejammer', -1, id, jammer[i].enable)
+            break
+        end
+    end
+end)
+
 RegisterNetEvent('mm_radio:server:removejammer', function(id)
+    local src = source
 	CreateThread(function()
         for i=1, #jammer do
             local entity = jammer[i]
@@ -48,6 +77,8 @@ RegisterNetEvent('mm_radio:server:removejammer', function(id)
                 DeleteEntity(entity.entity)
                 TriggerClientEvent('mm_radio:client:removejammer', -1, id)
                 table.remove(jammer, i)
+                local player = Framework.core.GetPlayer(src)
+                player.addItem('jammer', 1)
                 break
             end
         end
@@ -116,7 +147,6 @@ end)
 AddEventHandler('onResourceStart', function(resourceName)
     if (GetCurrentResourceName() ~= resourceName) then return end
     batteryData = json.decode(LoadResourceFile(GetCurrentResourceName(), 'battery.json')) or {}
-    CreateDefaultJammer()
 end)
 
 AddEventHandler("playerDropped", function()
@@ -128,6 +158,15 @@ AddEventHandler("playerDropped", function()
             break
         end
     end
+end)
+
+RegisterNetEvent("mm_radio:server:createdefaultjammer", function()
+    if spawnedDefaultJammer then return end
+    for i=1, #Shared.Jammer.default do
+        local data = Shared.Jammer.default[i]
+        TriggerEvent('mm_radio:server:spawnobject', Shared.Jammer.model, data.coords, data.id, data.range, data.allowedChannels, false)
+    end
+    spawnedDefaultJammer = true
 end)
 
 local function SetRadioData(src, slot)
@@ -160,7 +199,7 @@ lib.callback.register('mm_radio:server:getbatterydata', function(source)
     if not item.metadata?.radioId then
         id = SetRadioData(source, item.slot)
     else
-        id = item[Shared.Inventory == 'ox' and 'metadata' or 'info'].radioId
+        id = item.metadata?.radioId
     end
     return id and batteryData[id] or 100
 end)
@@ -187,7 +226,7 @@ if Shared.UseCommand or not Shared.Inventory then
         help = 'Recharge Radio Battery',
         params = {},
     }, function(source)
-        TriggerEvent('mm_radio:server:rechargeBattery', source)
+        TriggerClientEvent('mm_radio:client:recharge', source)
     end)
 end
 
@@ -213,7 +252,7 @@ if Shared.Ready then
 
     if Shared.Battery.state then
         Framework.core.RegisterUsableItem('radiocell', function(source)
-            TriggerEvent('mm_radio:server:rechargeBattery', source)
+            TriggerClientEvent('mm_radio:client:recharge', source)
         end)
     end
 else
