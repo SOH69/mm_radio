@@ -39,7 +39,11 @@
     </div>
 {:else}
     <div transition:fadeSlide="{{duration: 300}}" class="w-full h-[32px] bg-[#18162F] flex items-center justify-between px-4 text-white text-[16px] rounded-t-lg">
-        <i class="fa-solid fa-satellite-dish animate-pulse animate-infinite animate-duration-100" style="color: {$RADIODATA.insideJammerZone? 'rgb(239 68 68)' : 'white' };"></i>
+        {#if $RADIODATA.insideJammerZone}
+            <i class="fa-solid fa-triangle-exclamation animate-pulse animate-infinite animate-duration-100 text-red-500"></i>
+        {:else}
+            <i class="fa-solid fa-satellite-dish animate-pulse animate-infinite animate-duration-100 text-white"></i>
+        {/if}
         <span class="font-bold">{$RADIODATA.time}</span>
         {#if $RADIODATA.battery >= 80}
             <i class="fa-solid fa-battery-full"></i>
