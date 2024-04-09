@@ -175,7 +175,7 @@ local function SetRadioData(src, slot)
     if Shared.Inventory == 'ox' then
         exports.ox_inventory:SetMetadata(src, slot, { radioId = radioId })
         return radioId
-    elseif Shared.Inventory == 'qb' then
+    elseif Shared.Inventory == 'qb' or Shared.Inventory == 'ps' then
         local items = player.items
         local item = items[slot]
         if item  then
@@ -186,6 +186,9 @@ local function SetRadioData(src, slot)
             return radioId
         end
         return false
+    elseif Shared.Inventory == 'qs' then
+        exports['qs-inventory']:SetItemMetadata(src, slot, { radioId = radioId })
+        return radioId
     else
         return false
     end
