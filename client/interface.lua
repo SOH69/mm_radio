@@ -20,6 +20,7 @@ Radio = {
 	batteryData = {},
 	insideJammerZone = 0,
 	insideJammer = false,
+	signalJammed = false,
 	allowedChannelInsideJammer = {},
 	userData = json.decode(GetResourceKvpString('radioSettings2')) or {}
 }

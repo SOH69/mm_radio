@@ -42,7 +42,7 @@ RegisterNetEvent('mm_radio:client:use', function()
         maxChannel = Shared.MaxFrequency,
         locale = Radio.locale,
         channelName = Shared.RadioNames,
-        insideJammerZone = Radio.insideJammerZone ~= 0,
+        insideJammerZone = Radio.signalJammed,
         battery = battery
     })
 

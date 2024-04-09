@@ -104,7 +104,7 @@ function Radio:connecttoradio(channel)
         Radio.recomended[#Radio.recomended+1] = channel
     end
     if self.insideJammer then
-        Radio.insideJammerZone = 0
+        Radio.signalJammed = false
         Radio:SendSvelteMessage("insideJammer", false)
     end
 end
@@ -143,7 +143,7 @@ function Radio:update()
         street = self:getCrossroads(),
         locale = self.locale,
         channelName = Shared.RadioNames,
-        insideJammerZone = self.insideJammerZone ~= 0,
+        insideJammerZone = self.signalJammed,
         battery = battery
     })
 end
@@ -219,12 +219,12 @@ function Radio:OpenJammerConfig(id)
                     description = 'Change the range of this jammer',
                     icon = 'fa-ruler',
                     onSelect = function ()
-                        Framework.textui.showTextUI('[E] Configure Jammer')
                         local input = lib.inputDialog('Jammer Configuration', {
                             {type = 'slider', label = 'Change Jammer Range', description = 'Change the range of this jammer', icon = 'fa-ruler', min = 10, max = 100, step = 5, default = Radio.jammer[i].range},
                         })
                         if not input then return end
                         TriggerServerEvent('mm_radio:server:changeJammerRange', Radio.jammer[i].id, input[1])
+                        Framework.textui.showTextUI('[E] Configure Jammer')
                     end
                 },
                 {
@@ -277,12 +277,13 @@ end
 function Radio:UpdateJammerZone(id, allowedChannels)
     if not self.insideJammer then return end
     local containChannel = lib.table.contains(allowedChannels, self.RadioChannel)
+    self.insideJammerZone = id
     if not containChannel then
-        self.insideJammerZone = id
+        self.signalJammed = true
         self:SendSvelteMessage("insideJammer", true)
         exports["pma-voice"]:setRadioChannel(0)
     else
-        self.insideJammerZone = 0
+        self.signalJammed = false
         self:SendSvelteMessage("insideJammer", false)
         exports["pma-voice"]:setRadioChannel(self.RadioChannel)
     end
@@ -293,6 +294,7 @@ function Radio:UpdateJammerRemove(id)
         self.insideJammer = false
         if IsJammerAllowed(id, self.RadioChannel) then return end
         self.insideJammerZone = 0
+        self.signalJammed = false
         self:SendSvelteMessage("insideJammer", false)
         exports["pma-voice"]:setRadioChannel(self.RadioChannel)
     end
@@ -300,16 +302,18 @@ end
 
 function OnEnterJammerZone(self)
     Radio.insideJammer = true
-    if IsJammerAllowed(self.jammerid, Radio.RadioChannel) then return end
     Radio.insideJammerZone = self.jammerid
+    if IsJammerAllowed(self.jammerid, Radio.RadioChannel) then return end
+    Radio.signalJammed = true
     Radio:SendSvelteMessage("insideJammer", true)
     exports["pma-voice"]:setRadioChannel(0)
 end
 
 function OnExitJammerZone(self)
     Radio.insideJammer = false
-    if IsJammerAllowed(self.jammerid, Radio.RadioChannel) then return end
     Radio.insideJammerZone = 0
+    if IsJammerAllowed(self.jammerid, Radio.RadioChannel) then return end
+    Radio.signalJammed = false
     Radio:SendSvelteMessage("insideJammer", false)
     exports["pma-voice"]:setRadioChannel(Radio.RadioChannel)
 end
