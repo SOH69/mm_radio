@@ -13,7 +13,7 @@ Shared = {
     Debug = false
 }
 
-if not LoadResourceFile(GetCurrentResourceName(), 'html/index.html') then
+if not LoadResourceFile(GetCurrentResourceName(), 'build/index.html') then
     Shared.Ready = false
     warn('UI has not been built, refer to the readme or download a release build.\n	^3https://github.com/SOH69/mm_radio/releases/')
 end
