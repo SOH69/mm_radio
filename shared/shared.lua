@@ -5,7 +5,13 @@ Shared.Jammer = {
     model = 'sm_prop_smug_jammer', -- prop to spawn for jammer
     distance = 30.0, -- range of jammer effective
     permission = {"police"}, -- permission how can setup jammer (job/gang)
-    default = {} -- default jammer setup location 
+    default = {}, -- default jammer setup location 
+    range = {
+        min = 10.0,
+        max = 100.0,
+        step = 5.0,
+        default = 30.0
+    }
 }
 
 Shared.Battery = {
