@@ -6,6 +6,8 @@
     "volume_notify_description": "Volume réglé sur %d%%",
     "unsuccess_name": "Impossible de changer le nom",
     "jammer_notify_description": "Vous avez été brouillé par la station %.2f MHz",
+    "toggle_defean": "Radio assourdie",
+    "toggle_undeafen": "Radio non assourdie",
     
     "ui": {
         "header": "À LA RADIO",

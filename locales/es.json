@@ -6,6 +6,8 @@
     "volume_notify_description": "Volumen establecido en %d%%",
     "unsuccess_name": "No se pudo cambiar el nombre",
     "jammer_notify_description": "No se pudo conectar con la estación %.2f MHz",
+    "toggle_defean": "Radio sordo",
+    "toggle_undeafen": "Radio no sordo",
     
     "ui": {
         "header": "EN RADIO",

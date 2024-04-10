@@ -6,6 +6,8 @@
     "volume_notify_description": "Lautstärke auf %d%% gesetzt",
     "unsuccess_name": "Fehler beim Ändern des Namens",
     "jammer_notify_description": "Verbindung zur Station konnte nicht hergestellt werden %.2f MHz",
+    "toggle_defean": "Radio taub",
+    "toggle_undeafen": "Radio nicht taub",
     
     "ui": {
         "header": "IM RADIO",
