@@ -11,8 +11,12 @@ function Radio:Notify(msg, duration)
     self:SendSvelteMessage("notify", {msg = msg, duration = duration or 5000})
 end
 
+function Radio:connectSound()
+    PlaySoundFrontend(-1, 'Retune_High', 'MP_RADIO_SFX', true)
+end
+
 function Radio:closeEvent()
-	TriggerEvent("InteractSound_CL:PlayOnOne","click",0.6)
+    PlaySoundFrontend(-1, 'Off_High', 'MP_RADIO_SFX', true)
 end
 
 function Radio:SplitStr(inputstr, sep)
@@ -98,7 +102,7 @@ function Radio:connecttoradio(channel)
     end
     exports["pma-voice"]:setRadioChannel(channel)
     TriggerServerEvent('mm_radio:server:addToRadioChannel', self.RadioChannel, self.userData[self.identifier].name)
-    
+    self:connectSound()
     self:Notify(locale('join_notify_description', channel))
     if not lib.table.contains(Radio.recomended, channel) then
         Radio.recomended[#Radio.recomended+1] = channel
@@ -190,6 +194,8 @@ end
 function Radio:OpenJammerConfig(id)
     for i=1, #Radio.jammer do
         if Radio.jammer[i].id == id then
+            --local isDamaged = GetEntityHealth(Radio.jammer[i].entity) <= 0
+            local isDamaged = false
             Framework.context.openContext({
                 {
                     title = 'Jammer Configuration',
@@ -199,6 +205,7 @@ function Radio:OpenJammerConfig(id)
                 {
                     title = 'Toggle Jammer Switch',
                     description = 'Turn On/Off this jammer, Current State: '..(Radio.jammer[i].enable and 'Enabled' or 'Disabled'),
+                    disabled = isDamaged,
                     icon = 'fa-toggle-on',
                     onSelect = function ()
                         TriggerServerEvent('mm_radio:server:togglejammer', Radio.jammer[i].id)
@@ -211,16 +218,26 @@ function Radio:OpenJammerConfig(id)
                     icon = 'fa-trash',
                     disabled = not Radio.jammer[i].canRemove,
                     onSelect = function ()
-                        TriggerServerEvent('mm_radio:server:removejammer', Radio.jammer[i].id)
+                        TriggerServerEvent('mm_radio:server:removejammer', Radio.jammer[i].id, isDamaged)
                     end
                 },
                 {
                     title = 'Change Jammer Range',
                     description = 'Change the range of this jammer',
                     icon = 'fa-ruler',
+                    disabled = isDamaged,
                     onSelect = function ()
                         local input = lib.inputDialog('Jammer Configuration', {
-                            {type = 'slider', label = 'Change Jammer Range', description = 'Change the range of this jammer', icon = 'fa-ruler', min = 10, max = 100, step = 5, default = Radio.jammer[i].range},
+                            {
+                                type = 'slider',
+                                label = 'Change Jammer Range',
+                                description = 'Change the range of this jammer',
+                                icon = 'fa-ruler',
+                                min = Shared.Jammer.range.min,
+                                max = Shared.Jammer.range.max,
+                                step = Shared.Jammer.range.step,
+                                default = Radio.jammer[i].range,
+                            },
                         })
                         if not input then return end
                         TriggerServerEvent('mm_radio:server:changeJammerRange', Radio.jammer[i].id, input[1])
@@ -231,6 +248,7 @@ function Radio:OpenJammerConfig(id)
                     title = 'Allowed Channel',
                     description = 'Configure Allowed Channel for this jammer',
                     icon = 'fa-circle-check',
+                    disabled = isDamaged,
                     onSelect = function ()
                         local options = {
                             {
@@ -300,7 +318,22 @@ function Radio:UpdateJammerRemove(id)
     end
 end
 
+function OnInsideJammerZone(self)
+    --local isDamaged = GetEntityHealth(self.entity) <= 0
+    if isDamaged then
+        for i=1, #Radio.jammer do
+            local entity = Radio.jammer[i]
+            if entity.id == self.jammerid then
+                Radio:UpdateJammerRemove(self.jammerid)
+                entity.zone:remove()
+            end
+        end
+    end
+    Wait(5000)
+end
+
 function OnEnterJammerZone(self)
+    --if GetEntityHealth(self.entity) <= 0 then return end
     Radio.insideJammer = true
     Radio.insideJammerZone = self.jammerid
     if IsJammerAllowed(self.jammerid, Radio.RadioChannel) then return end
