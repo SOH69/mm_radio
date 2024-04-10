@@ -3,38 +3,40 @@ game "gta5"
 
 author "Master Mind"
 version '2.0.2'
+description 'A beautiful Radio Resource for FiveM'
+repository 'https://github.com/SOH69/mm_radio'
 
 lua54 'yes'
 
-ui_page 'html/index.html'
+ui_page 'build/index.html'
 -- ui_page 'http://localhost:3000/' --for dev
 
 shared_script {
-  "@ox_lib/init.lua",
-  "shared/**"
+    "@ox_lib/init.lua",
+    "shared/**"
 }
 
 client_script {
-  '@bl_bridge/imports/client.lua',
-  'client/interface.lua',
-  'client/function.lua',
-  'client/event.lua',
-  'client/nui.lua'
+    '@bl_bridge/imports/client.lua',
+    'client/interface.lua',
+    'client/function.lua',
+    'client/event.lua',
+    'client/nui.lua'
 }
 
 server_script {
-  '@bl_bridge/imports/server.lua',
-  "server/main.lua",
+    '@bl_bridge/imports/server.lua',
+    "server/main.lua",
 }
 
 files {
-  'html/**',
-  'locales/*.json'
+    'build/**',
+    'locales/*.json'
 }
 
 dependencies {
-  'pma-voice',
-  'ox_lib',
-  '/onesync',
-  'bl_bridge'
-}
+    'pma-voice',
+    'ox_lib',
+    '/onesync',
+    'bl_bridge'
+  }
