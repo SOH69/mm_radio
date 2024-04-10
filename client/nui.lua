@@ -19,6 +19,14 @@ RegisterNUICallback('leave', function(_, cb)
     cb("ok")
 end)
 
+RegisterNUICallback('toggleMute', function(volume, cb)
+    volume = tonumber(volume)
+    Radio:Notify(locale(volume == 0 and 'toggle_defean' or 'toggle_undeafen'))
+	exports["pma-voice"]:setRadioVolume(volume)
+    Radio.Volume = volume
+    cb('ok')
+end)
+
 RegisterNUICallback("volumeChange", function(data, cb)
     data = tonumber(data)
     Radio:Notify(locale('volume_notify_description', data))
