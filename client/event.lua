@@ -60,13 +60,22 @@ RegisterNetEvent('mm_radio:client:usejammer', function()
     local forward = GetEntityForwardVector(cache.ped)
     local x, y, z = table.unpack(plyCoords + forward * 1.0)
     local id = math.random(1000, 9999)
-    TriggerServerEvent('mm_radio:server:spawnobject', Shared.Jammer.model, vec4(x, y, z - 1.0, GetEntityHeading(cache.ped)), id, Shared.Jammer.range, {}, true)
+    TriggerServerEvent('mm_radio:server:spawnobject', {
+        coords = vec4(x, y, z - 1.0, GetEntityHeading(cache.ped)),
+        id = id,
+        range = Shared.Jammer.range.default,
+        allowedChannels = {},
+        canRemove = true,
+        canDamage = true
+    })
 end)
 
 RegisterNetEvent('mm_radio:client:syncobject', function(data)
+    local entity = NetworkGetEntityFromNetworkId(data.object)
+    SetEntityCanBeDamaged(entity, data.canDamage)
     Radio.jammer[#Radio.jammer+1] = {
         id = data.id,
-        object = data.obj,
+        entity = entity,
         coords = data.coords,
         allowedChannels = data.allowedChannels,
         range = data.range,
@@ -77,7 +86,9 @@ RegisterNetEvent('mm_radio:client:syncobject', function(data)
             radius = data.range,
             debug = Shared.Debug,
             jammerid = data.id,
+            entity = entity,
             onEnter = OnEnterJammerZone,
+            --inside = OnInsideJammerZone,
             onExit = OnExitJammerZone
         }),
         zoneJammer = lib.zones.sphere({
@@ -85,6 +96,7 @@ RegisterNetEvent('mm_radio:client:syncobject', function(data)
             radius = 2.5,
             debug = Shared.Debug,
             jammerid = data.id,
+            entity = entity,
             onEnter = OnEnterJammer,
             onExit = OnExitJammer
         })
@@ -96,13 +108,16 @@ RegisterNetEvent('mm_radio:client:changeJammerRange', function(id, range)
         local entity = Radio.jammer[i]
         if entity.id == id then
             entity.zone:remove()
+            Wait(1000)
             entity.range = range
             entity.zone = lib.zones.sphere({
                 coords = entity.coords,
                 radius = range,
                 debug = Shared.Debug,
                 jammerid = id,
+                entity = entity.entity,
                 onEnter = OnEnterJammerZone,
+                --inside = OnInsideJammerZone,
                 onExit = OnExitJammerZone
             })
             break
@@ -143,7 +158,9 @@ RegisterNetEvent('mm_radio:client:togglejammer', function(id, state)
                     radius = entity.range,
                     debug = Shared.Debug,
                     jammerid = id,
+                    entity = NetworkGetEntityFromNetworkId(entity.object),
                     onEnter = OnEnterJammerZone,
+                    --inside = OnInsideJammerZone,
                     onExit = OnExitJammerZone
                 })
 
@@ -209,7 +226,7 @@ RegisterNetEvent('bl_bridge:client:playerLoaded', function()
     TriggerServerEvent('mm_radio:server:createdefaultjammer')
     local jammer = lib.callback.await('mm_radio:server:getjammer', false)
     for i = 1, #jammer do
-        jammer[i].obj = NetworkGetNetworkIdFromEntity(jammer[i].entity)
+        jammer[i].object = NetworkGetNetworkIdFromEntity(jammer[i].entity)
         TriggerEvent('mm_radio:client:syncobject', jammer[i])
     end
 end)

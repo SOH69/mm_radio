@@ -25,34 +25,36 @@ RegisterNetEvent('mm_radio:server:rechargeBattery', function()
     player.removeItem('radiocell', 1)
 end)
 
-RegisterNetEvent('mm_radio:server:spawnobject', function(model, coords, id, range, allowedChannels, canRemove)
+RegisterNetEvent('mm_radio:server:spawnobject', function(data)
     local src = source
 	CreateThread(function()
-		local entity = CreateObject(joaat(model), coords.x, coords.y, coords.z, true, true, false)
+		local entity = CreateObject(joaat(Shared.Jammer.model), data.coords.x, data.coords.y, data.coords.z, true, true, false)
 		while not DoesEntityExist(entity) do Wait(50) end
-		SetEntityHeading(entity, coords.w)
+		SetEntityHeading(entity, data.coords.w)
         local netobj = NetworkGetNetworkIdFromEntity(entity)
-        if canRemove then
+        if data.canRemove then
             local player = Framework.core.GetPlayer(src)
             player.removeItem('jammer', 1)
         end
         TriggerClientEvent('mm_radio:client:syncobject', -1, {
             enable = true,
-            obj = netobj,
-            coords = coords,
-            id = id,
-            range = range or Shared.Jammer.distance,
-            allowedChannels = allowedChannels or {},
-            canRemove = canRemove
+            object = netobj,
+            coords = data.coords,
+            id = data.id,
+            range = data.range or Shared.Jammer.range.default,
+            allowedChannels = data.allowedChannels or {},
+            canRemove = data.canRemove,
+            canDamage = data.canDamage
         })
         jammer[#jammer+1] = {
             enable = true,
             entity = entity,
-            id = id,
-            coords = coords,
-            range = range or Shared.Jammer.distance,
-            allowedChannels = allowedChannels or {},
-            canRemove = canRemove
+            id = data.id,
+            coords = data.coords,
+            range = data.range or Shared.Jammer.range.default,
+            allowedChannels = data.allowedChannels or {},
+            canRemove = data.canRemove,
+            canDamage = data.canDamage
         }
 	end)
 end)
@@ -68,7 +70,7 @@ RegisterNetEvent('mm_radio:server:togglejammer', function(id)
     end
 end)
 
-RegisterNetEvent('mm_radio:server:removejammer', function(id)
+RegisterNetEvent('mm_radio:server:removejammer', function(id, isDamaged)
     local src = source
 	CreateThread(function()
         for i=1, #jammer do
@@ -77,8 +79,10 @@ RegisterNetEvent('mm_radio:server:removejammer', function(id)
                 DeleteEntity(entity.entity)
                 TriggerClientEvent('mm_radio:client:removejammer', -1, id)
                 table.remove(jammer, i)
-                local player = Framework.core.GetPlayer(src)
-                player.addItem('jammer', 1)
+                if not isDamaged then
+                    local player = Framework.core.GetPlayer(src)
+                    player.addItem('jammer', 1)
+                end
                 break
             end
         end
@@ -164,7 +168,14 @@ RegisterNetEvent("mm_radio:server:createdefaultjammer", function()
     if spawnedDefaultJammer then return end
     for i=1, #Shared.Jammer.default do
         local data = Shared.Jammer.default[i]
-        TriggerEvent('mm_radio:server:spawnobject', Shared.Jammer.model, data.coords, data.id, data.range, data.allowedChannels, false)
+        TriggerEvent('mm_radio:server:spawnobject', {
+            coords = data.coords,
+            id = data.id,
+            range = data.range,
+            allowedChannels = data.allowedChannels,
+            canRemove = false,
+            canDamage = data.canDamage
+        })
     end
     spawnedDefaultJammer = true
 end)
