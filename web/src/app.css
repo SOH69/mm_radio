@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    margin: 0;
+    padding: 0;
+    font-smooth: auto;
+}
+
+*:focus {
+    outline: none;
+}
+
+:root {
+    font-size: 62.5%;
+
+    --primary: theme('colors.primary');
+    --secondary: theme('colors.secondary');
+    --accent: theme('colors.accent');
+
+    --text-primary: theme('colors.txt-primary');
+    --text-secondary: theme('colors.txt-secondary');
+
+    color: var(--text-primary);
+}
+
+html, body {
+    height: 100vh;
+    width: 100vw;
+    font-size: 1.6rem;
+    overflow: hidden;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.focus-fix {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden; /* for Safari */
+    -webkit-font-smoothing: subpixel-antialiased;
+}
