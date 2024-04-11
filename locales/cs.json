@@ -1,0 +1,27 @@
+{
+    "join_notify_description": "Připojeno k %.2f MHz",
+    "invalid_notify_description": "%.2f MHz není k dispozici",
+    "already_notify_description": "Již jste připojeni k %.2f MHz",
+    "restricted_notify_description": "Nemáte povolení připojit se k %.2f MHz",
+    "volume_notify_description": "Hlasitost: %d%%",
+    "unsuccess_name": "Nepodařilo se změnit jméno",
+    "jammer_notify_description": "Nepodařilo se připojit k %.2f MHz",
+    "toggle_defean": "Radio ztlumeno",
+    "toggle_undeafen": "Radio odtlumeno",
+    
+    "ui": {
+        "header": "PŘIPOJENO",
+        "frequency": "Frekvence",
+        "disconnect": "ODPOJIT",
+        "notconnected": "NEPŘIPOJENO",
+        "channels": "Kanály",
+        "radio": "Rádio",
+        "members": "Členové",
+        "favorites": "Oblíbené",
+        "recommended": "Doporučené",
+        "clear": "X",
+        "hide_overlay": "SCHOVAT PŘEKRYTÍ",
+        "show_overlay": "UKÁZAT PŘEKRYTÍ",
+        "save": "ULOŽIT"
+    }
+}
