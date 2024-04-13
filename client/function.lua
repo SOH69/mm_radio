@@ -1,3 +1,5 @@
+local insideJammer = false
+
 function IsJammerAllowed(id, channel)
     for i=1, #Radio.jammer do
         local entity = Radio.jammer[i]
@@ -196,97 +198,100 @@ function Radio:OpenJammerConfig(id)
         if Radio.jammer[i].id == id then
             --local isDamaged = GetEntityHealth(Radio.jammer[i].entity) <= 0
             local isDamaged = false
-            Framework.context.openContext({
-                {
-                    title = 'Jammer Configuration',
-                    isMenuHeader = true,
-                    icon = 'fa-tower-cell'
-                },
-                {
-                    title = 'Toggle Jammer Switch',
-                    description = 'Turn On/Off this jammer, Current State: '..(Radio.jammer[i].enable and 'Enabled' or 'Disabled'),
-                    disabled = isDamaged,
-                    icon = 'fa-toggle-on',
-                    onSelect = function ()
-                        TriggerServerEvent('mm_radio:server:togglejammer', Radio.jammer[i].id)
-                        Framework.textui.showTextUI('[E] Configure Jammer')
-                    end
-                },
-                {
-                    title = 'Remove Jammer',
-                    description = 'Remove this jammer',
-                    icon = 'fa-trash',
-                    disabled = not Radio.jammer[i].canRemove,
-                    onSelect = function ()
-                        TriggerServerEvent('mm_radio:server:removejammer', Radio.jammer[i].id, isDamaged)
-                    end
-                },
-                {
-                    title = 'Change Jammer Range',
-                    description = 'Change the range of this jammer',
-                    icon = 'fa-ruler',
-                    disabled = isDamaged,
-                    onSelect = function ()
-                        local input = lib.inputDialog('Jammer Configuration', {
-                            {
-                                type = 'slider',
-                                label = 'Change Jammer Range',
-                                description = 'Change the range of this jammer',
-                                icon = 'fa-ruler',
-                                min = Shared.Jammer.range.min,
-                                max = Shared.Jammer.range.max,
-                                step = Shared.Jammer.range.step,
-                                default = Radio.jammer[i].range,
-                            },
-                        })
-                        if not input then return end
-                        TriggerServerEvent('mm_radio:server:changeJammerRange', Radio.jammer[i].id, input[1])
-                        Framework.textui.showTextUI('[E] Configure Jammer')
-                    end
-                },
-                {
-                    title = 'Allowed Channel',
-                    description = 'Configure Allowed Channel for this jammer',
-                    icon = 'fa-circle-check',
-                    disabled = isDamaged,
-                    onSelect = function ()
-                        local options = {
-                            {
+            lib.registerContext({
+                id = 'jammer_menu',
+                title = 'Jammer Configuration',
+                onExit = function ()
+                    if insideJammer then lib.showTextUI('[E] Configure Jammer') end
+                end,
+                options = {
+                    {
+                        title = 'Toggle Jammer Switch',
+                        description = 'Turn On/Off this jammer, Current State: '..(Radio.jammer[i].enable and 'Enabled' or 'Disabled'),
+                        disabled = isDamaged,
+                        icon = 'fa-toggle-on',
+                        onSelect = function ()
+                            TriggerServerEvent('mm_radio:server:togglejammer', Radio.jammer[i].id)
+                            lib.showTextUI('[E] Configure Jammer')
+                        end
+                    },
+                    {
+                        title = 'Remove Jammer',
+                        description = 'Remove this jammer',
+                        icon = 'fa-trash',
+                        disabled = not Radio.jammer[i].canRemove,
+                        onSelect = function ()
+                            TriggerServerEvent('mm_radio:server:removejammer', Radio.jammer[i].id, isDamaged)
+                        end
+                    },
+                    {
+                        title = 'Change Jammer Range',
+                        description = 'Change the range of this jammer',
+                        icon = 'fa-ruler',
+                        disabled = isDamaged,
+                        onSelect = function ()
+                            local input = lib.inputDialog('Jammer Configuration', {
+                                {
+                                    type = 'slider',
+                                    label = 'Change Jammer Range',
+                                    description = 'Change the range of this jammer',
+                                    icon = 'fa-ruler',
+                                    min = Shared.Jammer.range.min,
+                                    max = Shared.Jammer.range.max,
+                                    step = Shared.Jammer.range.step,
+                                    default = Radio.jammer[i].range,
+                                },
+                            })
+                            if not input then return end
+                            TriggerServerEvent('mm_radio:server:changeJammerRange', Radio.jammer[i].id, input[1])
+                            lib.showTextUI('[E] Configure Jammer')
+                        end
+                    },
+                    {
+                        title = 'Allowed Channel',
+                        description = 'Configure Allowed Channel for this jammer',
+                        icon = 'fa-circle-check',
+                        disabled = isDamaged,
+                        onSelect = function ()
+                            local allowedChannels = {
+                                id = 'jammer_allowed_channel',
                                 title = 'Allowed Channel',
-                                isMenuHeader = true,
-                                icon = 'fa-circle-check'
-                            },
-                        }
-                        for j=1, #Radio.jammer[i].allowedChannels do
-                            options[#options+1] = {
-                                title = 'Channel '..Radio.jammer[i].allowedChannels[j],
-                                description = 'Remove this channel from allowed channel',
-                                icon = 'fa-trash',
+                                menu = 'jammer_menu',
+                                options = {}
+                            }
+                            for j=1, #Radio.jammer[i].allowedChannels do
+                                allowedChannels.options[#allowedChannels.options+1] = {
+                                    title = 'Channel '..Radio.jammer[i].allowedChannels[j],
+                                    description = 'Remove this channel from allowed channel',
+                                    icon = 'fa-trash',
+                                    onSelect = function ()
+                                        table.remove(Radio.jammer[i].allowedChannels, j)
+                                        TriggerServerEvent('mm_radio:server:removeallowedchannel', Radio.jammer[i].id, Radio.jammer[i].allowedChannels)
+                                        lib.showTextUI('[E] Configure Jammer')
+                                    end
+                                }
+                            end
+                            allowedChannels.options[#allowedChannels.options+1] = {
+                                title = 'Add Channel',
+                                description = 'Add more channel to allowed channel',
+                                icon = 'fa-circle-plus',
                                 onSelect = function ()
-                                    table.remove(Radio.jammer[i].allowedChannels, j)
-                                    TriggerServerEvent('mm_radio:server:removeallowedchannel', Radio.jammer[i].id, Radio.jammer[i].allowedChannels)
-                                    Framework.textui.showTextUI('[E] Configure Jammer')
+                                    local input = lib.inputDialog('Add Channel', {
+                                        {type = 'number', label = 'Channel Frequency', description = 'Provide Channel Frequency', icon = 'fa-wifi'},
+                                    })
+                                    if not input then return end
+                                    table.insert(Radio.jammer[i].allowedChannels, input[1])
+                                    TriggerServerEvent('mm_radio:server:addallowedchannel', Radio.jammer[i].id, Radio.jammer[i].allowedChannels)
+                                    lib.showTextUI('[E] Configure Jammer')
                                 end
                             }
+                            lib.registerContext(allowedChannels)
+                            lib.showContext('jammer_allowed_channel')
                         end
-                        options[#options+1] = {
-                            title = 'Add Channel',
-                            description = 'Add more channel to allowed channel',
-                            icon = 'fa-circle-plus',
-                            onSelect = function ()
-                                local input = lib.inputDialog('Add Channel', {
-                                    {type = 'number', label = 'Channel Frequency', description = 'Provide Channel Frequency', icon = 'fa-wifi'},
-                                })
-                                if not input then return end
-                                table.insert(Radio.jammer[i].allowedChannels, input[1])
-                                TriggerServerEvent('mm_radio:server:addallowedchannel', Radio.jammer[i].id, Radio.jammer[i].allowedChannels)
-                                Framework.textui.showTextUI('[E] Configure Jammer')
-                            end
-                        }
-                        Framework.context.openContext(options)
-                    end
+                    }
                 }
             })
+            lib.showContext('jammer_menu')
             break
         end
     end
@@ -351,19 +356,17 @@ function OnExitJammerZone(self)
     exports["pma-voice"]:setRadioChannel(Radio.RadioChannel)
 end
 
-local insideJammer = false
-
 function OnEnterJammer(self)
     if not Shared.Jammer.permission or not (lib.table.contains(Shared.Jammer.permission, Radio.PlayerJob) or lib.table.contains(Shared.Jammer.permission, Radio.PlayerGang)) then
         return
     end
-    Framework.textui.showTextUI('[E] Configure Jammer')
+    lib.showTextUI('[E] Configure Jammer')
     insideJammer = true
     CreateThread(function()
         while insideJammer do
             if IsControlJustPressed(0, 38) then
                 Radio:OpenJammerConfig(self.jammerid)
-                Framework.textui.hideTextUI()
+                lib.hideTextUI()
             end
             Wait(5)
         end
@@ -371,7 +374,7 @@ function OnEnterJammer(self)
 end
 
 function OnExitJammer()
-    Framework.textui.hideTextUI()
+    lib.hideTextUI()
     insideJammer = false
 end
 
