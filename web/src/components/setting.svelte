@@ -9,7 +9,7 @@
 
     function saveData() {
         SendEvent(Send.saveData, inputValue)
-        changeTab('members')
+        changeTab('home')
     }
 
     function changeOverlaySize(event: any) {
@@ -61,24 +61,6 @@
                         <input type="checkbox" value="" class="sr-only peer" checked={$MOVERADIO} on:input={toggleRadioMove}>
                         <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                     </label>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex flex-col w-full gap-4 border-b-[1px] border-gray-700 pb-4 pt-4">
-            <span class="text-[14px]">Overlay Settings</span>
-            <div class="flex gap-2">
-                <div class="h-[20px] w-[18px] rounded-md flex justify-center items-center bg-[#0e0d1a]">
-                    <i class="fa-solid fa-user text-[8px]"></i>
-                </div>
-                <input type="text" class="h-[20px] w-[106px] bg-[#212146] text-white px-4 rounded-md text-[10px]" bind:value={inputValue} />
-            </div>
-            <div class="flex gap-2">
-                <div class="h-[20px] w-[18px] rounded-md flex justify-center items-center bg-[#0e0d1a]">
-                    <i class="fa-solid fa-up-right-and-down-left-from-center text-[8px]"></i>
-                </div>
-                <div class="h-[20px] w-[106px] flex justify-center items-center">
-                    <input type="range" bind:value={overlaySize} class="h-2 w-[106px] bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" on:input={changeOverlaySize} on:mouseup={handleSliderRelease} disabled={$MOVERADIO} min="25" max="75"/>
                 </div>
             </div>
         </div>

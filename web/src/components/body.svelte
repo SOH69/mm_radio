@@ -131,9 +131,9 @@
             <i class="fa-solid fa-walkie-talkie"></i>
             <span class="text-[9px]">{$RADIODATA.locale['ui.radio']}</span>
         </button>
-        <button class="grow flex flex-col justify-center items-center gap-[6px]" style="color:{$RADIODATA.onRadio? 'white':'#AAAFB4'}" disabled="{!$RADIODATA.onRadio}" on:click={changeTab('members')}>
-            <i class="fa-solid fa-user-tag"></i>
-            <span class="text-[9px]">{$RADIODATA.locale['ui.members']}</span>
+        <button class="grow flex flex-col justify-center items-center gap-[6px]" on:click={changeTab('setting')}>
+            <i class="fa-solid fa-gear"></i>
+            <span class="text-[9px]">{$RADIODATA.locale['ui.settings']}</span>
         </button>
     </div>
 
