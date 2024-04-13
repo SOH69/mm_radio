@@ -20,7 +20,7 @@
         channel = convertToPattern(channel);
         if ($RADIODATA.channelName[channel] || $RADIODATA.channelName[channelnumber]) {
             enabled = true;
-            channelName = $RADIODATA.channelName[channel]+' ['+channelnumber+' MHz]';
+            channelName = ($RADIODATA.channelName[channel] || $RADIODATA.channelName[channelnumber])+' ['+channelnumber+' MHz]';
         } else {
             enabled = false;
             channelName = channelnumber+' MHz';
