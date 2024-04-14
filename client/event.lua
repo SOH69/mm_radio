@@ -1,7 +1,8 @@
 local function updateTime()
     while Radio.usingRadio do
-        Radio:SendSvelteMessage("UpdateTime", Radio:CalculateTimeToDisplay())
-        Wait(1500)
+        local currentTime, nextUpdate = Radio:CalculateTimeToDisplay()
+        Radio:SendSvelteMessage("UpdateTime", currentTime)
+        Wait(nextUpdate*1000)
     end
 end
 
@@ -26,6 +27,7 @@ AddEventHandler('onResourceStop', function(resource)
 end)
 
 RegisterNetEvent('mm_radio:client:use', function()
+    if Radio.PlayerDead or IsPedFatallyInjured(cache.ped) then return end
     Radio.usingRadio = true
     SetNuiFocus(true, true)
     Radio:toggleRadioAnimation(true)
@@ -245,7 +247,8 @@ end)
 RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
     if Radio.playerLoaded then
         Wait(1000)
-        Radio:Init()
+        Radio:doRadioCheck(val.items)
+        Radio.PlayerDead = val.metadata.isdead or val.metadata.inlaststand
     end
 end)
 
@@ -258,17 +261,28 @@ RegisterNetEvent("QBCore:Client:SetDuty", function(newDuty)
     Radio.PlayerDuty = newDuty
 end)
 
+RegisterNetEvent("ND:updateCharacter", function(character)
+    Radio.PlayerDead = character.metadata.dead
+end)
+
 AddEventHandler('ox_inventory:updateInventory', function()
-    Radio:Init()
+    Radio:doRadioCheck()
 end)
 
 AddEventHandler('gameEventTriggered', function(event, data)
     if event == "CEventNetworkEntityDamage" then
         if not IsEntityAPed(data[1]) then return end
         if data[4] and NetworkGetPlayerIndexFromPed(data[1]) == cache.playerId and IsEntityDead(cache.ped) then
+            if Radio.usingRadio then
+                TriggerEvent('mm_radio:client:remove')
+            end
             if Radio.playerLoaded and Radio.onRadio and Radio.hasRadio and Radio.RadioChannel ~= 0 then
                 Radio:leaveradio()
             end
         end
     end
+end)
+
+AddStateBagChangeHandler('dead', ('player:%s'):format(cache.serverId), function(_, _, value)
+    Radio.PlayerDead = value
 end)
