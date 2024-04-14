@@ -115,14 +115,21 @@ function Radio:connecttoradio(channel)
     end
 end
 
-function Radio:doRadioCheck()
+function Radio:doRadioCheck(items)
+    if not Shared.Inventory then self.hasRadio = true return end
     self.batteryData = {}
     self.hasRadio = false
-    for _, v in pairs(Framework.inventory.playerItems()) do
-        if v.name == 'radio' and (v.metadata?.radioId or v.info?.radioId) then
+    local playerItems = items or Framework.inventory.playerItems()
+    for _, v in pairs(playerItems) do
+        if v.name == 'radio' then
             self.hasRadio = true
-            self.batteryData[#self.batteryData+1] = v[Shared.Inventory == 'ox' and 'metadata' or 'info'].radioId
+            if v.metadata?.radioId or v.info?.radioId then
+                self.batteryData[#self.batteryData+1] = v[Shared.Inventory == 'ox' and 'metadata' or 'info'].radioId
+            end
         end
+    end
+    if not self.hasRadio and self.onRadio then
+        Radio:leaveradio()
     end
 end
 
@@ -174,6 +181,7 @@ end
 function Radio:CalculateTimeToDisplay()
 	local hour = GetClockHours()
     local minute = GetClockMinutes()
+    local second = GetClockSeconds()
 
     local obj = ""
 
@@ -183,7 +191,7 @@ function Radio:CalculateTimeToDisplay()
 
     obj = hour..":"..minute
 
-    return obj
+    return obj, (60 - second)
 end
 
 function Radio:RemoveJammerZone()
@@ -429,17 +437,6 @@ lib.addKeybind({
         end
     end
 })
-
-CreateThread(function()
-    while true do
-        Wait(2000)
-        if Radio.playerLoaded then
-            if not Radio.hasRadio and Radio.onRadio and Shared.Inventory then
-                Radio:leaveradio()
-            end
-        end
-    end
-end)
 
 if Shared.Battery.state then
     CreateThread(function()

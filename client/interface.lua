@@ -5,6 +5,7 @@ Radio = {
 	PlayerJob = 'civilian',
 	PlayerGang = 'none',
 	PlayerDuty = false,
+	PlayerDead = false,
 	hasRadio = false,
 	onRadio = false,
 	usingRadio = false,
