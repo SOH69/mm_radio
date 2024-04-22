@@ -53,7 +53,11 @@ let radioData = {
         "ui.clear": "CLEAR",
         "ui.hide_overlay": "HIDE OVERLAY",
         "ui.show_overlay": "SHOW OVERLAY",
-        "ui.save": "SAVE"
+        "ui.save": "SAVE",
+        "ui.radio_settings": "Radio Settings",
+        "ui.move_radio": "Move Radio",
+        "ui.allow_move": "Allow Move",
+        "ui.overlay_settings": "Overlay Settings"
     }
 }
 
