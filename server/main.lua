@@ -18,11 +18,16 @@ end)
 RegisterNetEvent('mm_radio:server:rechargeBattery', function()
     local src = source
     local player = Framework.core.GetPlayer(src)
-    local item = player.getItem('radio')
-    local id = item.metadata?.radioId or false
-    if not id then return end
-    batteryData[id] = 100
-    player.removeItem('radiocell', 1)
+    for i=1, #Shared.RadioItem do
+        local item = player.getItem(Shared.RadioItem[i])
+        if item then
+            local id = item.metadata?.radioId or false
+            if not id then return end
+            batteryData[id] = 100
+            player.removeItem('radiocell', 1)
+            break
+        end
+    end
 end)
 
 RegisterNetEvent('mm_radio:server:spawnobject', function(data)
@@ -208,15 +213,21 @@ end
 lib.callback.register('mm_radio:server:getbatterydata', function(source)
     if not Shared.Inventory then return 100 end
     local player = Framework.core.GetPlayer(source)
-    local item = player.getItem('radio')
-    local id = false
-    if not item then return 100 end
-    if not item.metadata?.radioId then
-        id = SetRadioData(source, item.slot)
-    else
-        id = item.metadata?.radioId
+    local battery = 100
+    for i=1, #Shared.RadioItem do
+        local item = player.getItem(Shared.RadioItem[i])
+        if item then
+            local id = false
+            if not item.metadata?.radioId then
+                id = SetRadioData(source, item.slot)
+            else
+                id = item.metadata?.radioId
+            end
+            battery = id and batteryData[id] or 100
+            break
+        end
     end
-    return id and batteryData[id] or 100
+    return battery
 end)
 
 lib.callback.register('mm_radio:server:getjammer', function()
@@ -255,9 +266,11 @@ end)
 lib.versionCheck('SOH69/mm_radio')
 
 if Shared.Ready then
-    Framework.core.RegisterUsableItem('radio', function(source)
-        TriggerClientEvent('mm_radio:client:use', source)
-    end)
+    for i=1, #Shared.RadioItem do
+        Framework.core.RegisterUsableItem(Shared.RadioItem[i], function(source)
+            TriggerClientEvent('mm_radio:client:use', source)
+        end)
+    end
 
     if Shared.Jammer.state then
         Framework.core.RegisterUsableItem('jammer', function(source)
