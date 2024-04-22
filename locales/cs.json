@@ -22,6 +22,10 @@
         "clear": "X",
         "hide_overlay": "SCHOVAT PŘEKRYTÍ",
         "show_overlay": "UKÁZAT PŘEKRYTÍ",
-        "save": "ULOŽIT"
+        "save": "ULOŽIT",
+        "radio_settings": "NASTAVENÍ RÁDIA",
+        "move_radio": "POHYB RÁDIA",
+        "allow_move": "POVOLENÝ POHYB",
+        "overlay_settings": "NASTAVENÍ PŘEKRYTÍ"
     }
 }

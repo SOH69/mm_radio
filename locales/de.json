@@ -22,6 +22,10 @@
         "clear": "KLAR",
         "hide_overlay": "OVERLAY VERSTECKEN",
         "show_overlay": "OVERLAY ANZEIGEN",
-        "save": "SPEICHERN"
+        "save": "SPEICHERN",
+        "radio_settings": "RADIOEINSTELLUNGEN",
+        "move_radio": "RADIO BEWEGEN",
+        "allow_move": "BEWEGEN ERLAUBEN",
+        "overlay_settings": "OVERLAYEINSTELLUNGEN"
     }
 }

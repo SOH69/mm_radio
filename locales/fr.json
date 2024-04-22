@@ -22,6 +22,10 @@
         "clear": "EFFACER",
         "hide_overlay": "MASQUER LA SUPERPOSITION",
         "show_overlay": "AFFICHER LA SUPERPOSITION",
-        "save": "ENREGISTRER"
+        "save": "ENREGISTRER",
+        "radio_settings": "Paramètres radio",
+        "move_radio": "Déplacer radio",
+        "allow_move": "Déplacement",
+        "overlay_settings": "Paramètres de superposition"
     }
 }

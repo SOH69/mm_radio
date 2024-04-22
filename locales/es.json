@@ -22,6 +22,10 @@
         "clear": "LIMPIAR",
         "hide_overlay": "OCULTAR SUPERPOSICIÓN",
         "show_overlay": "MOSTRAR SUPERPOSICIÓN",
-        "save": "GUARDAR"
+        "save": "GUARDAR",
+        "radio_settings": "Configuración",
+        "move_radio": "Mover radio",
+        "allow_move": "Permitir mover",
+        "overlay_settings": "Configuración superposición"
     }
 }

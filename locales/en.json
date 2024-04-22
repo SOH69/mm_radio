@@ -22,6 +22,10 @@
         "clear": "CLEAR",
         "hide_overlay": "HIDE OVERLAY",
         "show_overlay": "SHOW OVERLAY",
-        "save": "SAVE"
+        "save": "SAVE",
+        "radio_settings": "Radio Settings",
+        "move_radio": "Move Radio",
+        "allow_move": "Allow Move",
+        "overlay_settings": "Overlay Settings"
     }
 }
