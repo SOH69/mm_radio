@@ -89,6 +89,18 @@ RegisterNUICallback('updateRadioPosition', function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback('allowMovement', function(data, cb)
+    Radio.userData[Radio.identifier].allowMovement = data
+    SetResourceKvp('radioSettings2', json.encode(Radio.userData))
+    if data then
+        SetNuiFocusKeepInput(true)
+        DisableControls()
+    else
+        SetNuiFocusKeepInput(false)
+    end
+    cb("ok")
+end)
+
 RegisterNUICallback('updateRadioSize', function(data, cb)
     Radio.userData[Radio.identifier].radioSizeMultiplier = data.radio
     Radio.userData[Radio.identifier].overlaySizeMultiplier = data.overlay

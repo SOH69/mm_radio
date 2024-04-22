@@ -23,6 +23,7 @@ interface IRADIODATA {
         overlaySizeMultiplier: number,
         radioSizeMultiplier: number,
         favourite: Number[],
+        allowMovement: boolean,
         playerlist: {
 			show: boolean,
 			coords: {

@@ -20,6 +20,7 @@ export enum Send {
     showPlayerList = 'showPlayerList',
     saveData = 'saveData',
     updateRadioSize = 'updateRadioSize',
+    allowMovement = 'allowMovement',
     leave = 'leave',
     mute = 'toggleMute'
 }

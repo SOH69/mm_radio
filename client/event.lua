@@ -1,11 +1,3 @@
-local function updateTime()
-    while Radio.usingRadio do
-        local currentTime, nextUpdate = Radio:CalculateTimeToDisplay()
-        Radio:SendSvelteMessage("UpdateTime", currentTime)
-        Wait(nextUpdate*1000)
-    end
-end
-
 AddEventHandler('onResourceStart', function(resource)
     if GetCurrentResourceName() == resource then
         if Shared.Core and Framework.core.playerLoaded() then
@@ -47,8 +39,11 @@ RegisterNetEvent('mm_radio:client:use', function()
         insideJammerZone = Radio.signalJammed,
         battery = battery
     })
-
-    updateTime()
+    UpdateTime()
+    if Radio.userData[Radio.identifier].allowMovement then
+        SetNuiFocusKeepInput(true)
+        DisableControls()
+    end
 end)
 
 RegisterNetEvent('mm_radio:client:usejammer', function()
@@ -90,7 +85,6 @@ RegisterNetEvent('mm_radio:client:syncobject', function(data)
             jammerid = data.id,
             entity = entity,
             onEnter = OnEnterJammerZone,
-            --inside = OnInsideJammerZone,
             onExit = OnExitJammerZone
         }),
         zoneJammer = lib.zones.sphere({
@@ -119,7 +113,6 @@ RegisterNetEvent('mm_radio:client:changeJammerRange', function(id, range)
                 jammerid = id,
                 entity = entity.entity,
                 onEnter = OnEnterJammerZone,
-                --inside = OnInsideJammerZone,
                 onExit = OnExitJammerZone
             })
             break
@@ -160,9 +153,8 @@ RegisterNetEvent('mm_radio:client:togglejammer', function(id, state)
                     radius = entity.range,
                     debug = Shared.Debug,
                     jammerid = id,
-                    entity = NetworkGetEntityFromNetworkId(entity.object),
+                    entity = entity.entity,
                     onEnter = OnEnterJammerZone,
-                    --inside = OnInsideJammerZone,
                     onExit = OnExitJammerZone
                 })
 
@@ -188,10 +180,15 @@ RegisterNetEvent('mm_radio:client:removejammer', function(id)
 end)
 
 RegisterNetEvent('mm_radio:client:remove', function()
-    Radio.usingRadio = false
     SetNuiFocus(false, false)
+    if Radio.userData[Radio.identifier].allowMovement then
+        SetNuiFocusKeepInput(false)
+    end
     Radio:toggleRadioAnimation(false)
     Radio:SendSvelteMessage("setRadioHide", nil)
+    SetTimeout(100, function()
+        Radio.usingRadio = false
+    end)
 end)
 
 RegisterNetEvent('mm_radio:client:radioListUpdate', function(players, channel)
@@ -228,7 +225,7 @@ RegisterNetEvent('bl_bridge:client:playerLoaded', function()
     TriggerServerEvent('mm_radio:server:createdefaultjammer')
     local jammer = lib.callback.await('mm_radio:server:getjammer', false)
     for i = 1, #jammer do
-        jammer[i].object = NetworkGetNetworkIdFromEntity(jammer[i].entity)
+        jammer[i].entity = NetworkGetNetworkIdFromEntity(jammer[i].entity)
         TriggerEvent('mm_radio:client:syncobject', jammer[i])
     end
 end)
