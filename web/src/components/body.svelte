@@ -52,7 +52,7 @@
     }
 </script>
 
-<div class="w-full h-[268px] flex flex-col p-4 gap-[5.5px] focus-fix">
+<div class="w-full h-[270px] flex flex-col p-4 gap-[5.5px] focus-fix">
     <div class="w-full h-[108px] rounded-[6px] bg-[#18162F] flex flex-col p-4 gap-[11px] drop-shadow-md">
         <div class="text-white text-[16px] font-bold flex gap-[10px]">
             <i 
@@ -137,7 +137,7 @@
         </button>
     </div>
 
-    <div class="w-full rounded-[6px] bg-[#18162F] flex justify-center items-center py-4 text-white text-[11px] drop-shadow-md gap-[6px]">
+    <div class="w-full rounded-[6px] bg-[#18162F] flex justify-center items-center py-3 text-white text-[11px] drop-shadow-md gap-[6px]">
         <i class="fa-solid fa-location-arrow mt-1"></i>
         <span>{$RADIODATA.street}</span>
     </div>

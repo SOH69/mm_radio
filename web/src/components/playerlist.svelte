@@ -17,7 +17,7 @@
 </script>
 
 {#if $PLAYERLIST != null}
-    <div class="w-full h-[221px] drop-shadow-md p-4">
+    <div class="w-full h-[230px] drop-shadow-md p-4">
         <div class="w-full h-full bg-[#18162F] rounded-[6px] text-white font-bold overflow-scroll no-scrollbar">
             {#each Object.entries($PLAYERLIST) as [id, player], index (id)}
                 <div class="w-full h-[32px] flex items-center gap-[11px] px-4">
