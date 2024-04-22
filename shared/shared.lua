@@ -2,8 +2,7 @@ Shared.MaxFrequency = 500.00 -- Max Limit of Radio Channel
 
 Shared.Jammer = {
     state = true, -- to use jammer system or not 
-    model = 'sm_prop_smug_jammer', -- prop to spawn for jammer
-    distance = 30.0, -- range of jammer effective
+    model = 'm23_2_prop_m32_jammer_01a', -- prop to spawn for jammer
     permission = {"police"}, -- permission how can setup jammer (job/gang)
     default = {}, -- default jammer setup location 
     range = {
@@ -12,6 +11,11 @@ Shared.Jammer = {
         step = 5.0,
         default = 30.0
     }
+}
+
+Shared.RadioItem = {
+    'radio',
+    'wrench'
 }
 
 Shared.Battery = {
