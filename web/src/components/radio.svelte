@@ -3,7 +3,6 @@
 	import Channel from "@components/channel.svelte"
 	import Connect from "@components/connect.svelte"
     import Header from "@components/header.svelte"
-	import Playerlist from "@components/playerlist.svelte"
     import Setting from "@components/setting.svelte"
     import { SHOW, SHOWFORCEPLAYERLIST, MOVERADIO, RADIODATA } from "@stores/stores"
 
@@ -40,8 +39,6 @@
             <Channel />
         {:else if tab=='connect'}
             <Connect />
-        {:else if tab=='members'}
-            <Playerlist changeTab={changeTab}/>
         {:else if tab=='setting'}
             <Setting changeTab={changeTab}/>
         {/if}
