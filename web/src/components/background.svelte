@@ -4,7 +4,7 @@
     import { SHOW, RADIODATA, MOVERADIO } from '@stores/stores';
     import { SendEvent } from '@utils/eventsHandlers';
     import { Send } from '@enums/events';
-    import radioBgImg from '@assets/overlay.png'
+    import radioBgImg from '@assets/overlay.webp'
 
     const BOTTOM = tweened(-1000);
 
