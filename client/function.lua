@@ -121,7 +121,7 @@ function Radio:doRadioCheck(items)
     self.hasRadio = false
     local playerItems = items or Framework.inventory.playerItems()
     for _, v in pairs(playerItems) do
-        if v.name == 'radio' then
+        if lib.table.contains(Shared.RadioItem, v.name) then
             self.hasRadio = true
             if v.metadata?.radioId or v.info?.radioId then
                 self.batteryData[#self.batteryData+1] = v[Shared.Inventory == 'ox' and 'metadata' or 'info'].radioId
@@ -204,8 +204,7 @@ end
 function Radio:OpenJammerConfig(id)
     for i=1, #Radio.jammer do
         if Radio.jammer[i].id == id then
-            --local isDamaged = GetEntityHealth(Radio.jammer[i].entity) <= 0
-            local isDamaged = false
+            local isDamaged = GetEntityHealth(Radio.jammer[i].entity) <= 0
             lib.registerContext({
                 id = 'jammer_menu',
                 title = 'Jammer Configuration',
@@ -331,24 +330,53 @@ function Radio:UpdateJammerRemove(id)
     end
 end
 
-function OnInsideJammerZone(self)
-    --local isDamaged = GetEntityHealth(self.entity) <= 0
-    if isDamaged then
-        for i=1, #Radio.jammer do
-            local entity = Radio.jammer[i]
-            if entity.id == self.jammerid then
-                Radio:UpdateJammerRemove(self.jammerid)
-                entity.zone:remove()
-            end
+function UpdateTime()
+    CreateThread(function()
+        while Radio.usingRadio do
+            local currentTime, nextUpdate = Radio:CalculateTimeToDisplay()
+            Radio:SendSvelteMessage("UpdateTime", currentTime)
+            Wait(nextUpdate*1000)
         end
-    end
-    Wait(5000)
+    end)
+end
+
+function DisableControls()
+    CreateThread(function()
+        while Radio.usingRadio and Radio.userData[Radio.identifier].allowMovement do
+            DisableControlAction(0, 1, true)
+            DisableControlAction(0, 2, true)
+            DisableControlAction(0, 106, true)
+            DisableControlAction(0, 199, true)
+            DisableControlAction(0, 200, true)
+            DisablePlayerFiring(cache.playerId, true)
+            Wait(5)
+        end
+    end)
+end
+
+function OnInsideJammerZone(data)
+    CreateThread(function()
+        while Radio.insideJammer do
+            local isDamaged = GetEntityHealth(data.entity) <= 0
+            if isDamaged then
+                for i=1, #Radio.jammer do
+                    local entity = Radio.jammer[i]
+                    if entity.id == data.jammerid then
+                        Radio:UpdateJammerRemove(data.jammerid)
+                        entity.zone:remove()
+                    end
+                end
+            end
+            Wait(5000)
+        end
+    end)
 end
 
 function OnEnterJammerZone(self)
-    --if GetEntityHealth(self.entity) <= 0 then return end
+    if GetEntityHealth(self.entity) <= 0 then return end
     Radio.insideJammer = true
     Radio.insideJammerZone = self.jammerid
+    OnInsideJammerZone(self)
     if IsJammerAllowed(self.jammerid, Radio.RadioChannel) then return end
     Radio.signalJammed = true
     Radio:SendSvelteMessage("insideJammer", true)
@@ -435,6 +463,28 @@ lib.addKeybind({
                 TriggerEvent('mm_radio:client:use')
             end
         end
+    end
+})
+
+lib.addKeybind({
+    name = '+channel',
+    description = 'Press to switch to next radio channel',
+    defaultKey = 'PERIOD',
+    onPressed = function()
+        if not Radio.onRadio then return end
+        local currentChannel = Radio.RadioChannel
+        JoinRadio(currentChannel + 1)
+    end
+})
+
+lib.addKeybind({
+    name = '-channel',
+    description = 'Press to switch to previous radio channel',
+    defaultKey = 'COMMA',
+    onPressed = function()
+        if not Radio.onRadio then return end
+        local currentChannel = Radio.RadioChannel
+        JoinRadio(currentChannel - 1)
     end
 })
 
