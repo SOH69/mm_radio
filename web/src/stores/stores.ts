@@ -42,6 +42,7 @@ interface IRADIODATA {
     street: string,
     insideJammerZone: boolean,
     battery: number,
+    overlay: 'default' | 'always' | 'never',
     locale: {
         [key: string]: string
     }

@@ -131,10 +131,12 @@
             <i class="fa-solid fa-walkie-talkie"></i>
             <span class="text-[9px]">{$RADIODATA.locale['ui.radio']}</span>
         </button>
-        <button class="grow flex flex-col justify-center items-center gap-[6px]" style="color:{$RADIODATA.onRadio? 'white':'#AAAFB4'}" disabled="{!$RADIODATA.onRadio}" on:click={changeTab('members')}>
-            <i class="fa-solid fa-user-tag"></i>
-            <span class="text-[9px]">{$RADIODATA.locale['ui.members']}</span>
-        </button>
+        {#if $RADIODATA.overlay != 'never'}
+            <button class="grow flex flex-col justify-center items-center gap-[6px]" style="color:{$RADIODATA.onRadio? 'white':'#AAAFB4'}" disabled="{!$RADIODATA.onRadio}" on:click={changeTab('members')}>
+                <i class="fa-solid fa-user-tag"></i>
+                <span class="text-[9px]">{$RADIODATA.locale['ui.members']}</span>
+            </button>
+        {/if}
     </div>
 
     <div class="w-full rounded-[6px] bg-[#18162F] flex justify-center items-center py-3 text-white text-[11px] drop-shadow-md gap-[6px]">
