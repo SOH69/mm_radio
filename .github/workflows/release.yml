@@ -24,9 +24,6 @@ jobs:
     - name: Build Svelte project
       run: npm run build --prefix web  # Run build script in the web folder
 
-    - name: Move build output to mm_radio folder
-      run: mv web/public mm_radio  # Move the build output to mm_radio folder
-
     - name: Zip the mm_radio folder
       run: zip -r mm_radio.zip mm_radio  # Zip the entire mm_radio folder
 
