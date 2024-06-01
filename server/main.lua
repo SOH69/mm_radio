@@ -211,12 +211,12 @@ local function SetRadioData(src, slot)
 end
 
 lib.callback.register('mm_radio:server:getbatterydata', function(source)
-    if not Shared.Inventory then return 100 end
-    local player = Framework.core.GetPlayer(source)
+    if not Shared.Inventory or not Shared.Battery.state then return 100 end
     local battery = 100
-    for i=1, #Shared.RadioItem do
-        local item = player.getItem(Shared.RadioItem[i])
-        if item then
+    local player = Framework.core.GetPlayer(source)
+    for _, slotData in pairs(player.items) do
+        if slotData and lib.table.contains(Shared.RadioItem, slotData.name) then
+            local item = slotData
             local id = false
             if not item.metadata?.radioId then
                 id = SetRadioData(source, item.slot)
