@@ -20,21 +20,23 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '21.x'  # Using Node.js version
+        node-version: '21.x'
 
     - name: Install dependencies
-      run: pnpm install --prefix web  # Install dependencies in the web folder
+      run: pnpm install
+      working-directory: web
 
     - name: Build Svelte project
-      run: pnpm run build --prefix web  # Run build script in the web folder
+      run: pnpm run build
+      working-directory: web
 
     - name: Bundle files
       run: |
         mkdir -p ./temp/mm_radio
-        mkdir -p ./temp/mm_radio/web/
-        cp ./{LICENSE,README.md,fxmanifest.lua} ./temp/mm_radio
+        mkdir -p ./temp/mm_radio/build/
+        cp ./{LICENSE,README.md,battery.json,fxmanifest.lua} ./temp/mm_radio
         cp -r ./{client,server,shared,locales} ./temp/mm_radio
-        cp -r ./web/build ./temp/mm_radio/web/
+        cp -r ./build ./temp/mm_radio/build/
         cd ./temp && zip -r ../mm_radio.zip ./mm_radio
 
     - name: Create GitHub Release
