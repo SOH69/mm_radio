@@ -37,7 +37,8 @@ RegisterNetEvent('mm_radio:client:use', function()
         locale = Radio.locale,
         channelName = Shared.RadioNames,
         insideJammerZone = Radio.signalJammed,
-        battery = battery
+        battery = battery,
+        overlay = Shared.Overlay
     })
     UpdateTime()
     if Radio.userData[Radio.identifier].allowMovement then
@@ -237,8 +238,9 @@ RegisterNetEvent('bl_bridge:client:playerUnloaded', function()
 end)
 
 RegisterNetEvent('bl_bridge:client:jobUpdated', function(job)
-    Radio.PlayerJob = job.name
-    Radio:Init()
+    local player = Framework.core.getPlayerData()
+    player.job = job
+    Radio:Init(player)
 end)
 
 RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
@@ -250,8 +252,9 @@ RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
 end)
 
 RegisterNetEvent('bl_bridge:client:gangUpdated', function(gang)
-    Radio.PlayerGang = gang.name
-    Radio:Init()
+    local player = Framework.core.getPlayerData()
+    player.gang = gang
+    Radio:Init(player)
 end)
 
 RegisterNetEvent("QBCore:Client:SetDuty", function(newDuty)
