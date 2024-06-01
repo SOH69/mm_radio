@@ -49,6 +49,7 @@ function Radio:SetDefaultData(cid)
         name = nil,
         overlaySizeMultiplier = 50,
         radioSizeMultiplier = 50,
+        allowMovement = false,
         playerlist = {
             show = false,
             coords = {
@@ -66,8 +67,8 @@ function Radio:SetDefaultData(cid)
     SetResourceKvp('radioSettings2', json.encode(self.userData))
 end
 
-function Radio:Init()
-    local player = Framework.core.getPlayerData()
+function Radio:Init(data)
+    local player = data or Framework.core.getPlayerData()
     self.identifier = player.cid
     self.PlayerJob = player.job.name
     self.PlayerDuty = player.job.onDuty
@@ -157,7 +158,8 @@ function Radio:update()
         locale = self.locale,
         channelName = Shared.RadioNames,
         insideJammerZone = self.signalJammed,
-        battery = battery
+        battery = battery,
+        overlay = Shared.Overlay
     })
 end
 
