@@ -27,6 +27,8 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '21.x'
+        cache: 'pnpm'
+        cache-dependency-path: 'web/pnpm-lock.yaml'
 
     - name: Install dependencies
       run: pnpm install
@@ -45,10 +47,22 @@ jobs:
         cp -r ./build ./temp/mm_radio/build/
         cd ./temp && zip -r ../mm_radio.zip ./mm_radio
 
-    - name: Create Release
-      uses: 'marvinpinto/action-automatic-releases@latest'
+    - name: Create GitHub Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        repo_token: '${{ secrets.GITHUB_TOKEN }}'
-        title: 'v2.0.6'
-        prerelease: false
-        files: mm_radio.zip
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}  # Use the tag name as the release title
+        draft: false
+  
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env: 
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./mm_radio.zip  # Path to the zip file
+        asset_name: mm_radio.zip  # Name of the asset
+        asset_content_type: application/zip
