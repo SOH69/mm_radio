@@ -5,12 +5,22 @@ local function format(str)
     return str:gsub("'", "")
 end
 
+---@class Shared
+---@field Ready boolean
+---@field UseCommand boolean
+---@field Core string
+---@field Inventory string
+---@field Debug boolean
+---@field Overlay 'default'|'always'|'never'
+
+---@type Shared
 Shared = {
     Ready = true,
     UseCommand = true,
     Core = format(GetConvar('bl:framework', 'qb')),
     Inventory = format(GetConvar('bl:inventory', 'qb')),
-    Debug = false
+    Debug = false,
+    Overlay = 'default' -- default, always, never
 }
 
 if not LoadResourceFile(GetCurrentResourceName(), 'build/index.html') then
