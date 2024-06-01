@@ -10,8 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Install archive tools
+      run: sudo apt install zip
+    
     - name: Checkout repository
       uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        ref: ${{ github.event.repository.default_branch }}
     
     - uses: pnpm/action-setup@v2.0.1
       with:
@@ -40,9 +46,9 @@ jobs:
         cd ./temp && zip -r ../mm_radio.zip ./mm_radio
 
     - name: Create Release
-      uses: 'marvinpinto/action-automatic-releases@v1.2.1'
-      id: auto_release
+      uses: 'marvinpinto/action-automatic-releases@latest'
       with:
         repo_token: '${{ secrets.GITHUB_TOKEN }}'
+        automatic_release_tag: "latest"
         prerelease: false
         files: mm_radio.zip
