@@ -19,13 +19,19 @@ jobs:
         node-version: '21.1.0'  # Using Node.js version 21.1.0
 
     - name: Install dependencies
-      run: npm install --prefix web  # Install dependencies in the web folder
+      run: pnpm install --prefix web  # Install dependencies in the web folder
 
     - name: Build Svelte project
-      run: npm run build --prefix web  # Run build script in the web folder
+      run: pnpm run build --prefix web  # Run build script in the web folder
 
-    - name: Zip the mm_radio folder
-      run: zip -r mm_radio.zip mm_radio  # Zip the entire mm_radio folder
+    - name: Bundle files
+      run: |
+        mkdir -p ./temp/mm_radio
+        mkdir -p ./temp/mm_radio/web/
+        cp ./{LICENSE,README.md,fxmanifest.lua} ./temp/mm_radio
+        cp -r ./{client,server,shared,locales} ./temp/mm_radio
+        cp -r ./web/build ./temp/mm_radio/web/
+        cd ./temp && zip -r ../mm_radio.zip ./mm_radio
 
     - name: Create GitHub Release
       id: create_release
