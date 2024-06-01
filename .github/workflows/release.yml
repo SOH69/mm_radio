@@ -12,11 +12,15 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+    
+    - uses: pnpm/action-setup@v2.0.1
+      with:
+        version: 8.6.1
 
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '21.1.0'  # Using Node.js version 21.1.0
+        node-version: '21.x'  # Using Node.js version
 
     - name: Install dependencies
       run: pnpm install --prefix web  # Install dependencies in the web folder
