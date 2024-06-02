@@ -286,7 +286,7 @@ function Radio:OpenJammerConfig(id)
                                 icon = 'fa-circle-plus',
                                 onSelect = function ()
                                     local input = lib.inputDialog('Add Channel', {
-                                        {type = 'number', label = 'Channel Frequency', description = 'Provide Channel Frequency', icon = 'fa-wifi'},
+                                        {type = 'number', label = 'Channel Frequency', description = 'Provide Channel Frequency', icon = 'fa-wifi', precision = 2},
                                     })
                                     if not input then return end
                                     table.insert(Radio.jammer[i].allowedChannels, input[1])
