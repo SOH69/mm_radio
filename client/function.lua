@@ -200,6 +200,7 @@ function Radio:RemoveJammerZone()
     for i=1, #self.jammer do
         self.jammer[i].zone:remove()
         self.jammer[i].zoneJammer:remove()
+        DeleteEntity(self.jammer[i].entity)
     end
 end
 

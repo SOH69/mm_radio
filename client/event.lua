@@ -69,7 +69,10 @@ RegisterNetEvent('mm_radio:client:usejammer', function()
 end)
 
 RegisterNetEvent('mm_radio:client:syncobject', function(data)
-    local entity = NetworkGetEntityFromNetworkId(data.object)
+    lib.requestModel(Shared.Jammer.model)
+    local entity = CreateObject(joaat(Shared.Jammer.model), data.coords.x, data.coords.y, data.coords.z, false, false, false)
+    SetEntityHeading(entity, data.coords.w)
+    PlaceObjectOnGroundProperly(entity)
     SetEntityCanBeDamaged(entity, data.canDamage)
     Radio.jammer[#Radio.jammer+1] = {
         id = data.id,
@@ -174,6 +177,7 @@ RegisterNetEvent('mm_radio:client:removejammer', function(id)
         if entity.id == id then
             entity.zone:remove()
             entity.zoneJammer:remove()
+            DeleteEntity(entity.entity)
             Radio:UpdateJammerRemove(id)
             table.remove(Radio.jammer, i)
         end

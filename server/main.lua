@@ -33,17 +33,12 @@ end)
 RegisterNetEvent('mm_radio:server:spawnobject', function(data)
     local src = source
 	CreateThread(function()
-		local entity = CreateObject(joaat(Shared.Jammer.model), data.coords.x, data.coords.y, data.coords.z, true, true, false)
-		while not DoesEntityExist(entity) do Wait(50) end
-		SetEntityHeading(entity, data.coords.w)
-        local netobj = NetworkGetNetworkIdFromEntity(entity)
         if data.canRemove then
             local player = Framework.core.GetPlayer(src)
             player.removeItem('jammer', 1)
         end
         TriggerClientEvent('mm_radio:client:syncobject', -1, {
             enable = true,
-            object = netobj,
             coords = data.coords,
             id = data.id,
             range = data.range or Shared.Jammer.range.default,
@@ -53,7 +48,6 @@ RegisterNetEvent('mm_radio:server:spawnobject', function(data)
         })
         jammer[#jammer+1] = {
             enable = true,
-            entity = entity,
             id = data.id,
             coords = data.coords,
             range = data.range or Shared.Jammer.range.default,
@@ -81,7 +75,6 @@ RegisterNetEvent('mm_radio:server:removejammer', function(id, isDamaged)
         for i=1, #jammer do
             local entity = jammer[i]
             if entity.id == id then
-                DeleteEntity(entity.entity)
                 TriggerClientEvent('mm_radio:client:removejammer', -1, id)
                 table.remove(jammer, i)
                 if not isDamaged then
@@ -146,10 +139,6 @@ end)
 
 AddEventHandler('onResourceStop', function(resourceName)
     if (GetCurrentResourceName() ~= resourceName) then return end
-    for i=1, #jammer do
-        DeleteEntity(jammer[i].entity)
-    end
-    jammer = {}
     SaveResourceFile(GetCurrentResourceName(), 'battery.json', json.encode(batteryData), -1)
 end)
 
