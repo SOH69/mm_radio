@@ -4,7 +4,7 @@ A Beautiful Radio script for communication! It has many features packed in one s
 Download a [release](https://github.com/SOH69/mm_radio/releases/) or build the source code
 ```
 git clone https://github.com/SOH69/mm_radio.git
-cd mm_radio/ui
+cd mm_radio/web
 pnpm i
 pnpm run build
 ```
