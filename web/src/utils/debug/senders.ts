@@ -57,7 +57,8 @@ let radioData = {
         "ui.radio_settings": "Radio Settings",
         "ui.move_radio": "Move Radio",
         "ui.allow_move": "Allow Move",
-        "ui.overlay_settings": "Overlay Settings"
+        "ui.overlay_settings": "Overlay Settings",
+        "ui.enableClicks": "Radio Clicks"
     }
 }
 

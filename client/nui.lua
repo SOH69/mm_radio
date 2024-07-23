@@ -101,6 +101,13 @@ RegisterNUICallback('allowMovement', function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback('enableClicks', function(data, cb)
+    Radio.userData[Radio.identifier].enableClicks = data
+    SetResourceKvp('radioSettings2', json.encode(Radio.userData))
+    exports['pma-voice']:setVoiceProperty('micClicks', data)
+    cb("ok")
+end)
+
 RegisterNUICallback('updateRadioSize', function(data, cb)
     Radio.userData[Radio.identifier].radioSizeMultiplier = data.radio
     Radio.userData[Radio.identifier].overlaySizeMultiplier = data.overlay

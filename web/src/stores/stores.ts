@@ -24,6 +24,7 @@ interface IRADIODATA {
         radioSizeMultiplier: number,
         favourite: Number[],
         allowMovement: boolean,
+        enableClicks: boolean,
         playerlist: {
 			show: boolean,
 			coords: {
