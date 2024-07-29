@@ -91,6 +91,11 @@ function Radio:Init(data)
             self.favourite[#self.favourite+1] = val
         end
     end
+    
+    if not self.userData[self.identifier].enableClicks then
+        exports['pma-voice']:setVoiceProperty('micClicks', false)
+    end
+
     self:doRadioCheck()
 end
 

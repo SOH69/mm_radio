@@ -26,6 +26,7 @@
         "radio_settings": "RADIOEINSTELLUNGEN",
         "move_radio": "RADIO BEWEGEN",
         "allow_move": "BEWEGEN ERLAUBEN",
-        "overlay_settings": "OVERLAYEINSTELLUNGEN"
+        "overlay_settings": "OVERLAYEINSTELLUNGEN",
+		"enableClicks": "Funkgeräusch"
     }
 }

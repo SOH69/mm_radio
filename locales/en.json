@@ -26,6 +26,7 @@
         "radio_settings": "Radio Settings",
         "move_radio": "Move Radio",
         "allow_move": "Allow Move",
-        "overlay_settings": "Overlay Settings"
+        "overlay_settings": "Overlay Settings",
+		"enableClicks": "Radio Sounds"
     }
 }
