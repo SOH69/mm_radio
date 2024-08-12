@@ -9,6 +9,7 @@ interface IPLAYERLIST {
 }
 
 interface IRADIODATA {
+    radioId: string,
     onRadio: boolean,
     channel: number,
     volume: number,
