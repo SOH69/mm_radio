@@ -91,7 +91,7 @@ function Radio:Init(data)
             self.favourite[#self.favourite+1] = val
         end
     end
-    
+
     if not self.userData[self.identifier].enableClicks then
         exports['pma-voice']:setVoiceProperty('micClicks', false)
     end
@@ -150,8 +150,9 @@ function Radio:leaveradio()
 end
 
 function Radio:update()
-    local battery = lib.callback.await('mm_radio:server:getbatterydata', false)
+    local battery, radioId = lib.callback.await('mm_radio:server:getradiodata', false)
     self:SendSvelteMessage("updateRadio", {
+        radioId = radioId,
         onRadio = Radio.onRadio,
         channel = Radio.RadioChannel,
         volume = Radio.Volume,
