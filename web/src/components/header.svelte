@@ -26,7 +26,7 @@
 </script>
 
 {#if showmsg}
-    <div class="w-full h-[33px] bg-[#18162F] flex items-center justify-between px-4 text-white text-[16px] rounded-t-md overflow-hidden whitespace-nowrap">
+    <div class="relative w-full h-[33px] bg-[#18162F] flex items-center justify-between px-4 text-white text-[16px] overflow-hidden whitespace-nowrap">
         {#if showmsg.length >= 26}
             <MarqueeTextWidget>
                 <div class="mr-4 font-bold w-full text-center text-[12px]">
@@ -38,7 +38,7 @@
         {/if}
     </div>
 {:else}
-    <div transition:fadeSlide="{{duration: 300}}" class="w-full h-[32px] bg-[#18162F] flex items-center justify-between px-4 text-white text-[16px] rounded-t-lg">
+    <div transition:fadeSlide="{{duration: 300}}" class="relative w-full h-[32px] bg-[#18162F] flex items-center justify-between px-4 text-white text-[16px]">
         {#if $RADIODATA.insideJammerZone}
             <i class="fa-solid fa-triangle-exclamation animate-pulse animate-infinite animate-duration-100 text-red-500"></i>
         {:else}
@@ -52,9 +52,9 @@
         {:else if $RADIODATA.battery >= 40}
             <i class="fa-solid fa-battery-half"></i>
         {:else if $RADIODATA.battery >= 20}
-            <i class="fa-solid fa-battery-quarter"></i>
+            <i class="fa-solid fa-battery-quarter text-yellow-500"></i>
         {:else}
-            <i class="fa-solid fa-battery-empty"></i>
+            <i class="fa-solid fa-battery-empty text-red-500 animate-pulse"></i>
         {/if}
     </div>
 {/if}
