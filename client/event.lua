@@ -19,33 +19,118 @@ AddEventHandler('onResourceStop', function(resource)
 end)
 
 RegisterNetEvent('mm_radio:client:use', function(slot)
-    if Radio.PlayerDead or IsPedFatallyInjured(cache.ped) then return end
-    Radio.usingRadio = true
-    SetNuiFocus(true, true)
-    Radio:toggleRadioAnimation(true)
-    local battery, radioId = lib.callback.await('mm_radio:server:getradiodata', false, slot)
-    local userdata = Radio.userData[Radio.identifier]
-    Radio:SendSvelteMessage("setRadioVisible", {
-        radioId = radioId,
-        onRadio = Radio.onRadio,
-        channel = Radio.RadioChannel,
-        volume = Radio.Volume,
-        favourite = Radio.favourite,
-        recomended = Radio.recomended,
-        userData = userdata,
-        time = Radio:CalculateTimeToDisplay(),
-        street = Radio:getCrossroads(),
-        maxChannel = Shared.MaxFrequency,
-        locale = Radio.locale,
-        channelName = Shared.RadioNames,
-        insideJammerZone = Radio.signalJammed,
-        battery = battery,
-        overlay = Shared.Overlay
-    })
-    UpdateTime()
-    if userdata.allowMovement then
-        SetNuiFocusKeepInput(true)
-        DisableControls()
+    if Shared.Inventory == 'ox' then
+        local hasItem = exports.ox_inventory:Search('count', 'radio') > 0
+        if hasItem then
+            if Radio.PlayerDead or IsPedFatallyInjured(cache.ped) then return end
+            Radio.usingRadio = true
+            SetNuiFocus(true, true)
+            Radio:toggleRadioAnimation(true)
+            local battery, radioId = lib.callback.await('mm_radio:server:getradiodata', false, slot)
+            local userdata = Radio.userData[Radio.identifier]
+            Radio:SendSvelteMessage("setRadioVisible", {
+                radioId = radioId,
+                onRadio = Radio.onRadio,
+                channel = Radio.RadioChannel,
+                volume = Radio.Volume,
+                favourite = Radio.favourite,
+                recomended = Radio.recomended,
+                userData = userdata,
+                time = Radio:CalculateTimeToDisplay(),
+                street = Radio:getCrossroads(),
+                maxChannel = Shared.MaxFrequency,
+                locale = Radio.locale,
+                channelName = Shared.RadioNames,
+                insideJammerZone = Radio.signalJammed,
+                battery = battery,
+                overlay = Shared.Overlay
+            })
+            UpdateTime()
+            if userdata.allowMovement then
+                SetNuiFocusKeepInput(true)
+                DisableControls()
+            end
+        else
+            Framework.notify({
+                title = 'You need a radio in you pocket',
+                type = 'error'
+            })
+        end
+    elseif Shared.Inventory == 'qb' or Shared.Inventory == 'ps' then
+        local invResourceName = exports.bl_bridge:getFramework('inventory')
+        local hasItem = exports[invResourceName]:HasItem('radio')
+        if hasItem then
+            if Radio.PlayerDead or IsPedFatallyInjured(cache.ped) then return end
+            Radio.usingRadio = true
+            SetNuiFocus(true, true)
+            Radio:toggleRadioAnimation(true)
+            local battery, radioId = lib.callback.await('mm_radio:server:getradiodata', false, slot)
+            local userdata = Radio.userData[Radio.identifier]
+            Radio:SendSvelteMessage("setRadioVisible", {
+                radioId = radioId,
+                onRadio = Radio.onRadio,
+                channel = Radio.RadioChannel,
+                volume = Radio.Volume,
+                favourite = Radio.favourite,
+                recomended = Radio.recomended,
+                userData = userdata,
+                time = Radio:CalculateTimeToDisplay(),
+                street = Radio:getCrossroads(),
+                maxChannel = Shared.MaxFrequency,
+                locale = Radio.locale,
+                channelName = Shared.RadioNames,
+                insideJammerZone = Radio.signalJammed,
+                battery = battery,
+                overlay = Shared.Overlay
+            })
+            UpdateTime()
+            if userdata.allowMovement then
+                SetNuiFocusKeepInput(true)
+                DisableControls()
+            end
+        else
+            Framework.notify({
+                title = 'You need a radio in you pocket',
+                type = 'error'
+            })
+        end
+    elseif Shared.Inventory == 'qs' then
+        exports['qs-inventory']:Search('radio')
+        if hasItem then
+            if Radio.PlayerDead or IsPedFatallyInjured(cache.ped) then return end
+            Radio.usingRadio = true
+            SetNuiFocus(true, true)
+            Radio:toggleRadioAnimation(true)
+            local battery, radioId = lib.callback.await('mm_radio:server:getradiodata', false, slot)
+            local userdata = Radio.userData[Radio.identifier]
+            Radio:SendSvelteMessage("setRadioVisible", {
+                radioId = radioId,
+                onRadio = Radio.onRadio,
+                channel = Radio.RadioChannel,
+                volume = Radio.Volume,
+                favourite = Radio.favourite,
+                recomended = Radio.recomended,
+                userData = userdata,
+                time = Radio:CalculateTimeToDisplay(),
+                street = Radio:getCrossroads(),
+                maxChannel = Shared.MaxFrequency,
+                locale = Radio.locale,
+                channelName = Shared.RadioNames,
+                insideJammerZone = Radio.signalJammed,
+                battery = battery,
+                overlay = Shared.Overlay
+            })
+            UpdateTime()
+            if userdata.allowMovement then
+                SetNuiFocusKeepInput(true)
+                DisableControls()
+            end
+        else
+            Framework.notify({
+                title = 'You need a radio in you pocket',
+                type = 'error'
+            })
+        end
     end
 end)
 
