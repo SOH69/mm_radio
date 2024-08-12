@@ -188,46 +188,60 @@ end)
 local function SetRadioData(src, slot)
     local player = Framework.core.GetPlayer(src)
     local radioId = player.id .. math.random(1000, 9999)
+    local name = player.charinfo.firstname .. " " .. player.charinfo.lastname
     if Shared.Inventory == 'ox' then
-        exports.ox_inventory:SetMetadata(src, slot, { radioId = radioId })
+        exports.ox_inventory:SetMetadata(src, slot, { radioId = radioId, name = name })
         return radioId
     elseif Shared.Inventory == 'qb' or Shared.Inventory == 'ps' then
         local items = player.items
         local item = items[slot]
         if item  then
             item.info = item.info or {}
-            item.info.radioId = radioId
+            item.info ={
+                radioId = radioId,
+                name = name
+            }
             local invResourceName = exports.bl_bridge:getFramework('inventory')
             exports[invResourceName]:SetInventory(src, items)
             return radioId
         end
         return false
     elseif Shared.Inventory == 'qs' then
-        exports['qs-inventory']:SetItemMetadata(src, slot, { radioId = radioId })
+        exports['qs-inventory']:SetItemMetadata(src, slot, { radioId = radioId, name = name })
         return radioId
     else
         return false
     end
 end
 
-lib.callback.register('mm_radio:server:getbatterydata', function(source)
-    if not Shared.Inventory or not Shared.Battery.state then return 100 end
-    local battery = 100
+local function GetSlotWithRadio(source)
     local player = Framework.core.GetPlayer(source)
-    for _, slotData in pairs(player.items) do
-        if slotData and lib.table.contains(Shared.RadioItem, slotData.name) then
-            local item = slotData
-            local id = false
-            if not item.metadata?.radioId then
-                id = SetRadioData(source, item.slot)
-            else
-                id = item.metadata?.radioId
-            end
-            battery = id and batteryData[id] or 100
-            break
+    for i=1, #Shared.RadioItem do
+        local item = player.getItem(Shared.RadioItem[i])
+        if item then
+            return item.slot
         end
     end
-    return battery
+end
+
+lib.callback.register('mm_radio:server:getradiodata', function(source, slot)
+    if not Shared.Inventory or not Shared.Battery.state then return 100, 'PERSONAL' end
+    local battery = 100
+    local player = Framework.core.GetPlayer(source)
+    if not slot then
+        slot = GetSlotWithRadio(source)
+    end
+    local slotData = player.items[slot]
+    if slotData and lib.table.contains(Shared.RadioItem, slotData.name) then
+        local id = false
+        if not slotData.metadata?.radioId then
+            id = SetRadioData(source, slot)
+        else
+            id = slotData.metadata?.radioId
+        end
+        battery = id and batteryData[id] or 100
+    end
+    return battery, id
 end)
 
 lib.callback.register('mm_radio:server:getjammer', function()
@@ -267,8 +281,8 @@ lib.versionCheck('SOH69/mm_radio')
 
 if Shared.Ready then
     for i=1, #Shared.RadioItem do
-        Framework.core.RegisterUsableItem(Shared.RadioItem[i], function(source)
-            TriggerClientEvent('mm_radio:client:use', source)
+        Framework.core.RegisterUsableItem(Shared.RadioItem[i], function(source, slot, metadata)
+            TriggerClientEvent('mm_radio:client:use', source, slot, metadata)
         end)
     end
 
