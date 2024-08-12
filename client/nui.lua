@@ -101,6 +101,13 @@ RegisterNUICallback('allowMovement', function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback('enableClicks', function(data, cb)
+    Radio.userData[Radio.identifier].enableClicks = data
+    SetResourceKvp('radioSettings2', json.encode(Radio.userData))
+    exports['pma-voice']:setVoiceProperty('micClicks', data)
+    cb("ok")
+end)
+
 RegisterNUICallback('updateRadioSize', function(data, cb)
     Radio.userData[Radio.identifier].radioSizeMultiplier = data.radio
     Radio.userData[Radio.identifier].overlaySizeMultiplier = data.overlay
@@ -112,9 +119,24 @@ RegisterNUICallback('saveData', function(data, cb)
     local player = Framework.core.getPlayerData()
     local identifier = player.cid
     if not identifier then return Radio:Notify(locale('unsuccess_name', channel)) end
-    Radio.userData[Radio.identifier].name = data
+    Radio.userData[Radio.identifier].name = data.name
     Radio:update()
-    TriggerServerEvent('mm_radio:server:addToRadioChannel', Radio.RadioChannel, data)
+    TriggerServerEvent('mm_radio:server:addToRadioChannel', Radio.RadioChannel, data.name)
     SetResourceKvp('radioSettings2', json.encode(Radio.userData))
-    cb("ok")
+    cb(retreval)
+end)
+
+RegisterNUICallback('getMutedList', function(_, cb)
+    cb(exports['pma-voice']:getMutedPlayers())
+end)
+
+RegisterNUICallback('togglemutePlayer', function(data, cb)
+    if data == cache.serverId then
+        Radio:Notify(locale('failed_mute'))
+        return cb(nil)
+    end
+    exports['pma-voice']:toggleMutePlayer(data)
+    Wait(100)
+    print(json.encode(exports['pma-voice']:getMutedPlayers()))
+    cb(exports['pma-voice']:getMutedPlayers())
 end)

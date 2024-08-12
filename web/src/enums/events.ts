@@ -22,5 +22,8 @@ export enum Send {
     updateRadioSize = 'updateRadioSize',
     allowMovement = 'allowMovement',
     leave = 'leave',
-    mute = 'toggleMute'
+    mute = 'toggleMute',
+    getMutedList = 'getMutedList',
+    togglemutePlayer = 'togglemutePlayer',
+    enableClicks = 'enableClicks',
 }

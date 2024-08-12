@@ -8,12 +8,14 @@
     "jammer_notify_description": "Failed to Connect to Station %.2f MHz",
     "toggle_defean": "Radio Deafened",
     "toggle_undeafen": "Radio Undeafened",
+    "failed_mute": "Failed to Mute Player",
     
     "ui": {
         "header": "IN RADIO",
         "frequency": "Frequency",
         "disconnect": "DISCONNECT",
         "notconnected": "NOT CONNECTED",
+        "settings": "Settings",
         "channels": "Channels",
         "radio": "Radio",
         "members": "Members",
@@ -26,6 +28,7 @@
         "radio_settings": "Radio Settings",
         "move_radio": "Move Radio",
         "allow_move": "Allow Move",
-        "overlay_settings": "Overlay Settings"
+        "overlay_settings": "Overlay Settings",
+		"enableClicks": "Radio Sound"
     }
 }

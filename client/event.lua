@@ -18,19 +18,21 @@ AddEventHandler('onResourceStop', function(resource)
     end
 end)
 
-RegisterNetEvent('mm_radio:client:use', function()
+RegisterNetEvent('mm_radio:client:use', function(slot)
     if Radio.PlayerDead or IsPedFatallyInjured(cache.ped) then return end
     Radio.usingRadio = true
     SetNuiFocus(true, true)
     Radio:toggleRadioAnimation(true)
-    local battery = lib.callback.await('mm_radio:server:getbatterydata', false)
+    local battery, radioId = lib.callback.await('mm_radio:server:getradiodata', false, slot)
+    local userdata = Radio.userData[Radio.identifier]
     Radio:SendSvelteMessage("setRadioVisible", {
+        radioId = radioId,
         onRadio = Radio.onRadio,
         channel = Radio.RadioChannel,
         volume = Radio.Volume,
         favourite = Radio.favourite,
         recomended = Radio.recomended,
-        userData = Radio.userData[Radio.identifier],
+        userData = userdata,
         time = Radio:CalculateTimeToDisplay(),
         street = Radio:getCrossroads(),
         maxChannel = Shared.MaxFrequency,
@@ -41,7 +43,7 @@ RegisterNetEvent('mm_radio:client:use', function()
         overlay = Shared.Overlay
     })
     UpdateTime()
-    if Radio.userData[Radio.identifier].allowMovement then
+    if userdata.allowMovement then
         SetNuiFocusKeepInput(true)
         DisableControls()
     end

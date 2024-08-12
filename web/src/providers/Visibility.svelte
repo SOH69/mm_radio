@@ -1,5 +1,4 @@
 <script lang="ts">
-    import Radio from '@components/radio.svelte';
     import { Receive, Send } from '@enums/events';
     import { VISIBLE, CONFIG, SHOW, RADIODATA, SHOWPLAYERLIST, SHOWFORCEPLAYERLIST } from '@stores/stores';
     import { ReceiveEvent, SendEvent } from '@utils/eventsHandlers';

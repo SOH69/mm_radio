@@ -40,4 +40,5 @@ html, body {
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden; /* for Safari */
     -webkit-font-smoothing: subpixel-antialiased;
+    transform: translateZ(0);
 }

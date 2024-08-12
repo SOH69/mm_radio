@@ -9,6 +9,7 @@ interface IPLAYERLIST {
 }
 
 interface IRADIODATA {
+    radioId: string,
     onRadio: boolean,
     channel: number,
     volume: number,
@@ -24,6 +25,7 @@ interface IRADIODATA {
         radioSizeMultiplier: number,
         favourite: Number[],
         allowMovement: boolean,
+        enableClicks: boolean,
         playerlist: {
 			show: boolean,
 			coords: {

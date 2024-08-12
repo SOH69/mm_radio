@@ -10,7 +10,7 @@
 </script>
 
 <div class="w-full h-[220px] flex flex-col p-4 gap-[5.5px] grow-0 shrink-0">
-    <div class="w-full h-full rounded-[6px] bg-[#18162F] flex flex-col gap-[11px] drop-shadow-md">
+    <div class="w-full h-full rounded-[6px] bg-[#18162F] flex flex-col gap-[11px] shadow-md shadow-[#18162F]/40">
         <ChannelTab channels={$RADIODATA[currenttab]}/>
     </div>
 </div>

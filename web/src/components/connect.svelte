@@ -21,7 +21,7 @@
 </script>
 
 <div class="w-full h-[265px] flex flex-col p-4 gap-[9px]">
-    <div class="w-full rounded-[6px] h-[38px] bg-[#18162F] drop-shadow-md flex items-center justify-between text-white px-4">
+    <div class="w-full rounded-[6px] h-[38px] bg-[#18162F] shadow-md shadow-[#18162F]/40 flex items-center justify-between text-white px-4">
         <div class="font-bold text-[22px] min-w-[19px]">{channelnumber}</div>
         {#if channelnumber.length >= 1}
             <i class="fa-solid fa-circle-arrow-right text-[16px] cursor-pointer" 
