@@ -1,0 +1,34 @@
+{
+    "join_notify_description": "Ligado à Frequência %.2f MHz",
+    "invalid_notify_description": "A Frequência %.2f MHz não está disponível",
+    "already_notify_description": "Já estás ligado à Frequência %.2f MHz",
+    "restricted_notify_description": "Não tens permissão para te ligares à Frequência %.2f MHz",
+    "volume_notify_description": "Volume definido para %d%%",
+    "unsuccess_name": "Falha ao Alterar o Nome",
+    "jammer_notify_description": "Falha na Ligação à Frequência %.2f MHz",
+    "toggle_defean": "Rádio Silenciado",
+    "toggle_undeafen": "Rádio Ativado",
+    "failed_mute": "Falha ao Silenciar o Jogador",
+    
+    "ui": {
+        "header": "NA RÁDIO",
+        "frequency": "Frequência",
+        "disconnect": "DESCONECTAR",
+        "notconnected": "NÃO CONECTADO",
+        "settings": "Definições",
+        "channels": "Canais",
+        "radio": "Rádio",
+        "members": "Membros",
+        "favorites": "Favoritos",
+        "recommended": "Recomendado",
+        "clear": "LIMPAR",
+        "hide_overlay": "OCULTAR SOBREPOSIÇÃO",
+        "show_overlay": "MOSTRAR SOBREPOSIÇÃO",
+        "save": "GUARDAR",
+        "radio_settings": "Definições da Rádio",
+        "move_radio": "Mover Rádio",
+        "allow_move": "Permitir Mover",
+        "overlay_settings": "Definições de Sobreposição",
+        "enableClicks": "Som da Rádio"
+    }
+}
