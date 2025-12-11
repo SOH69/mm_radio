@@ -186,6 +186,20 @@ function Radio:toggleRadioAnimation(pState)
 	end
 end
 
+function Radio:toggleRadioAnimationTalk(pState)
+	if pState then
+		-- Only attach radio prop for talking, no animation
+		self.radioTalkProp = CreateObject(`prop_cs_hand_radio`, 1.0, 1.0, 1.0, true, true, false)
+		AttachEntityToEntity(self.radioTalkProp, cache.ped, GetPedBoneIndex(cache.ped, 60309), 0.0750, 0.0230, -0.0230, -90.0000, 0.0, -59.9999, true, false, false, false, 2, true)
+	else
+		-- Remove radio prop when done talking
+		if self.radioTalkProp ~= 0 then
+			DeleteObject(self.radioTalkProp)
+			self.radioTalkProp = 0
+		end
+	end
+end
+
 function Radio:CalculateTimeToDisplay()
 	local hour = GetClockHours()
     local minute = GetClockMinutes()

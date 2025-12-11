@@ -11,6 +11,7 @@ end)
 AddEventHandler('onResourceStop', function(resource)
     if GetCurrentResourceName() == resource then
         Radio:toggleRadioAnimation(false)
+        Radio:toggleRadioAnimationTalk(false)
         Radio:RemoveJammerZone()
         if Radio.onRadio then
             Radio:leaveradio()
@@ -213,6 +214,13 @@ RegisterNetEvent("pma-voice:radioActive", function(talkingState)
         radioId = tostring(Radio.playerServerID),
         radioTalking = talkingState
     })
+
+    -- Show radio prop when talking (if not already using radio UI)
+    if talkingState and not Radio.usingRadio and Radio.onRadio then
+        Radio:toggleRadioAnimationTalk(true)
+    elseif not talkingState and not Radio.usingRadio then
+        Radio:toggleRadioAnimationTalk(false)
+    end
 end)
 
 RegisterNetEvent("pma-voice:setTalkingOnRadio", function(source, talkingState)
