@@ -11,6 +11,7 @@ Radio = {
 	usingRadio = false,
 	RadioChannel = 0,
 	radioProp = 0,
+	radioTalkProp = 0,
 	Volume = 30,
 	favourite = {},
 	recomended = {},
